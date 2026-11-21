@@ -364,7 +364,7 @@ Este archivo es la **fuente de verdad inicial**. Al aprobar cada decisión de la
 | 1 | **Mapa del curso:** unidad y semana de cada certificación, del juego de los bancos y de otros recursos | Flor | Hito H4b |
 | 2 | **Código del Tutor PM** y descripción de su funcionamiento | Flor | Hito H5 |
 | 3 | **Fecha de inicio del piloto** y calendario de ciclos (para planificar hitos) | Flor | Al terminar H0 |
-| 4 | **Campos que exporta Moodle** (nombre, correo, ¿código de estudiante?, ¿sección?) y quién tiene permiso de exportarlos | Flor | Hito H1 |
+| 4 | ~~Campos que exporta Moodle~~ **Respondido (21/11/2026):** correo del estudiante y nombres completos; grupos solo si están configurados en el aula. El correo es `DNI@continental.edu.pe`: el DNI hace de código de estudiante. Dominio institucional: `@continental.edu.pe` | Flor | Hito H1 |
 | 5 | **Nombre de la plataforma y subdominio** | Flor | Antes del piloto |
 | 6 | **Política de retención de datos y responsable del tratamiento** (Ley 29733) según la Universidad | Flor con la Universidad | Antes del piloto |
 | 7 | Verificar cuotas de **Supabase Pro** (conexiones en tiempo real simultáneas, copias de seguridad) frente a 300 a 500 estudiantes | Analista | Hito H0 |
