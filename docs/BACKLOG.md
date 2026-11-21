@@ -9,7 +9,7 @@ Estado vivo del proyecto. Se actualiza en cada iteración (ver `docs/PLATAFORMA_
 - [x] Batería de pruebas Playwright (26 scripts y `data.json`) y simulador de backend.
 - [x] Especificación v0.5 y decisiones D1 a D14 y D16.
 
-## En curso — H0 Fundamentos
+## H0 Fundamentos — cerrado (21/11/2026), salvo la lista de transferencia
 - [x] Revisión técnica de `legacy/` → `docs/REVISION_LEGACY.md`
 - [x] Estructura del monorepo (`apps/web`, `packages/engine`, `content/`, `supabase/`, `docs/`, `legacy/`, `.github/workflows/`)
 - [x] TypeScript, Vite, ESLint, Prettier, Vitest y Playwright (320/390/1200 px, claro y oscuro)
@@ -19,13 +19,13 @@ Estado vivo del proyecto. Se actualiza en cada iteración (ver `docs/PLATAFORMA_
 - [x] Correcciones de la especificación (v0.6)
 - [x] Workflow de CI escrito (tipos, lint, formato, unitarias, base de datos, e2e)
 - [x] Repositorio `rmoya-dev/plataforma-pm` creado y CI en verde en GitHub (21/11/2026); se recrea **público** con historial limpio (D19)
-- [ ] Hacer público el repositorio y proteger `main`. URL de producción, PIN y correo retirados de `legacy/` y de los documentos (ver `legacy/LEEME.md`).
-- [ ] Abrir el tablero en GitHub Projects (requiere dar a GitHub CLI el permiso `project`)
+- [x] Repositorio público con historial limpio y `main` protegida (PR obligatorio + CI en verde) (21/11/2026)
+- [x] Tablero abierto: https://github.com/users/rmoya-dev/projects/1 (un issue por hito)
 - [x] ADR-0001 a ADR-0008 aprobados (21/11/2026)
 - [x] I2: el bono por rapidez se mantiene (D17)
 - [x] I3: el ranking muestra nombre e inicial del apellido; sin apodo (D18)
 - [x] Cuentas de Supabase y Cloudflare creadas por la responsable (21/11/2026)
-- [ ] Lista de verificación de transferencia de cuentas (ADR-0006)
+- [ ] Lista de verificación de transferencia de cuentas (ADR-0006) — issue #1
 
 ## Siguiente
 - [ ] H1 — Modelo de datos, roles, multidocencia, autenticación y pruebas de aislamiento
