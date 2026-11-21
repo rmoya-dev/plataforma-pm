@@ -1,6 +1,6 @@
 # Modelo de datos, roles y seguridad — H1
 
-- **Estado:** Propuesta (pendiente de aprobación de la responsable)
+- **Estado:** Aceptado (decisiones de la responsable del 21/11/2026, sección 7)
 - **Fecha:** 2026-11-21
 - **Alcance:** lo que necesita el hito H1: identidad, roles, periodos, secciones, matrícula e importación desde Moodle. Las tablas de avance, rondas y recursos llegan en H2, H3 y H4b, y se agregan a este documento entonces.
 
@@ -38,7 +38,7 @@ Un docente es también una cuenta `@continental.edu.pe` (sin formato DNI). Un co
 | `dominios_permitidos` | Dominios que pueden entrar | `dominio` (`continental.edu.pe` en producción; `ejemplo.test` solo en local) |
 | `periodos` | Semestres | `id`, `nombre` (p. ej. «2026-II»), `inicio`, `fin`, `activo` |
 | `secciones` | Grupo de clase de **un** docente | `id`, `periodo_id`, `docente_id`, `nombre` (p. ej. NRC o «Derecho A»), `creado_en` |
-| `matriculas` | Quién está en qué sección | `seccion_id`, `correo`, `estudiante_id` (vacío hasta que la persona inicie sesión), `nombres_moodle`, `grupo_moodle`, `origen` (`moodle` o `manual`), `creado_en` |
+| `matriculas` | Quién está en qué sección (una sola por periodo) | `seccion_id`, `periodo_id`, `correo`, `estudiante_id` (vacío hasta que la persona inicie sesión), `nombres_moodle`, `grupo_moodle`, `origen` (`moodle` o `manual`), `creado_en` |
 
 Además, una **vista** `ranking_nombres` que expone solo `estudiante_id` y `nombre_ranking` («María Q.») para estudiantes de la misma sección. El ranking nunca lee `perfiles` directamente.
 
@@ -88,9 +88,10 @@ Con datos **ficticios**: 2 docentes, 3 secciones, 6 estudiantes.
 5. Importar un CSV de Moodle crea matrículas por correo; al iniciar sesión, el estudiante queda enlazado.
 6. El ranking muestra «Nombre I.» y nunca el correo ni el apellido completo.
 7. Todas las migraciones tienen su reversión y `supabase db reset` deja la base desde cero.
+8. Un estudiante no puede quedar matriculado en dos secciones del mismo periodo.
 
-## 7. Preguntas abiertas para la responsable
+## 7. Decisiones de la responsable (21/11/2026)
 
-1. **Carrera:** Moodle no la exporta y hace falta para el duelo Derecho vs. Psicología. Propuesta: el estudiante la elige una vez en su primer ingreso y la docente puede corregirla.
-2. **Grupos de Moodle:** propuesta: un CSV por sección; si trae la columna de grupo, se guarda como referencia (`grupo_moodle`), pero la sección la elige la docente al importar.
-3. **¿Un estudiante puede estar en dos secciones a la vez** (por ejemplo, si repite o cambia de horario)? El modelo lo permite; confirmar si debe impedirse.
+1. **Carrera:** el estudiante la elige una vez en su primer ingreso; la docente puede corregirla.
+2. **Grupos de Moodle:** un CSV por sección; el grupo, si viene, se guarda solo como referencia (`grupo_moodle`) y la sección la elige la docente al importar.
+3. **Un estudiante no puede estar en dos secciones a la vez.** Se impide en la base de datos: `matriculas` guarda también el `periodo_id` (debe coincidir con el de la sección) y hay una restricción única por (`periodo_id`, `correo`). Para cambiarlo de sección, la docente o la administradora mueve la matrícula; no se crea una segunda.
