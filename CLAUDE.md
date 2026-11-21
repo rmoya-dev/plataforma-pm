@@ -71,4 +71,4 @@ Lecciones aprendidas que el diseño nuevo debe evitar (con evidencia): motor cop
 - No inventes datos pedagógicos (retos, respuestas, textos de teoría): los aporta la responsable o se migran desde `legacy/` y se verifican con las pruebas.
 
 ## 9. Datos pendientes de la responsable (pregunta cuando los necesites)
-Mapa de unidades y semanas; código del Tutor PM y del juego de los bancos; fecha de inicio del piloto; campos que exporta Moodle; nombre de la plataforma y subdominio; política de retención de datos y responsable del tratamiento. (Ver sección 13 del documento.)
+Mapa de unidades y semanas; código del Tutor PM y del juego de los bancos; fecha de inicio del piloto; nombre de la plataforma y subdominio; política de retención de datos y responsable del tratamiento. (Ver sección 13 del documento.)

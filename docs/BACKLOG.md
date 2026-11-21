@@ -36,4 +36,4 @@ Estado vivo del proyecto. Se actualiza en cada iteración (ver `docs/PLATAFORMA_
 - [ ] H5 — Tutor PM · H6 — Panel docente y registro auxiliar · H6b — Moodle · H7 — Piloto · H8 — Dossier
 
 ## Por aportar por la responsable
-Mapa de unidades y semanas · código del Tutor PM y del juego de los bancos · fecha de inicio del piloto · campos de Moodle · nombre y subdominio · política de retención de datos · dominio institucional exacto para el inicio de sesión.
+Mapa de unidades y semanas · código del Tutor PM y del juego de los bancos · fecha de inicio del piloto · nombre y subdominio · política de retención de datos.
