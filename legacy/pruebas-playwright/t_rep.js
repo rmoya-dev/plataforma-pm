@@ -1,0 +1,10 @@
+const { makeBackend } = require('./mock.js');
+const be = makeBackend('/home/claude/tp/Code.gs');
+const sv = (n, c, p) => be.post(JSON.stringify({ action: 'save', actividad: 'parabola', nombre: n, carrera: c, progreso: p }));
+sv('Vieja Mezclada', 'Derecho', { experimenta: { e1: true, e2: true }, calcula: { c1: true, k1: true }, despeja: { d1: true }, _flash: { r1: { pts: 5 } } });
+sv('Solo Tiempo', 'Derecho', { despeja: { d1: true, d2: true }, formula: { f1: true }, _apodo: 'x' });
+sv('Pura Parabola', 'Psicología', { experimenta: { e1: true }, investiga: { i1: true } });
+const rows = () => be.sheets['Progreso'].getDataRange().getValues().slice(1).map(r => [r[1], r[3], r[4], r[7]]);
+const before = JSON.stringify(rows());
+be.ctx.revisarMezclaTiempo(); console.log('dry-run no cambia:', before === JSON.stringify(rows()));
+be.ctx.limpiarMezclaTiempo(); console.log(rows().map(r => r.join(' | ')).join('\n')); console.log(be.ctx.__log.join('\n'));

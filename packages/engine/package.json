@@ -1,0 +1,10 @@
+{
+  "name": "@pm/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Motor único de certificaciones (lógica pura, sin interfaz).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

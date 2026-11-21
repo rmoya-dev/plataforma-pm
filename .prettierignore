@@ -1,0 +1,9 @@
+legacy/
+node_modules/
+dist/
+.tsbuild/
+supabase/.temp/
+playwright-report/
+test-results/
+package-lock.json
+*.md

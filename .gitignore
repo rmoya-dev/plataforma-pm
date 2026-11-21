@@ -1,0 +1,32 @@
+# Dependencias y compilados
+node_modules/
+dist/
+*.tsbuildinfo
+.vite/
+
+# Secretos y configuración local (usa .env.example como plantilla)
+.env
+.env.*
+!.env.example
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Datos reales de estudiantes: nunca al repositorio
+**/datos-reales/
+*.real.csv
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.tsbuild/

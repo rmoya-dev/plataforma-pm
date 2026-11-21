@@ -1,0 +1,14 @@
+const { chromium } = require('playwright'); const { makeBackend } = require('./mock.js');
+(async()=>{ const b=await chromium.launch(); const be=makeBackend('/home/claude/tp/Code.gs'); let mode='normal';
+const ctx=await b.newContext({viewport:{width:1100,height:900}});
+await ctx.route('https://script.google.com/**', r=>{ if(mode==='down') return r.abort('failed'); r.fulfill({status:200,contentType:'text/plain',headers:{'access-control-allow-origin':'*'},body:be.post(r.request().postData()||'{}')}); });
+const errs=[]; const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(e.message)); p.on('console',m=>{ if(m.type()==='error'&&!/fonts\.g|net::ERR|Failed to load/.test(m.text())) errs.push(m.text().slice(0,150)); }); await p.addInitScript(()=>{window.__ICTEST=true;});
+await p.goto('file:///home/claude/tp/tp.html#docente'); await p.waitForSelector('#doc_pin');
+await p.fill('#doc_pin','equivocado'); await p.click('#doc_go'); await p.waitForTimeout(1500);
+console.log('PIN malo →', (await p.evaluate(()=>document.body.innerText)).match(/.{0,30}(PIN incorrecto|incorrecto).{0,40}/i)?.[0]);
+mode='down'; await p.fill('#doc_pin','PIN-DE-EJEMPLO'); await p.click('#doc_go'); await p.waitForTimeout(1500);
+console.log('nube caída →', (await p.evaluate(()=>document.body.innerText)).match(/.{0,30}(comunicarse|respaldo).{0,80}/i)?.[0]);
+mode='normal'; await p.fill('#doc_pin','PIN-DE-EJEMPLO'); await p.click('#doc_go'); await p.waitForSelector('#doc_open',{timeout:8000}); console.log('PIN bueno → panel abierto');
+const txt=await p.evaluate(()=>document.body.innerText); console.log(txt.replace(/\s+/g,' ').slice(0,1500));
+await p.screenshot({path:'t10_panel.png',fullPage:true});
+console.log('errores:',errs.length?errs:'ninguno'); await b.close(); })();

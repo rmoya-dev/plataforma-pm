@@ -1,0 +1,2702 @@
+<meta charset="utf-8">
+<title>Sistemas 3D: Domina las Tres Incógnitas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#F7F4FB;
+  --surface:#FFFFFF;
+  --surface-2:#EFE6F8;
+  --ink:#1E1230;
+  --ink-soft:#5B4E70;
+  --ink-faint:#93869F;
+  --line:#E1D3F0;
+  --accent:#6802C1;
+  --accent-2:#9B3FE0;
+  --accent-ink:#FFFFFF;
+  --accent-soft:#F1E3FB;
+  --gold:#B9791E;
+  --gold-soft:#F6E7CC;
+  --danger:#A83B2E;
+  --danger-soft:#F3DAD3;
+  --ok:#1E7A4C;
+  --ok-soft:#DCEFE1;
+  --formula:#C8102E;
+  --formula-soft:#FDE9EC;
+  --shadow:0 1px 2px rgba(43,4,80,.08), 0 10px 28px -14px rgba(43,4,80,.32);
+  --r-s:8px; --r-m:14px; --r-l:24px;
+  --font-display:'Sora', 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-body:'Plus Jakarta Sans', 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-type:'Special Elite', 'Courier New', monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#160C24; --surface:#20132F; --surface-2:#2A1A3D; --ink:#F1E9FA; --ink-soft:#BCA9D4;
+    --ink-faint:#7C6A93; --line:#3B2650; --accent:#C89BFA; --accent-2:#B77CF2; --accent-ink:#22093D; --accent-soft:#33204A;
+    --gold:#EFB85E; --gold-soft:#3A2C15; --danger:#FF9683; --danger-soft:#3B2119; --ok:#5FD394; --ok-soft:#123023;
+    --formula:#FF8FA3; --formula-soft:#3A1A24;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 34px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#160C24; --surface:#20132F; --surface-2:#2A1A3D; --ink:#F1E9FA; --ink-soft:#BCA9D4;
+  --ink-faint:#7C6A93; --line:#3B2650; --accent:#C89BFA; --accent-2:#B77CF2; --accent-ink:#22093D; --accent-soft:#33204A;
+  --gold:#EFB85E; --gold-soft:#3A2C15; --danger:#FF9683; --danger-soft:#3B2119; --ok:#5FD394; --ok-soft:#123023;
+  --formula:#FF8FA3; --formula-soft:#3A1A24;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 34px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--font-body);
+  font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  padding:0 16px;
+}
+@media (max-width:640px){
+  body{ font-size:18px; }
+  .btn{ padding:.62em 1.2em; }
+  .btn.sm{ padding:.5em 1em; }
+  input[type=text], select, .register-wrap input[type=text], .register-wrap select{ font-size:1.05rem; padding:12px 14px; }
+  .choice{ padding:14px 16px; }
+}
+h1,h2,h3,h4{font-family:var(--font-display); text-wrap:balance; margin:0 0 .4em; font-weight:700; color:var(--ink);}
+p{margin:0 0 1em; max-width:65ch;}
+button{font-family:inherit; cursor:pointer;}
+:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:4px;}
+.mono{font-family:var(--font-mono);}
+.eq{font-family:var(--font-mono); font-size:1.05em; letter-spacing:.01em;}
+img,.canvas-wrap{max-width:100%;}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
+
+/* ============ SHELL ============ */
+#shell{max-width:1180px; margin:0 auto; padding-block:20px 64px;}
+.topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:12px 18px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-m);
+  box-shadow:var(--shadow); margin-bottom:22px; flex-wrap:wrap;
+}
+.brand{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;}
+.brand .mark{font-family:var(--font-display); font-weight:700; font-size:1.2rem;}
+.brand .course{color:var(--ink-faint); font-size:.89rem; letter-spacing:.03em; text-transform:uppercase;}
+.topnav{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.dot-track{display:flex; gap:6px; align-items:center;}
+.dot{
+  width:11px; height:11px; border-radius:50%; background:var(--surface-2); border:1px solid var(--line);
+  display:inline-block; transition:background .25s, transform .25s;
+}
+.dot.done{background:var(--ok); border-color:var(--ok);}
+.dot.current{background:var(--accent); border-color:var(--accent); transform:scale(1.25);}
+.btn{
+  border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:999px;
+  padding:.5em 1.1em; font-size:.99rem; font-weight:600; transition:background .15s,border-color .15s,transform .1s;
+}
+.btn:hover{border-color:var(--accent); transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
+.btn.primary:hover{filter:brightness(1.06);}
+.btn.ghost{background:transparent;}
+.btn[disabled]{opacity:.45; cursor:not-allowed; transform:none;}
+.btn.sm{padding:.38em .85em; font-size:.89rem;}
+.student-tag{font-size:.92rem; color:var(--ink-soft); display:flex; align-items:center; gap:6px;}
+.student-tag button{background:none; border:none; color:var(--accent); font-size:.92rem; font-weight:600; padding:0; cursor:pointer; text-decoration:underline;}
+.register-wrap{max-width:520px; margin:40px auto; background:var(--surface); border:1px solid var(--line); border-top:5px solid var(--accent); border-radius:var(--r-l); box-shadow:var(--shadow); padding:32px 28px;}
+.register-icon{
+  width:56px; height:56px; border-radius:18px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;
+  background:linear-gradient(155deg, var(--accent), var(--accent-2)); color:var(--accent-ink); box-shadow:var(--shadow);
+}
+.register-icon svg{width:30px; height:30px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.register-wrap h1{font-size:1.55rem;}
+.register-wrap label{display:block; font-weight:600; font-size:.97rem; margin:16px 0 6px;}
+.register-wrap input[type=text], .register-wrap select{
+  width:100%; padding:10px 12px; border:1.5px solid var(--line); border-radius:var(--r-s);
+  background:var(--surface); color:var(--ink); font-size:1.07rem; font-family:inherit;
+}
+.register-wrap input[type=text]:focus, .register-wrap select:focus{ border-color:var(--accent); }
+.mascot-badge{display:inline-flex; flex:none; align-items:center; justify-content:center; vertical-align:middle;}
+.mascot-badge svg{width:100%; height:100%; display:block;}
+.mascot-hint-row{display:flex; align-items:center; gap:10px;}
+.mascot-hint-row .mascot-badge{width:38px !important; height:38px !important;}
+.mascot-badge.mascot-inline{width:26px !important; height:26px !important; margin-right:6px;}
+.mascot-badge.mascot-welcome{margin-bottom:14px;}
+
+/* ============ MAP SCREEN ============ */
+.hero{
+  padding:32px 26px; margin-bottom:22px; border-radius:var(--r-l); position:relative; overflow:hidden;
+  background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); box-shadow:var(--shadow);
+  display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+}
+.hero::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:radial-gradient(circle at 88% 12%, rgba(255,255,255,.18) 0, transparent 42%),
+                    radial-gradient(circle at 6% 92%, rgba(255,255,255,.12) 0, transparent 38%);
+}
+.hero-text{position:relative; z-index:1; flex:1 1 320px; min-width:0;}
+.hero .eyebrow{
+  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.12em; font-size:.9rem;
+  color:rgba(255,255,255,.88); font-weight:600; margin-bottom:10px; display:block;
+}
+.hero h1{font-size:clamp(1.7rem,3.6vw,2.6rem); max-width:16ch; color:#fff;}
+.hero p.lead{font-size:1.1rem; color:rgba(255,255,255,.92); max-width:62ch;}
+.hero-art{position:relative; z-index:1; flex:none; width:120px; height:120px; color:rgba(255,255,255,.95);}
+.hero-art svg{width:100%; height:100%; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+@media (max-width:640px){ .hero-art{display:none;} .hero{padding:26px 20px;} }
+
+.map-wrap{
+  background:linear-gradient(180deg, var(--surface) 0%, var(--accent-soft) 130%);
+  border:1px solid var(--line); border-radius:var(--r-l);
+  box-shadow:var(--shadow); padding:30px 18px 44px; overflow:hidden;
+}
+.map-inner{position:relative;}
+.map-svg{width:100%; height:auto; display:block;}
+.node-btn{
+  position:absolute; transform:translate(-50%,-50%); width:118px; text-align:center; background:none; border:none; padding:0;
+}
+.node-circle{
+  width:66px; height:66px; border-radius:22px; margin:0 auto 8px; position:relative;
+  background:linear-gradient(155deg, var(--surface), var(--accent-soft));
+  border:2.5px solid var(--line); display:flex; align-items:center; justify-content:center;
+  color:var(--ink-faint); box-shadow:var(--shadow);
+  transition:transform .18s, border-color .18s, color .18s, background .18s, box-shadow .18s;
+}
+.node-circle svg{width:30px; height:30px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.node-circle .node-num{
+  position:absolute; top:-8px; left:-8px; width:22px; height:22px; border-radius:50%;
+  background:var(--surface); border:2px solid var(--line); color:var(--ink-soft);
+  font-family:var(--font-mono); font-weight:700; font-size:.72rem; display:flex; align-items:center; justify-content:center;
+}
+.node-btn:hover .node-circle{transform:translateY(-4px) scale(1.05); border-color:var(--accent); color:var(--accent); box-shadow:0 10px 22px -10px rgba(104,2,193,.45);}
+.node-btn.done .node-circle{background:linear-gradient(155deg, var(--ok-soft), var(--surface)); border-color:var(--ok); color:var(--ok);}
+.node-btn.done .node-circle .node-num{background:var(--ok); border-color:var(--ok); color:var(--accent-ink);}
+.node-btn.current .node-circle{background:linear-gradient(155deg, var(--accent), var(--accent-2)); border-color:var(--accent); color:var(--accent-ink); box-shadow:0 10px 24px -10px rgba(104,2,193,.55);}
+.node-btn.current .node-circle .node-num{background:var(--accent-ink); border-color:var(--accent); color:var(--accent);}
+.node-btn.locked{cursor:not-allowed;}
+.node-btn.locked .node-circle{color:var(--ink-faint); opacity:.5; background:var(--surface);}
+.node-btn.locked:hover .node-circle{transform:none; border-color:var(--line); color:var(--ink-faint); box-shadow:var(--shadow);}
+.node-label{font-size:1rem; font-weight:700; color:var(--ink); line-height:1.25;}
+.node-sub{font-size:.92rem; color:var(--ink-faint); margin-top:1px;}
+.node-mini-bar{width:100%; max-width:90px; height:5px; border-radius:99px; background:var(--surface-2); margin:6px auto 0; overflow:hidden;}
+.node-mini-bar > span{display:block; height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius:99px;}
+.phase-tile .node-mini-bar{margin:6px 0 0;}
+.map-list{display:none; flex-direction:column; gap:12px;}
+@media (max-width:639px){ .map-curvy{display:none;} .map-list{display:flex;} }
+.phase-tile{
+  display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+  background:var(--surface); border:1.5px solid var(--line); border-left:5px solid var(--accent); border-radius:var(--r-m);
+  padding:14px 16px; box-shadow:var(--shadow); transition:transform .15s, box-shadow .15s;
+}
+.phase-tile:hover{transform:translateY(-2px); box-shadow:0 12px 24px -12px rgba(104,2,193,.35);}
+.phase-tile.done{border-left-color:var(--ok);}
+.phase-tile.locked{border-left-color:var(--line);}
+.phase-tile .node-circle{margin:0; flex:none;}
+.phase-tile .tile-text{flex:1; min-width:0;}
+.phase-tile .tile-text .node-label{font-size:1.05rem;}
+.phase-tile .tile-text .node-sub{font-size:.92rem; margin-top:2px;}
+.phase-tile .chev{color:var(--accent); font-size:1.3rem; flex:none;}
+.phase-tile.locked{opacity:.6;}
+.phase-tile.locked .chev{color:var(--ink-faint);}
+.phase-tile.locked:hover{transform:none; box-shadow:var(--shadow);}
+
+/* ============ PHASE CHROME ============ */
+.phase-head{margin-bottom:18px;}
+.phase-head-row{display:flex; align-items:center; gap:14px; margin-bottom:4px;}
+.phase-head-icon{
+  flex:none; width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(155deg, var(--accent), var(--accent-2)); color:var(--accent-ink); box-shadow:var(--shadow);
+}
+.phase-head-icon svg{width:28px; height:28px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.phase-head .eyebrow{font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.1em; font-size:.88rem; font-weight:600;}
+.phase-head h2{font-size:clamp(1.4rem,2.6vw,1.9rem); margin:0;}
+.workspace{
+  display:grid; grid-template-columns:280px 1fr 260px; gap:16px; align-items:start;
+}
+@media (max-width:900px){ .workspace{grid-template-columns:1fr;} }
+.two-col{display:grid; grid-template-columns:1.15fr 1fr; gap:16px; align-items:start;}
+@media (max-width:820px){ .two-col{grid-template-columns:1fr;} }
+.panel{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r-m); padding:16px;
+  box-shadow:var(--shadow);
+}
+.panel h3{font-size:1.05rem; margin-bottom:12px;}
+.field{margin-bottom:14px;}
+.field label{display:flex; justify-content:space-between; font-size:.92rem; font-weight:600; margin-bottom:6px;}
+.field label .val{font-family:var(--font-mono); color:var(--accent); font-weight:700;}
+input[type=range]{width:100%; accent-color:var(--accent);}
+.info-row{display:flex; justify-content:space-between; gap:10px; padding:9px 0; border-bottom:1px dashed var(--line); font-size:.99rem;}
+.info-row:last-child{border-bottom:none;}
+.info-row .k{color:var(--ink-soft);}
+.info-row .v{font-family:var(--font-mono); font-weight:700; text-align:right;}
+.badge{display:inline-block; padding:.28em .75em; border-radius:999px; font-size:.88rem; font-weight:700; letter-spacing:.02em;}
+.badge.up{background:var(--ok-soft); color:var(--ok);}
+.badge.down{background:var(--danger-soft); color:var(--danger);}
+
+.canvas-panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-m); box-shadow:var(--shadow); padding:10px; position:relative;}
+canvas{display:block; width:100%; height:auto; border-radius:var(--r-s); cursor:crosshair;}
+
+.mission-card{
+  border:1.5px solid var(--line); border-radius:var(--r-m); padding:14px 16px; margin-top:14px; background:var(--surface-2);
+}
+.mission-card.active{border-color:var(--accent); background:var(--accent-soft);}
+.mission-card.solved{border-color:var(--ok); background:var(--ok-soft);}
+.mission-card h4{font-size:1.02rem; margin-bottom:6px; display:flex; gap:8px; align-items:center;}
+.mission-card p{font-size:.97rem; color:var(--ink-soft); margin-bottom:10px;}
+.feedback{
+  margin-top:10px; padding:10px 12px; border-radius:var(--r-s); font-size:.97rem; font-weight:600; display:none;
+}
+.feedback.show{display:block;}
+.feedback.ok{background:var(--ok-soft); color:var(--ok);}
+.feedback.bad{background:var(--danger-soft); color:var(--danger);}
+
+table.datatable{width:100%; border-collapse:collapse; font-family:var(--font-mono); font-variant-numeric:tabular-nums;}
+table.datatable th,table.datatable td{border:1px solid var(--line); padding:8px 10px; text-align:center;}
+table.datatable th{background:var(--surface-2); font-family:var(--font-body); font-weight:700;}
+table.datatable td.sym{background:var(--accent-soft); font-weight:700;}
+
+.choice-grid{display:grid; gap:10px; margin-top:12px;}
+.choice{
+  text-align:left; border:1.5px solid var(--line); background:var(--surface); border-radius:var(--r-s);
+  padding:12px 14px; font-size:1.01rem; transition:border-color .15s, background .15s;
+}
+.choice:hover{border-color:var(--accent);}
+.choice.correct{border-color:var(--ok); background:var(--ok-soft);}
+.choice.incorrect{border-color:var(--danger); background:var(--danger-soft);}
+.choice[disabled]{cursor:default;}
+
+.stepper{display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap;}
+.stepper span{
+  font-size:.84rem; font-weight:700; padding:.3em .7em; border-radius:999px; background:var(--surface-2); color:var(--ink-faint);
+}
+.stepper span.on{background:var(--accent); color:var(--accent-ink);}
+.stepper button.step-pill{
+  font:inherit; font-size:.84rem; font-weight:700; padding:.3em .7em; border-radius:999px; border:none;
+  background:var(--surface-2); color:var(--ink-faint); cursor:pointer; transition:background .15s,color .15s;
+}
+.stepper button.step-pill.done:not(.on){background:var(--ok-soft); color:var(--ok);}
+.stepper button.step-pill.on{background:var(--accent); color:var(--accent-ink);}
+.stepper button.step-pill[disabled]{cursor:not-allowed; opacity:.55;}
+.step-nav{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:18px; flex-wrap:wrap;}
+
+.reveal-box{border-left:3px solid var(--gold); background:var(--gold-soft); padding:12px 14px; border-radius:0 var(--r-s) var(--r-s) 0; margin:14px 0; font-size:1rem;}
+.reveal-box .katex-display{margin:.3em 0;}
+.tex-block{overflow-x:auto; padding:2px 0;}
+.tex-block .katex-display{margin:.4em 0;}
+.katex{color:inherit;}
+
+/* ---- Fórmula clave: callout didáctico tipo texto escolar ---- */
+.formula-callout{
+  border:2px solid var(--formula); background:var(--formula-soft);
+  border-radius:var(--r-m); padding:18px 20px 16px; margin:18px 0;
+  position:relative; overflow-x:auto; box-shadow:0 4px 14px -8px rgba(200,16,46,.35);
+}
+.formula-callout .fc-tag{
+  display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-weight:700;
+  font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--formula); margin-bottom:8px;
+}
+.formula-callout .fc-tag svg{width:16px; height:16px; flex:none;}
+.formula-callout .katex-display{margin:.25em 0; font-size:1.32em;}
+.formula-callout .katex{color:var(--formula);}
+
+/* ============ DETECTIVE MODE ============ */
+.dossier{
+  background:
+    linear-gradient(var(--surface-2), var(--surface-2));
+  border:1px solid var(--line); border-radius:var(--r-m); box-shadow:var(--shadow);
+  padding:22px 22px 26px; position:relative; overflow:hidden;
+}
+.dossier::before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background-image:repeating-linear-gradient(0deg, transparent, transparent 27px, var(--line) 28px);
+}
+.case-tag{
+  font-family:var(--font-type); font-size:.89rem; letter-spacing:.04em; color:var(--danger);
+  border:2px solid var(--danger); display:inline-block; padding:.15em .6em; border-radius:3px;
+  transform:rotate(-2deg); margin-bottom:10px;
+}
+.dossier h3{font-family:var(--font-type); font-size:1.2rem; letter-spacing:.01em;}
+.claim-box{
+  font-family:var(--font-type); background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--danger);
+  padding:14px 16px; border-radius:0 var(--r-s) var(--r-s) 0; margin:14px 0; font-size:1.07rem; position:relative; z-index:1;
+}
+.stamp{
+  position:absolute; top:14px; right:18px; font-family:var(--font-type); font-size:1.45rem; color:var(--ok);
+  border:3px solid var(--ok); padding:2px 10px; border-radius:6px; transform:rotate(8deg); opacity:0;
+  transition:opacity .3s, transform .3s;
+}
+.stamp.show{opacity:.85; transform:rotate(8deg) scale(1);}
+.stamp.wrong{color:var(--danger); border-color:var(--danger);}
+
+.progress-note{font-size:.89rem; color:var(--ink-faint); margin-top:6px;}
+.stat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:18px 0;}
+.stat-tile{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-m); padding:14px 16px; box-shadow:var(--shadow);}
+.stat-tile .num{font-family:var(--font-mono); font-size:1.75rem; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums;}
+.stat-tile .lbl{font-size:.92rem; color:var(--ink-soft); margin-top:2px;}
+.cert-card{
+  position:relative; background:var(--surface); border:2px solid var(--gold); border-radius:var(--r-l);
+  padding:44px 32px; margin-top:22px; box-shadow:var(--shadow); text-align:center; overflow:hidden;
+}
+.cert-card::before{content:""; position:absolute; inset:9px; border:1px solid var(--gold); opacity:.55; border-radius:calc(var(--r-l) - 6px); pointer-events:none;}
+.cert-inner{position:relative; z-index:1;}
+.cert-seal{
+  width:64px; height:64px; margin:0 auto 14px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+}
+.cert-seal .mascot-badge{width:64px !important; height:64px !important;}
+.cert-eyebrow{font-family:var(--font-mono); letter-spacing:.14em; text-transform:uppercase; font-size:.88rem; color:var(--gold); font-weight:700;}
+.cert-title{font-family:var(--font-display); font-size:1.35rem; margin:6px 0 22px; color:var(--ink);}
+.cert-name{font-family:var(--font-display); font-size:clamp(1.7rem,4vw,2.5rem); margin:8px 0 2px; color:var(--ink); text-wrap:balance;}
+.cert-role{color:var(--ink-soft); font-size:1.02rem; margin-bottom:20px;}
+.cert-body{max-width:54ch; margin:0 auto 22px; color:var(--ink-soft); font-size:1.05rem;}
+.cert-sig{display:inline-block; border-top:1.5px solid var(--line); padding-top:8px; margin-top:8px; font-size:.89rem; color:var(--ink-faint); min-width:240px;}
+.cert-date{font-size:.92rem; color:var(--ink-faint); margin-top:10px;}
+@media print{
+  *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; color-adjust:exact; }
+  body *{ visibility:hidden; }
+  #certCard, #certCard *{ visibility:visible; }
+  #certCard{ position:absolute; top:0; left:0; width:100%; margin:0; box-shadow:none; border-color:#b9791e; }
+  .no-print{ display:none !important; }
+}
+.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+.center-actions{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+.eq-template{display:flex; align-items:center; gap:6px; flex-wrap:wrap; background:var(--panel-2,#f6f2fb); border:1.5px solid var(--border,#ddd); border-radius:12px; padding:10px 14px; margin:10px 0; font-size:1.08rem;}
+.eq-template .eqt-input{width:58px; text-align:center; font:inherit; font-weight:700; padding:6px 4px; border-radius:8px; border:1.5px solid var(--border,#ccc); background:#fff;}
+.eq-template .eqt-input:focus{outline:2px solid var(--accent,#6802C1); outline-offset:1px;}
+.eq-template .eqt-sign{font:inherit; font-weight:700; padding:6px 2px; border-radius:8px; border:1.5px solid var(--border,#ccc); background:#fff; text-align:center;}
+.eq-template .eqt-var{font-weight:700; font-style:italic; padding:0 1px;}
+.eq-template .eqt-eq{font-weight:700; padding:0 4px;}
+.eq-template.is-correct{border-color:var(--accent-2,#1f9d55); background:#eefaf1;}
+.eq-template.is-wrong{border-color:var(--danger,#c0392b); background:#fdefee;}
+@media (max-width:520px){ .eq-template{font-size:0.98rem; padding:8px 10px; gap:4px;} .eq-template .eqt-input{width:48px;} }
+.step-stage{ min-height:74px; }
+.step-slide{ opacity:0; transform:translateY(8px); transition:opacity .35s ease, transform .35s ease; background:var(--panel-2,#f6f2fb); border-left:4px solid var(--accent,#6802C1); border-radius:8px; padding:12px 16px; }
+.step-slide.show{ opacity:1; transform:translateY(0); }
+.step-num{ font-weight:700; font-size:.8rem; letter-spacing:.03em; text-transform:uppercase; color:var(--accent,#6802C1); margin-bottom:4px; }
+.step-body{ font-size:1.05rem; }
+.eq-template3 .eqt-input{width:52px;}
+@media (max-width:640px){ .eq-template3{font-size:.92rem;} .eq-template3 .eqt-input{width:44px;} }
+
+/* ---- XP / Insignias (Sistemas 3D) ---- */
+.xp-panel{display:flex; align-items:center; gap:16px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-m); padding:14px 18px; box-shadow:var(--shadow); margin-bottom:18px; flex-wrap:wrap;}
+.xp-level{font-weight:800; color:var(--accent); font-size:1.02rem; white-space:nowrap; font-family:var(--font-display);}
+.xp-track{flex:1; min-width:140px; height:10px; border-radius:999px; background:var(--accent-soft); overflow:hidden;}
+.xp-fill{height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius:999px; transition:width .5s ease;}
+.xp-num{font-family:var(--font-mono); font-size:.86rem; color:var(--ink-soft); white-space:nowrap;}
+.badge-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+.badge-chip{display:flex; flex-direction:column; align-items:center; gap:5px; width:66px; opacity:.4; filter:grayscale(1);}
+.badge-chip.unlocked{opacity:1; filter:none;}
+.badge-chip .badge-circle{width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--accent-soft); border:2px solid var(--accent); color:var(--accent);}
+.badge-chip.unlocked .badge-circle{background:linear-gradient(155deg, var(--accent), var(--accent-2)); color:var(--accent-ink); box-shadow:0 8px 18px -8px rgba(104,2,193,.5);}
+.badge-chip .badge-circle svg{width:24px; height:24px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.badge-chip.boss .badge-circle{background:var(--gold-soft); border-color:var(--gold); color:var(--gold);}
+.badge-chip.boss.unlocked .badge-circle{background:linear-gradient(155deg, var(--gold), #E8871E); border-color:var(--gold); color:#fff;}
+.badge-chip .badge-label{font-size:.72rem; text-align:center; color:var(--ink-soft); line-height:1.2;}
+.boss-panel{border:2px solid var(--gold); background:linear-gradient(155deg, var(--gold-soft), var(--surface));}
+.boss-panel h3{color:var(--gold);}
+.xp-toast{position:fixed; bottom:18px; right:18px; background:var(--accent); color:var(--accent-ink); font-weight:700; font-family:var(--font-mono); padding:10px 16px; border-radius:999px; box-shadow:var(--shadow); z-index:50; opacity:0; transform:translateY(10px); transition:opacity .3s ease, transform .3s ease; pointer-events:none;}
+.xp-toast.show{opacity:1; transform:translateY(0);}
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<div id="shell">
+  <div class="topbar">
+    <div class="brand">
+      <span class="mark">Sistemas 3D: Tres Incógnitas</span>
+      <span class="course">Pensamiento Matemático · Sistemas 3×3</span>
+    </div>
+    <div class="topnav">
+      <div class="dot-track" id="dotTrack" aria-hidden="true"></div>
+      <span id="studentTag" class="student-tag" hidden></span>
+      <button class="btn ghost sm" id="btnMap" type="button">Mapa de misión</button>
+    </div>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   ESTADO Y PERSISTENCIA
+============================================================ */
+var PHASE_ICONS = {
+  1: '<svg viewBox="0 0 32 32"><line x1="4" y1="8" x2="28" y2="24"/><line x1="4" y1="24" x2="28" y2="8"/><circle cx="16" cy="16" r="1.8" fill="currentColor" stroke="none"/></svg>',
+  2: '<svg viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="20" rx="3"/><line x1="5" y1="14" x2="27" y2="14"/><line x1="5" y1="20" x2="27" y2="20"/><line x1="14" y1="6" x2="14" y2="26"/><path d="M17.5 20.5l2 2 4-4.5"/></svg>',
+  3: '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="10.5"/><circle cx="16" cy="16" r="5.5"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg>',
+  4: '<svg viewBox="0 0 32 32"><line x1="16" y1="4" x2="16" y2="23"/><line x1="7" y1="9.5" x2="25" y2="9.5"/><path d="M7 9.5 L3.5 17 A3.7 3.7 0 0 0 10.5 17 Z"/><path d="M25 9.5 L21.5 17 A3.7 3.7 0 0 0 28.5 17 Z"/><line x1="10.5" y1="27.5" x2="21.5" y2="27.5"/><path d="M13 23 h6"/></svg>',
+  5: '<svg viewBox="0 0 32 32"><circle cx="13.5" cy="13.5" r="8"/><line x1="19.3" y1="19.3" x2="27" y2="27"/></svg>',
+  6: '<svg viewBox="0 0 32 32"><path d="M9 5h14v6a7 7 0 0 1-14 0z"/><path d="M9 7H5a4.5 4.5 0 0 0 4.5 6.5"/><path d="M23 7h4a4.5 4.5 0 0 1-4.5 6.5"/><line x1="16" y1="18.5" x2="16" y2="24"/><line x1="10.5" y1="28" x2="21.5" y2="28"/><line x1="16" y1="24" x2="16" y2="28"/></svg>',
+  7: '<svg viewBox="0 0 32 32"><rect x="4" y="11" width="24" height="15" rx="2.5"/><path d="M11.5 11V8.5a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2V11"/><line x1="4" y1="17.5" x2="28" y2="17.5"/><path d="M13.5 17.5v3h5v-3"/></svg>'
+};
+var ICON_BOSS = '<svg viewBox="0 0 32 32"><path d="M16 4l10 4v8c0 7-4.5 11-10 12-5.5-1-10-5-10-12V8z"/><path d="M12 16.5l3 3 5-6.5"/></svg>';
+var ICON_MASTER = '<svg viewBox="0 0 32 32"><path d="M5 24h22l2-13-7 5-6-9-6 9-7-5z"/><line x1="7" y1="27" x2="25" y2="27"/></svg>';
+
+/* ============================================================
+   MASCOTA — "Sabio", el búho guía de la misión
+   Ilustración original y propia (no un personaje con derechos de
+   autor), dibujada en SVG con las variables de color del tema para
+   que se adapte a modo claro/oscuro automáticamente. Aparece en
+   cinco momentos: bienvenida, pista, acierto, reto difícil y
+   constancia final.
+============================================================ */
+var MASCOT_ICONS = {
+  welcome: '<svg viewBox="0 0 64 64" aria-hidden="true">'+
+    '<path d="M20 20 L24 8 L28 20 Z" fill="var(--accent)"/>'+
+    '<path d="M36 20 L40 8 L44 20 Z" fill="var(--accent)"/>'+
+    '<path d="M9 24 l-2.6 3 3.4 4-4 4" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>'+
+    '<circle cx="32" cy="37" r="19" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>'+
+    '<ellipse cx="16" cy="46" rx="5" ry="7" fill="var(--accent)" transform="rotate(18 16 46)"/>'+
+    '<path d="M46 34 Q57 28 55 15" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linecap="round"/>'+
+    '<ellipse cx="55" cy="14" rx="5" ry="6.5" fill="var(--accent)" transform="rotate(-20 55 14)"/>'+
+    '<circle cx="25" cy="35" r="6.4" fill="#FFF6E9"/><circle cx="40" cy="35" r="6.4" fill="#FFF6E9"/>'+
+    '<circle cx="26.4" cy="35" r="3.2" fill="var(--ink)"/><circle cx="41.4" cy="35" r="3.2" fill="var(--ink)"/>'+
+    '<circle cx="27.6" cy="33.5" r="1" fill="#fff"/><circle cx="42.6" cy="33.5" r="1" fill="#fff"/>'+
+    '<path d="M29 43 L35 43 L32 48 Z" fill="var(--gold)"/>'+
+    '<path d="M9 20 l1.5 3.4 3.4 1.5 -3.4 1.5 -1.5 3.4 -1.5 -3.4 -3.4 -1.5 3.4 -1.5 Z" fill="var(--accent-2)"/>'+
+    '</svg>',
+  hint: '<svg viewBox="0 0 64 64" aria-hidden="true">'+
+    '<g transform="rotate(-7 32 37)">'+
+    '<path d="M20 20 L24 8 L28 20 Z" fill="var(--accent)"/>'+
+    '<path d="M36 20 L40 8 L44 20 Z" fill="var(--accent)"/>'+
+    '<circle cx="32" cy="37" r="19" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>'+
+    '<ellipse cx="17" cy="47" rx="5" ry="7" fill="var(--accent)" transform="rotate(15 17 47)"/>'+
+    '<ellipse cx="27" cy="49" rx="5" ry="6.5" fill="var(--accent)" transform="rotate(60 27 49)"/>'+
+    '<circle cx="25" cy="35" r="6.2" fill="#FFF6E9"/><circle cx="40" cy="35" r="6.2" fill="#FFF6E9"/>'+
+    '<circle cx="23.6" cy="33.6" r="3" fill="var(--ink)"/><circle cx="38.6" cy="33.6" r="3" fill="var(--ink)"/>'+
+    '<path d="M29 43 L35 43 L32 48 Z" fill="var(--gold)"/>'+
+    '</g>'+
+    '<circle cx="49" cy="14" r="7" fill="var(--gold-soft)" stroke="var(--gold)" stroke-width="2"/>'+
+    '<rect x="46.5" y="19.5" width="5" height="3" rx="1" fill="var(--gold)"/>'+
+    '<path d="M49 5v3M56 10h3M42 10h3M54 5l-2 2M44 5l2 2" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round"/>'+
+    '</svg>',
+  correct: '<svg viewBox="0 0 64 64" aria-hidden="true">'+
+    '<path d="M20 20 L24 8 L28 20 Z" fill="var(--accent)"/>'+
+    '<path d="M36 20 L40 8 L44 20 Z" fill="var(--accent)"/>'+
+    '<path d="M18 33 Q10 22 14 10" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linecap="round"/>'+
+    '<ellipse cx="14" cy="9" rx="5" ry="6.5" fill="var(--accent)" transform="rotate(20 14 9)"/>'+
+    '<path d="M46 33 Q54 22 50 10" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linecap="round"/>'+
+    '<ellipse cx="50" cy="9" rx="5" ry="6.5" fill="var(--accent)" transform="rotate(-20 50 9)"/>'+
+    '<circle cx="32" cy="37" r="19" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>'+
+    '<path d="M20 34 Q25 29 30 34" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>'+
+    '<path d="M34 34 Q39 29 44 34" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>'+
+    '<path d="M29 43 L35 43 L32 48 Z" fill="var(--gold)"/>'+
+    '<path d="M8 44 l1.4 3.2 3.2 1.4 -3.2 1.4 -1.4 3.2 -1.4 -3.2 -3.2 -1.4 3.2 -1.4 Z" fill="var(--gold)"/>'+
+    '<path d="M55 44 l1.4 3.2 3.2 1.4 -3.2 1.4 -1.4 3.2 -1.4 -3.2 -3.2 -1.4 3.2 -1.4 Z" fill="var(--accent-2)"/>'+
+    '</svg>',
+  challenge: '<svg viewBox="0 0 64 64" aria-hidden="true">'+
+    '<path d="M20 20 L24 8 L28 20 Z" fill="var(--accent)"/>'+
+    '<path d="M36 20 L40 8 L44 20 Z" fill="var(--accent)"/>'+
+    '<circle cx="32" cy="37" r="19" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>'+
+    '<ellipse cx="24" cy="49" rx="6" ry="5" fill="var(--accent)" transform="rotate(-10 24 49)"/>'+
+    '<ellipse cx="40" cy="49" rx="6" ry="5" fill="var(--accent)" transform="rotate(10 40 49)"/>'+
+    '<line x1="20.5" y1="27.5" x2="27" y2="30" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>'+
+    '<line x1="43.5" y1="27.5" x2="37" y2="30" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>'+
+    '<circle cx="25" cy="35.5" r="5.6" fill="#FFF6E9"/><circle cx="40" cy="35.5" r="5.6" fill="#FFF6E9"/>'+
+    '<circle cx="25" cy="35.5" r="3" fill="var(--ink)"/><circle cx="40" cy="35.5" r="3" fill="var(--ink)"/>'+
+    '<path d="M29 43 L35 43 L32 48 Z" fill="var(--gold)"/>'+
+    '<path d="M54 12 L49 26 L54.5 25 L48 40" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+
+    '</svg>',
+  certificate: '<svg viewBox="0 0 64 64" aria-hidden="true">'+
+    '<path d="M20 20 L24 8 L28 20 Z" fill="var(--accent)"/>'+
+    '<path d="M36 20 L40 8 L44 20 Z" fill="var(--accent)"/>'+
+    '<circle cx="32" cy="37" r="19" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>'+
+    '<path d="M16 13 L32 6 L48 13 L32 20 Z" fill="var(--ink)"/>'+
+    '<path d="M40 15 L46 13 L46 21" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'+
+    '<circle cx="46" cy="22.5" r="2.2" fill="var(--gold)"/>'+
+    '<path d="M20 34 Q25 29 30 34" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>'+
+    '<path d="M34 34 Q39 29 44 34" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>'+
+    '<path d="M29 43 L35 43 L32 48 Z" fill="var(--gold)"/>'+
+    '<rect x="22" y="47" width="20" height="12" rx="2" fill="var(--surface)" stroke="var(--gold)" stroke-width="2"/>'+
+    '<line x1="25" y1="51" x2="39" y2="51" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round"/>'+
+    '<line x1="25" y1="55" x2="35" y2="55" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round"/>'+
+    '</svg>'
+};
+function mascotBadge(pose, size, extraClass){
+  var s = size || 56;
+  return '<span class="mascot-badge'+(extraClass?" "+extraClass:"")+'" style="width:'+s+'px;height:'+s+'px;" aria-hidden="true">'+MASCOT_ICONS[pose]+'</span>';
+}
+
+var PHASES = [
+  {id:1, key:"clasifica",   label:"Clasifica",   sub:"Tipos de sistemas"},
+  {id:2, key:"verifica",    label:"Verifica",    sub:"¿Es solución?"},
+  {id:3, key:"resuelve",    label:"Resuelve",    sub:"Los tres métodos"},
+  {id:4, key:"interpreta",  label:"Interpreta",  sub:"Construye y da sentido"},
+  {id:5, key:"investiga",   label:"Investiga",   sub:"Detective matemático"},
+  {id:6, key:"desafio",     label:"Desafío",     sub:"Construcción inversa"},
+  {id:7, key:"aplica",      label:"Aplica",      sub:"Casos integrales"}
+];
+
+var STORAGE_KEY = "sistemas3-mission-progress-v1";
+function loadProgress(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {};
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+var progress = loadProgress();
+function markSolved(phaseKey, missionKey){
+  var already = !!(progress[phaseKey] && progress[phaseKey][missionKey]);
+  if(!progress[phaseKey]) progress[phaseKey] = {};
+  progress[phaseKey][missionKey] = true;
+  if(!already){
+    var wasDone = phaseDone(phaseKey, MISSION_TOTALS[phaseKey]);
+    var gained = XP_PER_MISSION;
+    saveProgress();
+    if(!wasDone && phaseDone(phaseKey, MISSION_TOTALS[phaseKey])) gained += XP_PER_PHASE_BONUS;
+    if(typeof showXPToast === "function") showXPToast(gained);
+  } else {
+    saveProgress();
+  }
+  maybeStampCompletion();
+  syncSaveToSheet();
+  renderTopbar();
+}
+function isSolved(phaseKey, missionKey){
+  return !!(progress[phaseKey] && progress[phaseKey][missionKey]);
+}
+function phaseCompleteCount(phaseKey, total){
+  var p = progress[phaseKey] || {};
+  var n = 0;
+  for(var k in p){ if(k.charAt(0)!=="_" && p[k]) n++; }
+  return Math.min(n, total);
+}
+function phaseDone(phaseKey, total){
+  return phaseCompleteCount(phaseKey, total) >= total;
+}
+var MISSION_TOTALS = {clasifica:7, verifica:4, resuelve:9, interpreta:5, investiga:8, desafio:4, aplica:6};
+function totalMissions(){
+  var n=0; for(var k in MISSION_TOTALS) n+=MISSION_TOTALS[k]; return n;
+}
+function allPhasesDone(){
+  return PHASES.every(function(ph){ return phaseDone(ph.key, MISSION_TOTALS[ph.key]); });
+}
+
+/* ---- XP, niveles e insignias coleccionables ---- */
+var XP_PER_MISSION = 10, XP_PER_PHASE_BONUS = 25;
+function totalXP(){
+  var xp = 0;
+  PHASES.forEach(function(ph){
+    xp += phaseCompleteCount(ph.key, MISSION_TOTALS[ph.key]) * XP_PER_MISSION;
+    if(phaseDone(ph.key, MISSION_TOTALS[ph.key])) xp += XP_PER_PHASE_BONUS;
+  });
+  return xp;
+}
+function maxXP(){ return totalMissions()*XP_PER_MISSION + PHASES.length*XP_PER_PHASE_BONUS; }
+var LEVELS = [
+  {min:0,   name:"Aprendiz"},
+  {min:150, name:"Explorador"},
+  {min:350, name:"Estratega"},
+  {min:605, name:"Maestro de Sistemas"}
+];
+function currentLevelInfo(xp){
+  var lv = LEVELS[0];
+  for(var i=0;i<LEVELS.length;i++){ if(xp >= LEVELS[i].min) lv = LEVELS[i]; }
+  return lv;
+}
+function nextLevelInfo(xp){
+  for(var i=0;i<LEVELS.length;i++){ if(LEVELS[i].min > xp) return LEVELS[i]; }
+  return null;
+}
+function renderXPPanel(parent, opts){
+  opts = opts || {};
+  var xp = totalXP(), max = maxXP();
+  var lv = currentLevelInfo(xp), nxt = nextLevelInfo(xp);
+  var pct = Math.min(100, Math.round(xp/max*100));
+  var panel = el("div","xp-panel");
+  panel.innerHTML =
+    '<span class="xp-level">🏅 '+lv.name+'</span>'+
+    '<div class="xp-track"><span class="xp-fill" style="width:'+pct+'%"></span></div>'+
+    '<span class="xp-num">'+xp+' / '+max+' XP'+(nxt ? " · faltan "+(nxt.min-xp)+" para "+nxt.name : " · ¡nivel máximo!")+'</span>';
+  parent.appendChild(panel);
+  if(opts.hideBadges) return;
+  var badgeRow = el("div","badge-row");
+  PHASES.forEach(function(ph){
+    var unlocked = phaseDone(ph.key, MISSION_TOTALS[ph.key]);
+    var chip = el("div","badge-chip"+(unlocked?" unlocked":""));
+    chip.innerHTML = '<span class="badge-circle">'+PHASE_ICONS[ph.id]+'</span><span class="badge-label">'+ph.label+'</span>';
+    badgeRow.appendChild(chip);
+  });
+  var bossChip = el("div","badge-chip boss"+(isSolved("aplica","estadio")?" unlocked":""));
+  bossChip.innerHTML = '<span class="badge-circle">'+ICON_BOSS+'</span><span class="badge-label">Jefe final</span>';
+  badgeRow.appendChild(bossChip);
+  var masterChip = el("div","badge-chip boss"+(allPhasesDone()?" unlocked":""));
+  masterChip.innerHTML = '<span class="badge-circle">'+ICON_MASTER+'</span><span class="badge-label">Maestro</span>';
+  badgeRow.appendChild(masterChip);
+  parent.appendChild(badgeRow);
+}
+function showXPToast(amount){
+  var t = document.getElementById("xpToast");
+  if(!t){
+    t = document.createElement("div");
+    t.id = "xpToast";
+    t.className = "xp-toast";
+    document.body.appendChild(t);
+  }
+  t.textContent = "+"+amount+" XP";
+  t.classList.add("show");
+  clearTimeout(t._hideTimer);
+  t._hideTimer = setTimeout(function(){ t.classList.remove("show"); }, 1400);
+}
+
+/* ---- Respaldo en la nube (opcional, vía Google Sheets + Apps Script) ----
+   Si tu profesor(a) configuró un backend de respaldo, pega aquí la URL de tu
+   Apps Script Web App (termina en /exec). Si se deja como está, la app
+   funciona igual que siempre, solo que sin respaldo en la nube: el progreso
+   queda únicamente en este navegador. */
+var SHEET_API_URL = "https://script.google.com/macros/s/URL_DE_PRODUCCION_RETIRADA/exec";
+function sheetSyncConfigured(){
+  return typeof SHEET_API_URL === "string" && SHEET_API_URL.indexOf("https://") === 0;
+}
+function mergeRemoteProgress(remote){
+  if(!remote || typeof remote !== "object") return false;
+  var changed = false;
+  for(var phaseKey in remote){
+    if(!remote[phaseKey] || typeof remote[phaseKey] !== "object") continue;
+    if(!progress[phaseKey]) progress[phaseKey] = {};
+    for(var missionKey in remote[phaseKey]){
+      if(remote[phaseKey][missionKey] && !progress[phaseKey][missionKey]){
+        progress[phaseKey][missionKey] = true;
+        changed = true;
+      }
+    }
+  }
+  return changed;
+}
+function syncSaveToSheet(){
+  if(!sheetSyncConfigured() || !student) return;
+  try{
+    fetch(SHEET_API_URL, {
+      method: "POST",
+      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      body: JSON.stringify({
+        action: "save",
+        actividad: "sistemas3",
+        nombre: student.name,
+        carrera: student.carrera,
+        progreso: progress,
+        completadoEn: getCompletedAt() || ""
+      })
+    }).catch(function(){ /* sin conexión: el progreso local ya quedó guardado */ });
+  }catch(e){}
+}
+function syncLoadFromSheet(name, carrera, done){
+  if(!sheetSyncConfigured()){ done(); return; }
+  var finished = false;
+  function finish(){ if(finished) return; finished = true; done(); }
+  try{
+    fetch(SHEET_API_URL, {
+      method: "POST",
+      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      body: JSON.stringify({action:"load", actividad:"sistemas3", nombre:name, carrera:carrera})
+    }).then(function(r){ return r.json(); }).then(function(data){
+      if(data && data.found && data.progreso){
+        mergeRemoteProgress(data.progreso);
+        saveProgress();
+        if(data.completadoEn){
+          try{ localStorage.setItem(COMPLETED_KEY, data.completadoEn); }catch(e){}
+        }
+      }
+      finish();
+    }).catch(function(){ finish(); });
+  }catch(e){ finish(); }
+  setTimeout(finish, 4000); // nunca dejamos al estudiante esperando de más
+}
+
+/* ---- Registro del estudiante ---- */
+var STUDENT_KEY = "sistemas3-mission-student-v1";
+function loadStudent(){
+  try{
+    var raw = localStorage.getItem(STUDENT_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return null;
+}
+function saveStudent(s){
+  try{ localStorage.setItem(STUDENT_KEY, JSON.stringify(s)); }catch(e){}
+}
+var student = loadStudent();
+
+/* ---- Fecha de finalización ---- */
+var COMPLETED_KEY = "sistemas3-mission-completed-v1";
+function getCompletedAt(){
+  try{ return localStorage.getItem(COMPLETED_KEY); }catch(e){ return null; }
+}
+function maybeStampCompletion(){
+  if(allPhasesDone() && !getCompletedAt()){
+    try{ localStorage.setItem(COMPLETED_KEY, new Date().toISOString()); }catch(e){}
+  }
+}
+
+var route = "map";
+function goTo(r){ route = r; render(); window.scrollTo({top:0, behavior:"smooth"}); }
+
+/* ============================================================
+   MATEMÁTICA
+============================================================ */
+/* ---- Resolución de sistemas 2x2 (regla de Cramer) ---- */
+function solveSystem(a1,b1,c1,a2,b2,c2){
+  var det = a1*b2 - a2*b1;
+  if(Math.abs(det) > 1e-9){
+    var x = (c1*b2 - c2*b1)/det;
+    var y = (a1*c2 - a2*c1)/det;
+    return {type:"unica", x:x, y:y};
+  }
+  var detXC = c1*b2 - c2*b1;
+  var detYC = a1*c2 - a2*c1;
+  if(Math.abs(detXC) < 1e-9 && Math.abs(detYC) < 1e-9){
+    return {type:"infinitas"};
+  }
+  return {type:"ninguna"};
+}
+function fmt(n, d){
+  if(d===undefined) d = 2;
+  if(Math.abs(n) < 1e-9) n = 0;
+  var r = Math.round(n * Math.pow(10,d)) / Math.pow(10,d);
+  if(Number.isInteger(r)) return String(r);
+  return String(r);
+}
+/* ---- LaTeX (KaTeX) helpers ---- */
+function K(tex){
+  try{ return katex.renderToString(tex, {throwOnError:false, output:"htmlAndMathml", strict:false}); }
+  catch(e){ return "<span>"+tex+"</span>"; }
+}
+function KB(tex){
+  try{ return katex.renderToString(tex, {throwOnError:false, output:"htmlAndMathml", strict:false, displayMode:true}); }
+  catch(e){ return "<span>"+tex+"</span>"; }
+}
+var ICON_STAR = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.6 6.2 6.7.5-5.1 4.4 1.6 6.6L12 16.9l-5.8 3.3 1.6-6.6-5.1-4.4 6.7-.5z"/></svg>';
+function formulaCallout(tex, label){
+  return '<div class="formula-callout"><div class="fc-tag">'+ICON_STAR+'<span>'+(label||"Fórmula clave")+'</span></div>'+KB("\\boldsymbol{"+tex+"}")+'</div>';
+}
+function lineTex(a,b,c){
+  var parts = [];
+  if(a !== 0) parts.push({coef:a, v:"x"});
+  if(b !== 0) parts.push({coef:b, v:"y"});
+  var s = "";
+  parts.forEach(function(p, i){
+    var sign = p.coef < 0 ? "-" : (i===0 ? "" : "+");
+    var abscoef = Math.abs(p.coef);
+    var coefStr = (abscoef === 1) ? "" : fmt(abscoef);
+    s += sign + coefStr + p.v;
+  });
+  if(s === "") s = "0";
+  s += "=" + fmt(c);
+  return s;
+}
+function systemTex(a1,b1,c1,a2,b2,c2){
+  return "\\begin{cases}"+lineTex(a1,b1,c1)+"\\\\[2pt] "+lineTex(a2,b2,c2)+"\\end{cases}";
+}
+function pointTex(x,y){ return "\\left("+fmt(x)+",\\ "+fmt(y)+"\\right)"; }
+
+/* ---- Resolución de sistemas 3x3 (regla de Cramer + clasificación) ---- */
+function det3(a1,b1,c1, a2,b2,c2, a3,b3,c3){
+  return a1*(b2*c3-b3*c2) - b1*(a2*c3-a3*c2) + c1*(a2*b3-a3*b2);
+}
+function solveSystem3(a1,b1,c1,d1, a2,b2,c2,d2, a3,b3,c3,d3){
+  var D  = det3(a1,b1,c1, a2,b2,c2, a3,b3,c3);
+  var Dx = det3(d1,b1,c1, d2,b2,c2, d3,b3,c3);
+  var Dy = det3(a1,d1,c1, a2,d2,c2, a3,d3,c3);
+  var Dz = det3(a1,b1,d1, a2,b2,d2, a3,b3,d3);
+  if(Math.abs(D) > 1e-9){
+    return {type:"unica", x:Dx/D, y:Dy/D, z:Dz/D, D:D, Dx:Dx, Dy:Dy, Dz:Dz};
+  }
+  if(Math.abs(Dx)<1e-6 && Math.abs(Dy)<1e-6 && Math.abs(Dz)<1e-6){
+    return {type:"infinitas", D:D, Dx:Dx, Dy:Dy, Dz:Dz};
+  }
+  return {type:"ninguna", D:D, Dx:Dx, Dy:Dy, Dz:Dz};
+}
+function lineTex3(a,b,c,d){
+  var parts = [];
+  if(a !== 0) parts.push({coef:a, v:"x"});
+  if(b !== 0) parts.push({coef:b, v:"y"});
+  if(c !== 0) parts.push({coef:c, v:"z"});
+  var s = "";
+  parts.forEach(function(p, i){
+    var sign = p.coef < 0 ? "-" : (i===0 ? "" : "+");
+    var abscoef = Math.abs(p.coef);
+    var coefStr = (abscoef === 1) ? "" : fmt(abscoef);
+    s += sign + coefStr + p.v;
+  });
+  if(s === "") s = "0";
+  s += "=" + fmt(d);
+  return s;
+}
+function systemTex3(a1,b1,c1,d1, a2,b2,c2,d2, a3,b3,c3,d3){
+  return "\\begin{cases}"+lineTex3(a1,b1,c1,d1)+"\\\\[2pt] "+lineTex3(a2,b2,c2,d2)+"\\\\[2pt] "+lineTex3(a3,b3,c3,d3)+"\\end{cases}";
+}
+function pointTex3(x,y,z){ return "\\left("+fmt(x)+",\\ "+fmt(y)+",\\ "+fmt(z)+"\\right)"; }
+
+/* ============================================================
+   PLANTILLA DE ECUACIÓN (componente de llenado de espacios)
+   Formato: a( )x (signo) b( )y = c( )
+   El signo entre los términos de x e y es un <select> independiente
+   de la magnitud de b, para reforzar la conciencia del signo.
+============================================================ */
+function eqTemplateHTML(idPrefix, opts){
+  opts = opts || {};
+  var aVal = (opts.a!==undefined && opts.a!==null) ? opts.a : "";
+  var bVal = (opts.bMag!==undefined && opts.bMag!==null) ? opts.bMag : "";
+  var cVal = (opts.c!==undefined && opts.c!==null) ? opts.c : "";
+  var signVal = opts.sign || "+";
+  var varX = opts.varX || "x";
+  var varY = opts.varY || "y";
+  var disabled = opts.disabled ? " disabled" : "";
+  return '<div class="eq-template" id="'+idPrefix+'_wrap">'+
+    '<input type="number" step="any" class="eqt-input" id="'+idPrefix+'_a" value="'+escapeHtml(String(aVal))+'" aria-label="coeficiente de '+varX+'"'+disabled+'>'+
+    '<span class="eqt-var">'+varX+'</span>'+
+    '<select class="eqt-sign" id="'+idPrefix+'_sign" aria-label="signo"'+disabled+'>'+
+      '<option value="+"'+(signVal==="+"?" selected":"")+'>+</option>'+
+      '<option value="-"'+(signVal==="-"?" selected":"")+'>&minus;</option>'+
+    '</select>'+
+    '<input type="number" step="any" min="0" class="eqt-input" id="'+idPrefix+'_b" value="'+escapeHtml(String(bVal))+'" aria-label="coeficiente de '+varY+'"'+disabled+'>'+
+    '<span class="eqt-var">'+varY+'</span>'+
+    '<span class="eqt-eq">=</span>'+
+    '<input type="number" step="any" class="eqt-input" id="'+idPrefix+'_c" value="'+escapeHtml(String(cVal))+'" aria-label="término independiente"'+disabled+'>'+
+  '</div>';
+}
+function readEqTemplate(idPrefix){
+  var elA = document.getElementById(idPrefix+"_a");
+  var elSign = document.getElementById(idPrefix+"_sign");
+  var elB = document.getElementById(idPrefix+"_b");
+  var elC = document.getElementById(idPrefix+"_c");
+  if(!elA || !elSign || !elB || !elC) return null;
+  var a = parseFloat(elA.value);
+  var sign = elSign.value;
+  var bMag = parseFloat(elB.value);
+  var c = parseFloat(elC.value);
+  var b = (sign === "-" ? -1 : 1) * (isNaN(bMag)?0:bMag);
+  return { a:a, b:b, c:c, bMag:bMag, sign:sign, complete: !isNaN(a) && !isNaN(bMag) && !isNaN(c) };
+}
+function bindEqTemplate(idPrefix, onChange){
+  ["_a","_sign","_b","_c"].forEach(function(suffix){
+    var elx = document.getElementById(idPrefix+suffix);
+    if(elx) elx.addEventListener("input", onChange);
+  });
+}
+function markEqTemplate(idPrefix, ok){
+  var wrap = document.getElementById(idPrefix+"_wrap");
+  if(!wrap) return;
+  wrap.classList.remove("is-correct","is-wrong");
+  wrap.classList.add(ok ? "is-correct" : "is-wrong");
+}
+function eqTemplateMatches(reading, target, tol){
+  if(!reading || !reading.complete) return false;
+  tol = tol===undefined ? 1e-6 : tol;
+  return Math.abs(reading.a-target.a)<tol && Math.abs(reading.b-target.b)<tol && Math.abs(reading.c-target.c)<tol;
+}
+
+/* ---- Plantilla de ecuación de 3 términos: a·x (±) b·y (±) c·z = d ---- */
+function eqTemplate3HTML(idPrefix, opts){
+  opts = opts || {};
+  var aVal = (opts.a!==undefined && opts.a!==null) ? opts.a : "";
+  var bVal = (opts.bMag!==undefined && opts.bMag!==null) ? opts.bMag : "";
+  var cVal = (opts.cMag!==undefined && opts.cMag!==null) ? opts.cMag : "";
+  var dVal = (opts.d!==undefined && opts.d!==null) ? opts.d : "";
+  var sign1 = opts.sign1 || "+";
+  var sign2 = opts.sign2 || "+";
+  var varX = opts.varX || "x", varY = opts.varY || "y", varZ = opts.varZ || "z";
+  var disabled = opts.disabled ? " disabled" : "";
+  return '<div class="eq-template eq-template3" id="'+idPrefix+'_wrap">'+
+    '<input type="number" step="any" class="eqt-input" id="'+idPrefix+'_a" value="'+escapeHtml(String(aVal))+'" aria-label="coeficiente de '+varX+'"'+disabled+'>'+
+    '<span class="eqt-var">'+varX+'</span>'+
+    '<select class="eqt-sign" id="'+idPrefix+'_sign1" aria-label="signo 1"'+disabled+'>'+
+      '<option value="+"'+(sign1==="+"?" selected":"")+'>+</option>'+
+      '<option value="-"'+(sign1==="-"?" selected":"")+'>&minus;</option>'+
+    '</select>'+
+    '<input type="number" step="any" min="0" class="eqt-input" id="'+idPrefix+'_b" value="'+escapeHtml(String(bVal))+'" aria-label="coeficiente de '+varY+'"'+disabled+'>'+
+    '<span class="eqt-var">'+varY+'</span>'+
+    '<select class="eqt-sign" id="'+idPrefix+'_sign2" aria-label="signo 2"'+disabled+'>'+
+      '<option value="+"'+(sign2==="+"?" selected":"")+'>+</option>'+
+      '<option value="-"'+(sign2==="-"?" selected":"")+'>&minus;</option>'+
+    '</select>'+
+    '<input type="number" step="any" min="0" class="eqt-input" id="'+idPrefix+'_c" value="'+escapeHtml(String(cVal))+'" aria-label="coeficiente de '+varZ+'"'+disabled+'>'+
+    '<span class="eqt-var">'+varZ+'</span>'+
+    '<span class="eqt-eq">=</span>'+
+    '<input type="number" step="any" class="eqt-input" id="'+idPrefix+'_d" value="'+escapeHtml(String(dVal))+'" aria-label="término independiente"'+disabled+'>'+
+  '</div>';
+}
+function readEqTemplate3(idPrefix){
+  var elA=document.getElementById(idPrefix+"_a"), elS1=document.getElementById(idPrefix+"_sign1"),
+      elB=document.getElementById(idPrefix+"_b"), elS2=document.getElementById(idPrefix+"_sign2"),
+      elC=document.getElementById(idPrefix+"_c"), elD=document.getElementById(idPrefix+"_d");
+  if(!elA||!elS1||!elB||!elS2||!elC||!elD) return null;
+  var a=parseFloat(elA.value), bMag=parseFloat(elB.value), cMag=parseFloat(elC.value), d=parseFloat(elD.value);
+  var sign1=elS1.value, sign2=elS2.value;
+  var b=(sign1==="-"?-1:1)*(isNaN(bMag)?0:bMag);
+  var c=(sign2==="-"?-1:1)*(isNaN(cMag)?0:cMag);
+  return {a:a,b:b,c:c,d:d,bMag:bMag,cMag:cMag,sign1:sign1,sign2:sign2,
+    complete: !isNaN(a)&&!isNaN(bMag)&&!isNaN(cMag)&&!isNaN(d)};
+}
+function bindEqTemplate3(idPrefix, onChange){
+  ["_a","_sign1","_b","_sign2","_c","_d"].forEach(function(suffix){
+    var elx = document.getElementById(idPrefix+suffix);
+    if(elx) elx.addEventListener("input", onChange);
+  });
+}
+function markEqTemplate3(idPrefix, ok){
+  var wrap = document.getElementById(idPrefix+"_wrap");
+  if(!wrap) return;
+  wrap.classList.remove("is-correct","is-wrong");
+  wrap.classList.add(ok ? "is-correct" : "is-wrong");
+}
+function eqTemplate3Matches(reading, target, tol){
+  if(!reading || !reading.complete) return false;
+  tol = tol===undefined ? 1e-6 : tol;
+  return Math.abs(reading.a-target.a)<tol && Math.abs(reading.b-target.b)<tol && Math.abs(reading.c-target.c)<tol && Math.abs(reading.d-target.d)<tol;
+}
+
+/* ============================================================
+   MOTOR DE GRÁFICA (canvas)
+============================================================ */
+function LinesGraph(canvas, opts){
+  opts = opts || {};
+  var ctx = canvas.getContext("2d");
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var xMin = opts.xMin!==undefined?opts.xMin:-8, xMax = opts.xMax!==undefined?opts.xMax:8;
+  var yMin = opts.yMin!==undefined?opts.yMin:-8, yMax = opts.yMax!==undefined?opts.yMax:8;
+  var cssW = 0, cssH = 0;
+  var current = {
+    a1: opts.a1!==undefined?opts.a1:1, b1: opts.b1!==undefined?opts.b1:1, c1: opts.c1!==undefined?opts.c1:0,
+    a2: opts.a2!==undefined?opts.a2:1, b2: opts.b2!==undefined?opts.b2:-1, c2: opts.c2!==undefined?opts.c2:0
+  };
+  var target = {a1:current.a1,b1:current.b1,c1:current.c1,a2:current.a2,b2:current.b2,c2:current.c2};
+  var showSolution = !!opts.showSolution;
+  var showPoints = opts.points || null; // array of {x,y,label,color}
+  var guessPoint = null; // {x,y} in data space, for click-to-guess
+  var onGuess = opts.onGuess || null;
+  var raf = null;
+
+  function resize(){
+    var rect = canvas.getBoundingClientRect();
+    cssW = rect.width || opts.width || 320;
+    cssH = opts.aspect ? cssW*opts.aspect : (opts.height || cssW*0.72);
+    canvas.width = Math.round(cssW*dpr);
+    canvas.height = Math.round(cssH*dpr);
+    canvas.style.height = cssH+"px";
+    draw();
+  }
+  function sx(x){ return (x - xMin) / (xMax - xMin) * cssW; }
+  function sy(y){ return cssH - (y - yMin) / (yMax - yMin) * cssH; }
+  function css(varName){
+    return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+  }
+
+  function draw(){
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,cssW,cssH);
+    var lineColor = css('--line'), ink = css('--ink'), inkFaint = css('--ink-faint');
+    var accent = css('--accent'), accent2 = css('--accent-2'), gold = css('--gold'), danger = css('--danger');
+    // grid
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = lineColor;
+    ctx.beginPath();
+    for(var gx = Math.ceil(xMin); gx <= xMax; gx++){
+      ctx.moveTo(sx(gx)+.5, 0); ctx.lineTo(sx(gx)+.5, cssH);
+    }
+    for(var gy = Math.ceil(yMin); gy <= yMax; gy++){
+      ctx.moveTo(0, sy(gy)+.5); ctx.lineTo(cssW, sy(gy)+.5);
+    }
+    ctx.stroke();
+    // axes
+    ctx.strokeStyle = inkFaint;
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(0, sy(0)); ctx.lineTo(cssW, sy(0));
+    ctx.moveTo(sx(0), 0); ctx.lineTo(sx(0), cssH);
+    ctx.stroke();
+    ctx.fillStyle = inkFaint;
+    ctx.font = "11px "+ (css('--font-mono')||'monospace');
+    for(var lx = Math.ceil(xMin); lx <= xMax; lx++){
+      if(lx===0) continue;
+      var lxPos = sx(lx);
+      if(lxPos < 8 || lxPos > cssW-8) continue;
+      var labelY = sy(0)+13;
+      labelY = Math.max(12, Math.min(cssH-4, labelY));
+      ctx.fillText(String(lx), lxPos-3, labelY);
+    }
+    for(var ly = Math.ceil(yMin); ly <= yMax; ly++){
+      if(ly===0) continue;
+      var lyPos = sy(ly);
+      if(lyPos < 10 || lyPos > cssH-6) continue;
+      var labelX = sx(0)+4;
+      labelX = Math.max(2, Math.min(cssW-16, labelX));
+      ctx.fillText(String(ly), labelX, lyPos+3);
+    }
+
+    var cur = current;
+
+    function drawLine(a,b,c,color){
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      if(Math.abs(b) > 1e-9){
+        var x0 = xMin, y0 = (c - a*x0)/b;
+        var x1 = xMax, y1 = (c - a*x1)/b;
+        ctx.moveTo(sx(x0), sy(y0));
+        ctx.lineTo(sx(x1), sy(y1));
+      } else if(Math.abs(a) > 1e-9){
+        var xv = c/a;
+        ctx.moveTo(sx(xv), sy(yMin));
+        ctx.lineTo(sx(xv), sy(yMax));
+      }
+      ctx.stroke();
+    }
+    drawLine(cur.a1,cur.b1,cur.c1, accent);
+    drawLine(cur.a2,cur.b2,cur.c2, accent2);
+
+    // extra points (tabla, candidatos, etc.)
+    if(showPoints){
+      showPoints.forEach(function(p){
+        ctx.beginPath();
+        ctx.arc(sx(p.x), sy(p.y), 5, 0, Math.PI*2);
+        ctx.fillStyle = p.color || ink;
+        ctx.fill();
+        ctx.strokeStyle = css('--surface'); ctx.lineWidth=2; ctx.stroke();
+      });
+    }
+
+    // punto solución (intersección)
+    if(showSolution){
+      var sol = solveSystem(cur.a1,cur.b1,cur.c1,cur.a2,cur.b2,cur.c2);
+      if(sol.type === "unica"){
+        ctx.beginPath();
+        ctx.arc(sx(sol.x), sy(sol.y), 7, 0, Math.PI*2);
+        ctx.fillStyle = gold;
+        ctx.fill();
+        ctx.strokeStyle = css('--surface'); ctx.lineWidth=2.5; ctx.stroke();
+      }
+    }
+
+    // guess marker
+    if(guessPoint){
+      ctx.beginPath();
+      ctx.arc(sx(guessPoint.x), sy(guessPoint.y), 6, 0, Math.PI*2);
+      ctx.strokeStyle = danger; ctx.lineWidth = 2.5; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(sx(guessPoint.x)-8, sy(guessPoint.y)); ctx.lineTo(sx(guessPoint.x)+8, sy(guessPoint.y)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(sx(guessPoint.x), sy(guessPoint.y)-8); ctx.lineTo(sx(guessPoint.x), sy(guessPoint.y)+8); ctx.stroke();
+    }
+  }
+
+  function animateTo(a1,b1,c1,a2,b2,c2){
+    target = {a1:a1,b1:b1,c1:c1,a2:a2,b2:b2,c2:c2};
+    var start = {a1:current.a1,b1:current.b1,c1:current.c1,a2:current.a2,b2:current.b2,c2:current.c2};
+    var t0 = performance.now();
+    var dur = 260;
+    if(raf) cancelAnimationFrame(raf);
+    function step(t){
+      var p = Math.min(1, (t-t0)/dur);
+      var e = 1 - Math.pow(1-p, 3);
+      current = {
+        a1: start.a1 + (target.a1-start.a1)*e, b1: start.b1 + (target.b1-start.b1)*e, c1: start.c1 + (target.c1-start.c1)*e,
+        a2: start.a2 + (target.a2-start.a2)*e, b2: start.b2 + (target.b2-start.b2)*e, c2: start.c2 + (target.c2-start.c2)*e
+      };
+      draw();
+      if(p<1){ raf = requestAnimationFrame(step); }
+    }
+    raf = requestAnimationFrame(step);
+  }
+
+  canvas.addEventListener("click", function(ev){
+    if(!onGuess) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = ev.clientX - rect.left, my = ev.clientY - rect.top;
+    var dx = xMin + (mx/cssW)*(xMax-xMin);
+    var dy = yMin + ((cssH-my)/cssH)*(yMax-yMin);
+    guessPoint = {x:dx, y:dy};
+    draw();
+    onGuess(dx,dy);
+  });
+
+  window.addEventListener("resize", resize);
+  resize();
+
+  return {
+    set: function(a1,b1,c1,a2,b2,c2,animate){
+      if(animate===false){ current={a1:a1,b1:b1,c1:c1,a2:a2,b2:b2,c2:c2}; target=current; draw(); }
+      else animateTo(a1,b1,c1,a2,b2,c2);
+    },
+    setShowSolution: function(v){ showSolution = v; draw(); },
+    setPoints: function(pts){ showPoints = pts; draw(); },
+    clearGuess: function(){ guessPoint = null; draw(); },
+    redraw: draw,
+    getCurrent: function(){ return current; }
+  };
+}
+
+/* ============================================================
+   TOPBAR / DOTS
+============================================================ */
+function renderTopbar(){
+  var track = document.getElementById("dotTrack");
+  track.innerHTML = "";
+  PHASES.forEach(function(ph){
+    var d = document.createElement("span");
+    var cls = "dot";
+    if(phaseDone(ph.key, MISSION_TOTALS[ph.key])) cls += " done";
+    if(route === "phase"+ph.id) cls += " current";
+    d.className = cls;
+    d.title = "Fase "+ph.id+": "+ph.label;
+    track.appendChild(d);
+  });
+  var tag = document.getElementById("studentTag");
+  if(student && student.name){
+    tag.hidden = false;
+    tag.innerHTML = "Hola, "+escapeHtml(student.name)+" <button type=\"button\" id=\"editStudentBtn\">editar</button>";
+    document.getElementById("editStudentBtn").addEventListener("click", function(){ goTo("register"); });
+  } else {
+    tag.hidden = true;
+  }
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; });
+}
+document.getElementById("btnMap").addEventListener("click", function(){ goTo(student ? "map" : "register"); });
+
+/* ============================================================
+   RENDER RAIZ
+============================================================ */
+function render(){
+  var app = document.getElementById("app");
+  if(!student && route !== "register"){ route = "register"; }
+  renderTopbar();
+  if(route === "register"){ app.innerHTML = ""; renderRegister(app); return; }
+  if(route === "map"){ app.innerHTML = ""; renderMap(app); return; }
+  if(route === "summary"){ app.innerHTML = ""; renderSummary(app); return; }
+  var m = /^phase(\d)$/.exec(route);
+  if(m){
+    var n = m[1];
+    app.innerHTML = "";
+    var fn = PHASE_RENDERERS[n];
+    if(typeof fn === "function") fn(app);
+    else app.innerHTML = "<p>Fase en construcción.</p>";
+  }
+}
+
+/* ============================================================
+   REGISTRO DEL ESTUDIANTE
+============================================================ */
+function renderRegister(app){
+  var wrap = el("div","register-wrap");
+  var isEdit = !!student;
+  wrap.innerHTML =
+    (isEdit
+      ? '<div class="register-icon"><svg viewBox="0 0 32 32"><path d="M2 12l14-6 14 6-14 6z"/><path d="M9 15.5v6c0 1.9 3.1 3.5 7 3.5s7-1.6 7-3.5v-6"/><path d="M28 12v8"/></svg></div>'
+      : mascotBadge("welcome", 74, "mascot-welcome")) +
+    '<span class="eyebrow" style="color:var(--accent); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.1em; font-size:.88rem; font-weight:600;">Pensamiento Matemático</span>'+
+    '<h1>'+(isEdit ? "Editar tus datos" : "Antes de empezar")+'</h1>'+
+    '<p style="color:var(--ink-soft);">'+(isEdit
+      ? "Regístrate para que tu progreso quede a tu nombre. Al terminar las siete fases podrás descargar tu constancia."
+      : "¡Hola! Soy <strong>Sabio</strong>, tu búho guía en esta misión. Regístrate para que tu progreso quede a tu nombre — al terminar las siete fases podrás descargar tu constancia.")+'</p>'+
+    '<label for="reg_name">Nombre completo</label>'+
+    '<input type="text" id="reg_name" placeholder="Ej. María Fernanda Quispe" autocomplete="name" value="'+(student? escapeHtml(student.name):'')+'">'+
+    '<label for="reg_carrera">Carrera</label>'+
+    '<select id="reg_carrera">'+
+      '<option value="Derecho"'+(student&&student.carrera==="Derecho"?" selected":"")+'>Derecho</option>'+
+      '<option value="Psicología"'+(student&&student.carrera==="Psicología"?" selected":"")+'>Psicología</option>'+
+      '<option value="Otra"'+(student&&student.carrera==="Otra"?" selected":"")+'>Otra carrera</option>'+
+    '</select>'+
+    '<div style="margin-top:20px;"><button class="btn primary" id="reg_submit" style="width:100%;">'+(isEdit?"Guardar cambios":"Comenzar la misión →")+'</button></div>'+
+    '<p class="progress-note" id="reg_error" style="color:var(--danger); display:none; margin-top:10px;"></p>';
+  app.appendChild(wrap);
+  document.getElementById("reg_submit").addEventListener("click", function(){
+    var name = document.getElementById("reg_name").value.trim();
+    var carrera = document.getElementById("reg_carrera").value;
+    var errEl = document.getElementById("reg_error");
+    if(!name){
+      errEl.style.display = "block";
+      errEl.textContent = "Por favor escribe tu nombre para continuar.";
+      return;
+    }
+    student = {name:name, carrera:carrera};
+    saveStudent(student);
+    if(sheetSyncConfigured()){
+      var btn = document.getElementById("reg_submit");
+      btn.disabled = true;
+      btn.textContent = "Cargando tu progreso...";
+    }
+    syncLoadFromSheet(name, carrera, function(){
+      goTo("map");
+    });
+  });
+}
+
+/* ============================================================
+   MAPA DE MISIÓN
+============================================================ */
+function renderMap(app){
+  var hero = document.createElement("div");
+  hero.className = "hero";
+  hero.innerHTML =
+    '<div class="hero-text">' +
+    '<span class="eyebrow">Misión · Pensamiento Matemático</span>' +
+    '<h1>Sistemas 3D: Domina las Tres Incógnitas</h1>' +
+    '<p class="lead">Siete fases para dar el salto de dos a tres incógnitas: clasifica sistemas 3×3, verifica ternas solución, domina sustitución, reducción y la regla de Cramer, construye e interpreta casos reales, investiga errores ajenos, arma tu propio sistema desde cero y cierra la misión con casos integrales completos — incluido un caso final "jefe" para poner a prueba todo lo aprendido.</p>' +
+    '</div>' +
+    '<div class="hero-art"><svg viewBox="0 0 120 120"><path d="M4 100h112M12 8v104" opacity=".45"/><path d="M14 95C14 45 60 20 60 20s46 25 46 75" stroke-width="2.4"/><circle cx="60" cy="24" r="3.4" fill="currentColor" stroke="none"/></svg></div>';
+  app.appendChild(hero);
+
+  renderXPPanel(app);
+
+  if(allPhasesDone()){
+    var banner = el("div","mission-card solved");
+    banner.style.marginBottom = "18px";
+    banner.innerHTML = '<h4>'+mascotBadge("correct", 28, "mascot-inline")+'🎓 Misión completa — tu constancia te espera</h4>'+
+      '<p>Ya resolviste las siete fases. Ve tu resumen y descarga tu constancia con tu nombre.</p>'+
+      '<button class="btn primary sm" id="map_summary">Ver resumen y constancia →</button>';
+    app.appendChild(banner);
+    banner.querySelector("#map_summary").addEventListener("click", function(){ goTo("summary"); });
+  }
+
+  var phaseInfo = PHASES.map(function(ph, i){
+    var total = MISSION_TOTALS[ph.key];
+    var done = phaseCompleteCount(ph.key, total);
+    var complete = done >= total;
+    return {ph:ph, total:total, done:done, complete:complete};
+  });
+  phaseInfo.forEach(function(info, i){
+    var prevDone = i===0 ? true : phaseInfo[i-1].complete;
+    info.locked = !prevDone && !info.complete && info.done===0;
+  });
+
+  var curvyOuter = document.createElement("div");
+  curvyOuter.className = "map-curvy";
+  app.appendChild(curvyOuter);
+
+  var wrap = document.createElement("div");
+  wrap.className = "map-wrap";
+  var W = 1000, H = 360;
+  var nodesXY = [];
+  var n = PHASES.length;
+  for(var i=0;i<n;i++){
+    var t = i/(n-1); // 0..1
+    var x = 70 + t*(W-140);
+    var xu = (t-0.5)*2; // -1..1
+    var y = H-70 - (1-xu*xu) * (H-160);
+    nodesXY.push({x:x,y:y});
+  }
+  var pathD = "M "+nodesXY[0].x+" "+nodesXY[0].y+" ";
+  for(i=1;i<n;i++){
+    var prev = nodesXY[i-1], cur = nodesXY[i];
+    var mx = (prev.x+cur.x)/2;
+    pathD += "C "+mx+" "+prev.y+", "+mx+" "+cur.y+", "+cur.x+" "+cur.y+" ";
+  }
+  var CHECK_ICON = '<svg viewBox="0 0 32 32"><path d="M6 17l7 7 13-15"/></svg>';
+  var LOCK_ICON = '<svg viewBox="0 0 32 32"><rect x="8" y="14" width="16" height="12" rx="2"/><path d="M11 14v-3a5 5 0 0 1 10 0v3"/></svg>';
+  function nodeIconHTML(ph, complete, locked){
+    if(complete) return CHECK_ICON;
+    if(locked) return LOCK_ICON;
+    return PHASE_ICONS[ph.id];
+  }
+  var inner = el("div","map-inner");
+  inner.innerHTML = '<svg class="map-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' +
+    '<defs><linearGradient id="pathGrad" x1="0" y1="0" x2="1" y2="0">' +
+    '<stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--accent-2)"/>' +
+    '</linearGradient></defs>' +
+    '<path d="'+pathD+'" fill="none" stroke="url(#pathGrad)" stroke-width="4" stroke-dasharray="1 14" stroke-linecap="round" opacity=".55"/>' +
+    '</svg>';
+  wrap.appendChild(inner);
+
+  phaseInfo.forEach(function(info, i){
+    var ph=info.ph, done=info.done, total=info.total, complete=info.complete, locked=info.locked;
+    var pct = Math.round(done/total*100);
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "node-btn" + (complete?" done":"") + (locked?" locked":"");
+    btn.style.left = (nodesXY[i].x/W*100)+"%";
+    btn.style.top = (nodesXY[i].y/H*100)+"%";
+    btn.innerHTML = '<span class="node-circle">'+nodeIconHTML(ph,complete,locked)+'<span class="node-num">'+ph.id+'</span></span>' +
+      '<div class="node-label">'+ph.label+'</div>' +
+      '<div class="node-sub">'+ph.sub+' · '+done+'/'+total+'</div>' +
+      '<div class="node-mini-bar"><span style="width:'+pct+'%"></span></div>';
+    btn.disabled = locked;
+    btn.addEventListener("click", function(){ goTo("phase"+ph.id); });
+    inner.appendChild(btn);
+  });
+  curvyOuter.appendChild(wrap);
+
+  var note = document.createElement("p");
+  note.className = "progress-note";
+  note.style.marginTop = "14px";
+  note.textContent = "Tu progreso se guarda en este navegador. Completa una fase para desbloquear la siguiente (o explora libremente).";
+  curvyOuter.appendChild(note);
+
+  // --- Versión en lista para pantallas angostas ---
+  var list = el("div","map-list");
+  phaseInfo.forEach(function(info){
+    var ph=info.ph, done=info.done, total=info.total, complete=info.complete, locked=info.locked;
+    var pct = Math.round(done/total*100);
+    var tile = document.createElement("button");
+    tile.type = "button";
+    tile.className = "phase-tile" + (complete?" done":"") + (locked?" locked":"");
+    tile.disabled = locked;
+    tile.innerHTML =
+      '<span class="node-circle" style="'+(complete?'background:linear-gradient(155deg, var(--ok-soft), var(--surface));border-color:var(--ok);color:var(--ok);':'')+'">'+nodeIconHTML(ph,complete,locked)+'<span class="node-num">'+ph.id+'</span></span>'+
+      '<span class="tile-text"><div class="node-label">'+ph.label+'</div><div class="node-sub">'+ph.sub+' · '+done+'/'+total+'</div><div class="node-mini-bar"><span style="width:'+pct+'%"></span></div></span>'+
+      '<span class="chev">'+(locked?"":"→")+'</span>';
+    tile.addEventListener("click", function(){ goTo("phase"+ph.id); });
+    list.appendChild(tile);
+  });
+  app.appendChild(list);
+
+  var note2 = document.createElement("p");
+  note2.className = "progress-note";
+  note2.style.marginTop = "14px";
+  note2.textContent = "Tu progreso se guarda en este navegador. Completa una fase para desbloquear la siguiente (o explora libremente).";
+  list.appendChild(note2);
+}
+
+/* ============================================================
+   UTILIDADES DE UI COMPARTIDAS
+============================================================ */
+function el(tag, cls, html){
+  var e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(html!==undefined) e.innerHTML = html;
+  return e;
+}
+function phaseHeader(app, num, title, subtitle){
+  var head = el("div","phase-head");
+  head.innerHTML = '<div class="phase-head-row">' +
+    '<span class="phase-head-icon">'+(PHASE_ICONS[num]||"")+'</span>' +
+    '<div><span class="eyebrow" style="color:var(--accent)">Fase '+num+'</span><h2>'+title+'</h2></div>' +
+    '</div>' +
+    '<p style="color:var(--ink-soft)">'+subtitle+'</p>';
+  app.appendChild(head);
+}
+function feedbackBox(parent){
+  var f = el("div","feedback");
+  parent.appendChild(f);
+  return {
+    ok: function(msg){
+      f.className = "feedback show ok";
+      if(typeof msg === "string" && msg.indexOf("💡") === 0){
+        f.innerHTML = '<span class="mascot-hint-row">'+mascotBadge("hint")+'<span>'+msg+'</span></span>';
+      } else {
+        f.innerHTML = msg;
+      }
+    },
+    bad: function(msg){ f.className = "feedback show bad"; f.innerHTML = msg; },
+    clear: function(){ f.className = "feedback"; f.innerHTML=""; }
+  };
+}
+
+/* ============================================================
+   FASE 1 — CLASIFICA
+============================================================ */
+var CLASSIFY1 = [
+  {key:"c1", tag:"Reto 1 de 7", title:"Sistema del ejemplo guía",
+   sys:{a1:1,b1:-2,c1:1,d1:1, a2:0,b2:1,c2:1,d2:2, a3:0,b3:3,c3:-2,d3:1},
+   explain:"Δ ≠ 0, así que el sistema tiene una única terna solución: (2, 1, 1)."},
+  {key:"c2", tag:"Reto 2 de 7", title:"Caso Hotel (distribución de habitaciones)",
+   sys:{a1:1,b1:1,c1:1,d1:200, a2:16,b2:50,c2:80,d2:7500, a3:1,b3:-1,c3:-1,d3:0},
+   explain:"Δ ≠ 0: el hotel tiene una única combinación posible de habitaciones simples, dobles y triples: (100, 70, 30)."},
+  {key:"c3", tag:"Reto 3 de 7", title:"Ejercicio 9 de la guía",
+   sys:{a1:1,b1:1,c1:-1,d1:10, a2:4,b2:2,c2:-2,d2:-2, a3:3,b3:-1,c3:1,d3:11},
+   explain:"Δ = 0, pero Δy y Δz no son cero: las tres ecuaciones resultan incompatibles entre sí. El sistema no tiene solución."},
+  {key:"c4", tag:"Reto 4 de 7", title:"Ejercicio 10 de la guía (sistema homogéneo)",
+   sys:{a1:1,b1:2,c1:-3,d1:0, a2:1,b2:-1,c2:2,d2:0, a3:2,b3:1,c3:-1,d3:0},
+   explain:"Δ = 0 y también Δx = Δy = Δz = 0: hay infinitas ternas solución (por ejemplo, todas las de la forma x=−z/3, y=5z/3)."},
+  {key:"c5", tag:"Reto 5 de 7", title:"Caso Nutrición (dosis de pastillas)",
+   sys:{a1:2,b1:3,c1:1,d1:17, a2:3,b2:1,c2:3,d2:21, a3:8,b3:5,c3:7,d3:59},
+   explain:"Δ = 0 y Δx = Δy = Δz = 0: el laboratorio tiene infinitas combinaciones de dosis que cumplen estas tres condiciones."},
+  {key:"c6", tag:"Reto 6 de 7", title:"Caso Jugos (mezcla de sabores)",
+   sys:{a1:8,b1:6,c1:2,d1:820, a2:3,b2:5,c2:8,d2:690, a3:3,b3:3,c3:4,d3:450},
+   explain:"Δ ≠ 0: hay una única combinación de litros de cada jugo: (50, 60, 30)."},
+  {key:"c7", tag:"Reto 7 de 7", title:"Caso Café (mezcla de granos)",
+   sys:{a1:1,b1:1,c1:1,d1:100, a2:2.2,b2:2.3,c2:2.6,d2:240, a3:0,b3:1,c3:-1,d3:0},
+   explain:"Δ ≠ 0: hay una única mezcla posible de los tres tipos de café: (20, 40, 40) kg."}
+];
+
+function renderPhase1(app){
+  phaseHeader(app, 1, "Clasifica sistemas de tres incógnitas",
+    "Antes de resolver, aprende a reconocer qué tipo de sistema tienes enfrente: compatible determinado, incompatible o compatible indeterminado.");
+
+  var intro = el("div","panel");
+  intro.innerHTML =
+    '<h3>Tres planos, tres posibilidades</h3>'+
+    '<p>Cada ecuación con tres incógnitas representa un <strong>plano</strong> en el espacio. Al juntar tres ecuaciones, los tres planos pueden comportarse de tres maneras:</p>'+
+    '<ul style="margin:10px 0 14px 22px; color:var(--ink-soft); font-size:.97rem;">'+
+    '<li style="margin-bottom:4px;"><strong>Compatible determinado:</strong> los tres planos se cortan en un único punto (x, y, z).</li>'+
+    '<li style="margin-bottom:4px;"><strong>Incompatible:</strong> los planos no tienen ningún punto en común (por ejemplo, dos de ellos son paralelos).</li>'+
+    '<li><strong>Compatible indeterminado:</strong> los planos comparten toda una recta (o coinciden): hay infinitas soluciones.</li>'+
+    '</ul>'+
+    formulaCallout("\\Delta=\\begin{vmatrix}a_1&b_1&c_1\\\\a_2&b_2&c_2\\\\a_3&b_3&c_3\\end{vmatrix}","Criterio de los determinantes (regla de Cramer)")+
+    '<p style="margin-top:10px;">En la Fase 3 aprenderás a calcular Δ, Δx, Δy y Δz paso a paso con la regla de Cramer. Por ahora te los damos ya calculados: úsalos para clasificar cada sistema.</p>'+
+    '<div class="reveal-box">💡 Si <strong>Δ ≠ 0</strong> → compatible determinado. Si <strong>Δ = 0</strong> y alguno de Δx, Δy, Δz <strong>no</strong> es cero → incompatible. Si <strong>Δ = Δx = Δy = Δz = 0</strong> → compatible indeterminado.</div>';
+  app.appendChild(intro);
+
+  var missionsWrap = el("div"); missionsWrap.style.marginTop="20px"; app.appendChild(missionsWrap);
+
+  function renderMissions(){
+    missionsWrap.innerHTML = "";
+    CLASSIFY1.forEach(function(m, idx){
+      var solved = isSolved("clasifica", m.key);
+      var isActive = !solved && CLASSIFY1.slice(0, idx).every(function(mm){ return isSolved("clasifica", mm.key); });
+      var s = m.sys;
+      var res = solveSystem3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3);
+      var card = el("div","mission-card" + (solved?" solved":"") + (isActive?" active":""));
+      if(solved){
+        card.innerHTML = '<h4>✓ '+m.tag+' — '+m.title+'</h4>';
+        missionsWrap.appendChild(card);
+        return;
+      }
+      if(!isActive){
+        card.innerHTML = '<h4 style="opacity:.5;">🔒 '+m.tag+' — '+m.title+'</h4>';
+        missionsWrap.appendChild(card);
+        return;
+      }
+      card.innerHTML =
+        '<h4>🎯 '+m.tag+' — '+m.title+'</h4>'+
+        '<p>'+K(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+'</p>'+
+        '<p style="font-family:var(--font-mono); font-size:.92rem; color:var(--ink-soft);">Δ = '+fmt(res.D,4)+' &nbsp; Δx = '+fmt(res.Dx,4)+' &nbsp; Δy = '+fmt(res.Dy,4)+' &nbsp; Δz = '+fmt(res.Dz,4)+'</p>';
+      var grid = el("div","choice-grid");
+      var opts = [
+        {label:"Compatible determinado (única solución)", type:"unica"},
+        {label:"Incompatible (sin solución)", type:"ninguna"},
+        {label:"Compatible indeterminado (infinitas soluciones)", type:"infinitas"}
+      ];
+      var fb = null;
+      opts.forEach(function(o){
+        var btn = el("button","choice"); btn.type="button"; btn.textContent=o.label;
+        btn.addEventListener("click", function(){
+          Array.from(grid.children).forEach(function(x){ x.disabled=true; });
+          if(o.type === res.type){
+            btn.classList.add("correct");
+            if(!fb) fb = feedbackBox(card);
+            fb.ok("✅ Correcto. "+m.explain);
+            markSolved("clasifica", m.key);
+            setTimeout(renderMissions, 1100);
+          } else {
+            btn.classList.add("incorrect");
+            if(!fb) fb = feedbackBox(card);
+            fb.bad("Todavía no. Revisa Δ, Δx, Δy y Δz con el criterio de arriba.");
+            setTimeout(function(){
+              Array.from(grid.children).forEach(function(x){ x.disabled=false; x.classList.remove("incorrect"); });
+            }, 1000);
+          }
+        });
+        grid.appendChild(btn);
+      });
+      card.appendChild(grid);
+      missionsWrap.appendChild(card);
+    });
+
+    if(CLASSIFY1.every(function(m){ return isSolved("clasifica", m.key); })){
+      var done = el("div","mission-card solved");
+      done.innerHTML = '<h4>'+mascotBadge("correct", 28, "mascot-inline")+'🏁 Fase 1 completa</h4><p>Ya distingues los tres tipos de sistemas de tres incógnitas usando el criterio de los determinantes. Cuando quieras, continúa a la Fase 2 desde el mapa de misión.</p>'+
+        '<button class="btn primary sm" id="p1_next">Ir a Fase 2 →</button>';
+      missionsWrap.appendChild(done);
+      document.getElementById("p1_next").addEventListener("click", function(){ goTo("phase2"); });
+    }
+  }
+  renderMissions();
+}
+
+/* ============================================================
+   FASE 2 — VERIFICA
+============================================================ */
+function renderPhase2(app){
+  phaseHeader(app, 2, "Verifica soluciones",
+    "Antes de resolver, aprende a comprobar. Una terna (x, y, z) solo es solución del sistema si cumple LAS TRES ecuaciones a la vez.");
+
+  var sysA = {a1:1,b1:-2,c1:1,d1:1, a2:0,b2:1,c2:1,d2:2, a3:0,b3:3,c3:-2,d3:1}; // PPT: (2,1,1)
+  var candA1 = {x:2,y:1,z:1}; // cumple las tres
+  var candA2 = {x:1,y:1,z:1}; // falla la primera
+
+  var sysC = {a1:2,b1:0,c1:2,d1:6, a2:1,b2:5,c2:0,d2:11, a3:100,b3:120,c3:60,d3:460}; // Dieta Fernanda
+  var candidatesC = [ {x:1,y:2,z:2,correct:true}, {x:3,y:1.5,z:0,correct:false} ];
+
+  var sysD = {a1:8,b1:6,c1:2,d1:820, a2:3,b2:5,c2:8,d2:690, a3:3,b3:3,c3:4,d3:450}; // Jugos
+  var candidatesD = [ {x:50,y:60,z:30,correct:true}, {x:60,y:50,z:30,correct:false}, {x:40,y:70,z:30,correct:false} ];
+
+  var left = el("div","panel"); app.appendChild(left);
+  left.innerHTML =
+    '<h3>Paso 1 · ¿Es solución?</h3>'+
+    '<div class="tex-block" style="margin-bottom:10px;">'+KB(systemTex3(sysA.a1,sysA.b1,sysA.c1,sysA.d1, sysA.a2,sysA.b2,sysA.c2,sysA.d2, sysA.a3,sysA.b3,sysA.c3,sysA.d3))+'</div>'+
+    '<p>¿Es '+K(pointTex3(candA1.x,candA1.y,candA1.z))+' solución de este sistema?</p>'+
+    '<div style="display:flex; gap:8px; margin-top:8px;" id="p2_bools"></div>';
+
+  var missionsWrap = el("div"); missionsWrap.style.marginTop="20px"; app.appendChild(missionsWrap);
+
+  var m1solved = isSolved("verifica","m1_bool_si");
+  var m2solved = isSolved("verifica","m2_bool_no");
+  var m3solved = isSolved("verifica","m3_candidato");
+  var m4solved = isSolved("verifica","m4_candidato3");
+
+  var boolsWrap = left.querySelector("#p2_bools");
+  var fb1 = feedbackBox(left);
+  function renderBools(){
+    boolsWrap.innerHTML = "";
+    if(m1solved){ boolsWrap.remove(); return; }
+    ["Sí, es solución","No, no es solución"].forEach(function(txt, i){
+      var b = el("button","btn ghost sm"); b.type="button"; b.textContent = txt;
+      b.addEventListener("click", function(){
+        var isSi = (i===0);
+        if(isSi){
+          fb1.ok("✅ Correcto. Sustituyendo "+K("x{=}2,\\,y{=}1,\\,z{=}1")+": "+K("2-2(1)+1=1")+" ✓, "+K("1+1=2")+" ✓ y "+K("3(1)-2(1)=1")+" ✓. Las tres ecuaciones se cumplen: sí es solución.");
+          markSolved("verifica","m1_bool_si"); m1solved=true;
+          setTimeout(renderMissions, 1200);
+        } else {
+          fb1.bad("Sustituye "+K("x=2,\\ y=1,\\ z=1")+" en las tres ecuaciones. ¿Se cumplen todas?");
+        }
+      });
+      boolsWrap.appendChild(b);
+    });
+  }
+
+  function renderMissions(){
+    missionsWrap.innerHTML = "";
+    renderBools();
+
+    if(!m1solved) return;
+
+    var c2 = el("div","mission-card"+(m2solved?" solved":" active"));
+    if(m2solved){
+      c2.innerHTML = '<h4>✓ Paso 2 — No, '+K(pointTex3(1,1,1))+' no es solución</h4>';
+      missionsWrap.appendChild(c2);
+    } else {
+      c2.innerHTML = '<h4>🎯 Paso 2 — ¿Y esta otra terna?</h4>'+
+        '<div class="tex-block" style="margin:8px 0;">'+KB(systemTex3(sysA.a1,sysA.b1,sysA.c1,sysA.d1, sysA.a2,sysA.b2,sysA.c2,sysA.d2, sysA.a3,sysA.b3,sysA.c3,sysA.d3))+'</div>'+
+        '<p>Mismo sistema. ¿Es '+K(pointTex3(candA2.x,candA2.y,candA2.z))+' también solución?</p>'+
+        '<div style="display:flex; gap:8px; margin-top:8px;" id="p2b_bools"></div>';
+      missionsWrap.appendChild(c2);
+      var fb2 = feedbackBox(c2);
+      var boolsWrap2 = c2.querySelector("#p2b_bools");
+      ["Sí, es solución","No, no es solución"].forEach(function(txt, i){
+        var b = el("button","btn ghost sm"); b.type="button"; b.textContent = txt;
+        b.addEventListener("click", function(){
+          var isNo = (i===1);
+          if(isNo){
+            fb2.ok("✅ Correcto. Ya en la primera ecuación falla: "+K("(1)-2(1)+(1)=0\\ne 1")+". Basta con que una ecuación falle para descartar la terna. La solución real de este sistema es "+K(pointTex3(2,1,1))+".");
+            markSolved("verifica","m2_bool_no"); m2solved=true;
+            setTimeout(renderMissions, 1200);
+          } else {
+            fb2.bad("Sustituye con cuidado en la primera ecuación: "+K("x-2y+z=1")+".");
+          }
+        });
+        boolsWrap2.appendChild(b);
+      });
+      return;
+    }
+
+    if(!m2solved) return;
+
+    var c3 = el("div","mission-card"+(m3solved?" solved":" active"));
+    if(m3solved){
+      c3.innerHTML = '<h4>✓ Paso 3 — La terna correcta es '+K(pointTex3(1,2,2))+'</h4>';
+      missionsWrap.appendChild(c3);
+    } else {
+      c3.innerHTML = '<h4>🎯 Paso 3 — Caso Dieta de Fernanda: elige la terna correcta</h4>'+
+        '<div class="tex-block" style="margin:8px 0;">'+KB(systemTex3(sysC.a1,sysC.b1,sysC.c1,sysC.d1, sysC.a2,sysC.b2,sysC.c2,sysC.d2, sysC.a3,sysC.b3,sysC.c3,sysC.d3))+'</div>'+
+        '<p>Una fuente asegura que la solución es una de estas dos ternas. Verifica ambas y elige la que sí cumple <strong>las tres</strong> ecuaciones.</p>'+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;" id="p2_cands3"></div>';
+      missionsWrap.appendChild(c3);
+      var fb3 = feedbackBox(c3);
+      var candsWrap3 = c3.querySelector("#p2_cands3");
+      candidatesC.forEach(function(cand){
+        var b = el("button","btn ghost sm"); b.type="button"; b.textContent = "("+fmt(cand.x)+", "+fmt(cand.y)+", "+fmt(cand.z)+")";
+        b.addEventListener("click", function(){
+          if(cand.correct){
+            fb3.ok("✅ Correcto. "+K(pointTex3(cand.x,cand.y,cand.z))+" cumple las tres ecuaciones. La otra terna aparece en un cálculo apurado, pero al verificarla falla — por eso siempre conviene comprobar, aunque el dato venga de una fuente.");
+            markSolved("verifica","m3_candidato"); m3solved=true;
+            setTimeout(renderMissions, 1200);
+          } else {
+            fb3.bad("Sustituye esa terna en las tres ecuaciones — vas a encontrar que al menos una no se cumple.");
+          }
+        });
+        candsWrap3.appendChild(b);
+      });
+      return;
+    }
+
+    if(!m3solved) return;
+
+    var c4 = el("div","mission-card"+(m4solved?" solved":" active"));
+    if(m4solved){
+      c4.innerHTML = '<h4>✓ Paso 4 — La terna correcta es '+K(pointTex3(50,60,30))+'</h4>';
+      missionsWrap.appendChild(c4);
+    } else {
+      c4.innerHTML = '<h4>🎯 Paso 4 — Caso Jugos: elige entre tres candidatos</h4>'+
+        '<div class="tex-block" style="margin:8px 0;">'+KB(systemTex3(sysD.a1,sysD.b1,sysD.c1,sysD.d1, sysD.a2,sysD.b2,sysD.c2,sysD.d2, sysD.a3,sysD.b3,sysD.c3,sysD.d3))+'</div>'+
+        '<p>Los tres candidatos suman lo mismo en total. Solo uno cumple <strong>las tres</strong> ecuaciones a la vez.</p>'+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;" id="p2_cands4"></div>';
+      missionsWrap.appendChild(c4);
+      var fb4 = feedbackBox(c4);
+      var candsWrap4 = c4.querySelector("#p2_cands4");
+      candidatesD.forEach(function(cand){
+        var b = el("button","btn ghost sm"); b.type="button"; b.textContent = "("+fmt(cand.x)+", "+fmt(cand.y)+", "+fmt(cand.z)+")";
+        b.addEventListener("click", function(){
+          if(cand.correct){
+            fb4.ok("✅ Correcto. "+K(pointTex3(cand.x,cand.y,cand.z))+" es el único candidato que cumple las tres ecuaciones.");
+            markSolved("verifica","m4_candidato3"); m4solved=true;
+            setTimeout(renderMissions, 1200);
+          } else {
+            fb4.bad("Ese candidato falla en al menos una de las tres ecuaciones. Sigue probando.");
+          }
+        });
+        candsWrap4.appendChild(b);
+      });
+      return;
+    }
+
+    if(!m4solved) return;
+
+    var done = el("div","mission-card solved");
+    done.innerHTML = '<h4>'+mascotBadge("correct", 28, "mascot-inline")+'🏁 Fase 2 completa</h4><p>Ya sabes verificar si una terna es solución de un sistema 3×3: debe cumplir las tres ecuaciones, sin importar si la respuesta final es "sí" o "no". En la Fase 3 aprenderás a encontrar esa solución tú mismo(a).</p>'+
+      '<button class="btn primary sm" id="p2_next">Ir a Fase 3 →</button>';
+    missionsWrap.appendChild(done);
+    document.getElementById("p2_next").addEventListener("click", function(){ goTo("phase3"); });
+  }
+  renderMissions();
+}
+
+/* ============================================================
+   FASE 3 — RESUELVE (LOS TRES MÉTODOS)
+============================================================ */
+var METHODS3 = [
+  {key:"sustitucion", name:"Sustitución",
+    explain:"Despeja una variable en la ecuación más simple y sustitúyela en las otras dos. Repite el proceso hasta quedarte con una sola incógnita.",
+    ex:{sys:{a1:1,b1:-2,c1:1,d1:1, a2:0,b2:1,c2:1,d2:2, a3:0,b3:3,c3:-2,d3:1}, sol:{x:2,y:1,z:1},
+      steps:["La segunda ecuación ya tiene y despejable: "+K("y+z=2\\ \\Rightarrow\\ y=2-z")+".",
+        "Sustituimos en la tercera: "+K("3(2-z)-2z=1")+" → "+K("6-5z=1")+" → "+K("z=1"),
+        "Con "+K("z=1")+": "+K("y=2-1=1")+". Sustituyendo ambos en la primera: "+K("x-2(1)+1=1")+" → "+K("x=2")]},
+    m1:{tag:"Sustitución · 1/3", label:"Caso Jugos", sys:{a1:8,b1:6,c1:2,d1:820, a2:3,b2:5,c2:8,d2:690, a3:3,b3:3,c3:4,d3:450}, sol:{x:50,y:60,z:30},
+      hint:"Despeja una variable de la ecuación que te resulte más simple y sustitúyela en las otras dos; repite con la que quede más sencilla."},
+    m2:{tag:"Sustitución · 2/3", label:"Caso Café", sys:{a1:1,b1:1,c1:1,d1:100, a2:2.2,b2:2.3,c2:2.6,d2:240, a3:0,b3:1,c3:-1,d3:0}, sol:{x:20,y:40,z:40},
+      hint:"La tercera ecuación dice y=z: sustitúyelo en las otras dos para quedarte con dos incógnitas."},
+    m3:{tag:"Sustitución · 3/3 (más difícil)", label:"Ejercicio 8 de la guía", sys:{a1:2,b1:1,c1:6,d1:3, a2:1,b2:-1,c2:4,d2:1, a3:3,b3:2,c3:-2,d3:2}, sol:{x:0.5,y:0.5,z:0.25},
+      hint:"Despeja x de la segunda ecuación (x=1+y-4z) y sustitúyela en las otras dos. Vas a trabajar con fracciones/decimales."}
+  },
+  {key:"reduccion", name:"Reducción (eliminación)",
+    explain:"Combina pares de ecuaciones (multiplicando por un número si hace falta) para eliminar una variable a la vez, hasta llegar a un sistema 2×2 y luego a una sola incógnita.",
+    ex:{sys:{a1:1,b1:-2,c1:1,d1:1, a2:0,b2:1,c2:1,d2:2, a3:0,b3:3,c3:-2,d3:1}, sol:{x:2,y:1,z:1},
+      steps:["Las ecuaciones 2 y 3 ya no tienen x: forman un sistema 2×2 en y, z.",
+        "Multiplicamos la ecuación 2 por 2: "+K("2y+2z=4")+". La sumamos con la ecuación 3: "+K("5y=5")+" → "+K("y=1"),
+        "Con "+K("y=1")+": "+K("z=2-1=1")+". Sustituyendo en la ecuación 1: "+K("x=1+2(1)-1=2")]},
+    m1:{tag:"Reducción · 1/3", label:"Caso Cultivos", sys:{a1:1,b1:1,c1:1,d1:1200, a2:45,b2:60,c2:50,d2:63750, a3:-2,b3:1,c3:0,d3:0}, sol:{x:250,y:500,z:450},
+      hint:"La tercera ecuación (y=2x) ya no tiene z: combínala con las otras dos, eliminando z primero por pares."},
+    m2:{tag:"Reducción · 2/3", label:"Caso Electrodomésticos", sys:{a1:8,b1:10,c1:14,d1:110, a2:16,b2:12,c2:10,d2:150, a3:10,b3:18,c3:6,d3:114}, sol:{x:6,y:2,z:3},
+      hint:"Multiplica la primera ecuación por 2 y réstala de la segunda para eliminar x; luego combina otro par para eliminar la misma variable."},
+    m3:{tag:"Reducción · 3/3 (más difícil)", label:"Caso Dieta de Fernanda", sys:{a1:2,b1:0,c1:2,d1:6, a2:1,b2:5,c2:0,d2:11, a3:100,b3:120,c3:60,d3:460}, sol:{x:1,y:2,z:2},
+      hint:"La primera ecuación no tiene y: úsala junto con las otras para ir eliminando variables por pares, con cuidado de los coeficientes grandes de la tercera."}
+  },
+  {key:"cramer", name:"Regla de Cramer",
+    explain:"Calcula el determinante principal Δ y los determinantes Δx, Δy, Δz (reemplazando cada columna por los términos independientes). Cada incógnita es el cociente correspondiente entre Δ y Δ.",
+    ex:{sys:{a1:1,b1:-2,c1:1,d1:1, a2:0,b2:1,c2:1,d2:2, a3:0,b3:3,c3:-2,d3:1}, sol:{x:2,y:1,z:1},
+      steps:["Calculamos el determinante principal con los coeficientes de x, y, z: "+K("\\Delta=-5")+".",
+        "Reemplazando la columna de x por los términos independientes: "+K("\\Delta_x=-10")+" → "+K("x=\\Delta_x/\\Delta=2"),
+        "De la misma forma: "+K("\\Delta_y=-5\\Rightarrow y=1")+" y "+K("\\Delta_z=-5\\Rightarrow z=1")]},
+    m1:{tag:"Cramer · 1/3", label:"Caso Hotel", sys:{a1:1,b1:1,c1:1,d1:200, a2:16,b2:50,c2:80,d2:7500, a3:1,b3:-1,c3:-1,d3:0}, sol:{x:100,y:70,z:30},
+      hint:"Arma la matriz de coeficientes 3×3 y calcula Δ; luego sustituye cada columna por los términos independientes para Δx, Δy y Δz."},
+    m2:{tag:"Cramer · 2/3", label:"Sistema abstracto", sys:{a1:1,b1:1,c1:1,d1:6, a2:2,b2:-1,c2:1,d2:3, a3:1,b3:2,c3:-1,d3:2}, sol:{x:1,y:2,z:3},
+      hint:"Este sistema no tiene contexto real: aplica la regla de Cramer directamente con los 9 coeficientes (Δ=7)."},
+    m3:{tag:"Cramer · 3/3 (más difícil)", label:"Sistema abstracto con signos", sys:{a1:1,b1:2,c1:-1,d1:9, a2:3,b2:-1,c2:2,d2:8, a3:2,b3:1,c3:1,d3:9}, sol:{x:4,y:2,z:-1},
+      hint:"Ten mucho cuidado con los signos negativos al expandir los determinantes 3×3 (Δ=-6)."}
+  }
+];
+var phase3Missions3 = [];
+METHODS3.forEach(function(M, mi){
+  ["m1","m2","m3"].forEach(function(mk){
+    var d = M[mk];
+    phase3Missions3.push({key:M.key+"_"+mk, methodIdx:mi, tag:d.tag, data:d});
+  });
+});
+
+/* Reproductor paso a paso (tipo "video") para el ejemplo resuelto de cada método:
+   reproducción automática + navegación manual, con transición CSS entre pasos. */
+function renderStepPlayer(container, steps){
+  var state = {i:0, playing:false, timer:null};
+  var stage = el("div","step-stage");
+  var controls = el("div"); controls.style.cssText="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;";
+  container.appendChild(stage);
+  container.appendChild(controls);
+
+  var btnPlay = el("button","btn primary sm"); btnPlay.type="button";
+  var btnPrev = el("button","btn ghost sm"); btnPrev.type="button"; btnPrev.textContent="◀ Anterior";
+  var btnNext = el("button","btn ghost sm"); btnNext.type="button"; btnNext.textContent="Siguiente ▶";
+  controls.appendChild(btnPlay); controls.appendChild(btnPrev); controls.appendChild(btnNext);
+
+  function stopPlay(){
+    state.playing = false;
+    if(state.timer){ clearInterval(state.timer); state.timer = null; }
+    btnPlay.textContent = "▶ Reproducir automático";
+  }
+  function startPlay(){
+    if(state.i >= steps.length-1) state.i = 0;
+    state.playing = true;
+    btnPlay.textContent = "⏸ Pausar";
+    renderStep();
+    state.timer = setInterval(function(){
+      if(state.i < steps.length-1){ state.i++; renderStep(); } else { stopPlay(); }
+    }, 2400);
+  }
+  function renderStep(){
+    stage.innerHTML = '<div class="step-slide"><div class="step-num">Paso '+(state.i+1)+' de '+steps.length+'</div>'+
+      '<div class="step-body">'+steps[state.i]+'</div></div>';
+    var slide = stage.querySelector(".step-slide");
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ slide.classList.add("show"); }); });
+    btnPrev.disabled = state.i===0;
+    btnNext.disabled = state.i===steps.length-1;
+  }
+  btnPlay.addEventListener("click", function(){ if(state.playing) stopPlay(); else startPlay(); });
+  btnPrev.addEventListener("click", function(){ stopPlay(); if(state.i>0){ state.i--; renderStep(); } });
+  btnNext.addEventListener("click", function(){ stopPlay(); if(state.i<steps.length-1){ state.i++; renderStep(); } });
+  btnPlay.textContent = "▶ Reproducir automático";
+  renderStep();
+  return { stop: stopPlay };
+}
+
+function renderPhase3(app){
+  phaseHeader(app, 3, "Resuelve: los tres métodos",
+    "Sustitución, reducción y la regla de Cramer llegan siempre al mismo resultado. Mira la simulación paso a paso de cada método y luego practica con tres retos (el tercero, más difícil).");
+
+  var wrap = el("div"); app.appendChild(wrap);
+  var activeSteppers = [];
+
+  function missionCard(m, idx){
+    var solved = isSolved("resuelve", m.key);
+    var isActive = !solved && phase3Missions3.slice(0, idx).every(function(mm){ return isSolved("resuelve", mm.key); });
+    var d = m.data;
+    var card = el("div","mission-card" + (solved?" solved":"") + (isActive?" active":""));
+    if(solved){
+      card.innerHTML = '<h4>✓ '+m.tag+' — '+d.label+'</h4><p>Solución: '+K(pointTex3(d.sol.x,d.sol.y,d.sol.z))+'</p>';
+    } else if(isActive){
+      var s = d.sys;
+      var isHard = m.tag.indexOf("más difícil") >= 0;
+      card.innerHTML = '<h4>'+(isHard ? mascotBadge("challenge", 26, "mascot-inline") : "🎯 ")+m.tag+' — '+d.label+'</h4>'+
+        '<div class="tex-block" style="margin:8px 0;">'+KB(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+'</div>'+
+        '<p>Resuelve el sistema con este método y escribe la terna solución:</p>'+
+        '<div style="display:flex; gap:10px; align-items:end; flex-wrap:wrap;">'+
+        '<div class="field" style="margin-bottom:0;"><label>x</label><input type="number" step="any" id="'+m.key+'_x" style="width:80px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<div class="field" style="margin-bottom:0;"><label>y</label><input type="number" step="any" id="'+m.key+'_y" style="width:80px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<div class="field" style="margin-bottom:0;"><label>z</label><input type="number" step="any" id="'+m.key+'_z" style="width:80px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<button class="btn primary sm" data-act="check">Comprobar</button>'+
+        '<button class="btn ghost sm" data-act="hint">Pista</button></div>';
+      var fb = feedbackBox(card);
+      card.querySelector('[data-act="check"]').addEventListener("click", function(){
+        var xv = parseFloat(document.getElementById(m.key+"_x").value);
+        var yv = parseFloat(document.getElementById(m.key+"_y").value);
+        var zv = parseFloat(document.getElementById(m.key+"_z").value);
+        if(Math.abs(xv-d.sol.x)<0.05 && Math.abs(yv-d.sol.y)<0.05 && Math.abs(zv-d.sol.z)<0.05){
+          fb.ok("✅ Correcto. La solución es "+K(pointTex3(d.sol.x,d.sol.y,d.sol.z))+".");
+          markSolved("resuelve", m.key);
+          setTimeout(renderAll, 900);
+        } else {
+          fb.bad("Todavía no coincide del todo. Vuelve a aplicar el método paso a paso.");
+        }
+      });
+      card.querySelector('[data-act="hint"]').addEventListener("click", function(){ fb.ok("💡 "+d.hint); });
+    } else {
+      card.innerHTML = '<h4 style="color:var(--ink-faint)">🔒 '+m.tag+'</h4>';
+    }
+    return card;
+  }
+
+  function methodBlock(M, mi){
+    var block = el("div");
+    var head = el("div","phase-head"); head.style.marginTop = mi===0?"0":"28px";
+    head.innerHTML = '<h3 style="margin:0 0 6px;">'+M.name+'</h3><p style="color:var(--ink-soft); margin:0 0 10px;">'+M.explain+'</p>';
+    block.appendChild(head);
+
+    var s = M.ex.sys;
+    var exCard = el("div","mission-card");
+    exCard.innerHTML = '<h4>📘 Simulación paso a paso</h4>'+
+      '<div class="tex-block" style="margin:8px 0;">'+KB(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+'</div>';
+    block.appendChild(exCard);
+    var playerHost = el("div"); exCard.appendChild(playerHost);
+    activeSteppers.push(renderStepPlayer(playerHost, M.ex.steps));
+    var solLine = el("p"); solLine.style.marginTop="10px";
+    solLine.innerHTML = '<strong>Solución:</strong> '+K(pointTex3(M.ex.sol.x,M.ex.sol.y,M.ex.sol.z));
+    exCard.appendChild(solLine);
+
+    var idx1 = mi*3, idx2 = mi*3+1, idx3 = mi*3+2;
+    block.appendChild(missionCard(phase3Missions3[idx1], idx1));
+    if(isSolved("resuelve", phase3Missions3[idx1].key)){
+      block.appendChild(missionCard(phase3Missions3[idx2], idx2));
+    }
+    if(isSolved("resuelve", phase3Missions3[idx2].key)){
+      block.appendChild(missionCard(phase3Missions3[idx3], idx3));
+    }
+    return block;
+  }
+
+  function renderAll(){
+    activeSteppers.forEach(function(s){ s.stop(); });
+    activeSteppers = [];
+    wrap.innerHTML = "";
+    for(var mi=0; mi<METHODS3.length; mi++){
+      wrap.appendChild(methodBlock(METHODS3[mi], mi));
+      var lastKey = phase3Missions3[mi*3+2].key;
+      if(!isSolved("resuelve", lastKey)) break;
+    }
+    if(phase3Missions3.every(function(m){ return isSolved("resuelve", m.key); })){
+      var done = el("div","mission-card solved"); done.style.marginTop="20px";
+      done.innerHTML = '<h4>'+mascotBadge("correct", 28, "mascot-inline")+'🏁 Fase 3 completa</h4><p>Ya dominas los tres métodos para resolver un sistema de tres ecuaciones con tres incógnitas. En la Fase 4 los usarás para construir e interpretar casos reales.</p>'+
+        '<button class="btn primary sm" id="p3_next">Ir a Fase 4 →</button>';
+      wrap.appendChild(done);
+      document.getElementById("p3_next").addEventListener("click", function(){ goTo("phase4"); });
+    }
+  }
+  renderAll();
+}
+
+/* ============================================================
+   FASE 4 — INTERPRETA (DERECHO Y PSICOLOGÍA)
+============================================================ */
+var CASES4 = [
+  {key:"c1_hotel", icon:"🏨", title:"Caso Hotel (demostración guiada)",
+    intro:"Un hotel tiene 200 habitaciones entre simples (x), dobles (y) y triples (z). A tarifa completa, cada simple deja S/16 por noche, cada doble S/50 y cada triple S/80, sumando S/7500 en total. Además, el número de habitaciones simples es igual a la suma de dobles y triples.",
+    construct:{
+      eq1:"Ecuación 1 — el total de habitaciones: simples (x) más dobles (y) más triples (z) suman 200.",
+      eq2:"Ecuación 2 — el ingreso total: S/16 por cada simple, S/50 por cada doble y S/80 por cada triple suman S/7500.",
+      eq3:"Ecuación 3 — la relación: las simples (x) son iguales a la suma de dobles y triples (y+z), es decir x−y−z=0."
+    },
+    sys:{a1:1,b1:1,c1:1,d1:200, a2:16,b2:50,c2:80,d2:7500, a3:1,b3:-1,c3:-1,d3:0}, sol:{x:100,y:70,z:30},
+    interpQuestion:"¿Qué significa la terna solución (100, 70, 30)?",
+    options:[
+      {label:"El hotel tiene 100 habitaciones simples, 70 dobles y 30 triples.", correct:true},
+      {label:"El hotel tiene 100 dobles, 70 triples y 30 simples.", correct:false},
+      {label:"El sistema no tiene una interpretación realista en este contexto.", correct:false}
+    ]},
+  {key:"c2_electro", icon:"🏭", title:"Tres líneas de producción",
+    intro:"Una fábrica arma tres modelos de electrodoméstico en tres líneas que trabajan x, y, z días respectivamente. Por día, las líneas consumen 8, 10 y 14 planchas de metal (110 en total); 16, 12 y 10 motores (150 en total); y 10, 18 y 6 paneles de control (114 en total).",
+    construct:{
+      eq1:"Ecuación 1 — planchas de metal: 8 por cada día de la línea 1 (x), 10 por día de la línea 2 (y) y 14 por día de la línea 3 (z), sumando 110.",
+      eq2:"Ecuación 2 — motores: 16 por día de x, 12 por día de y y 10 por día de z, sumando 150.",
+      eq3:"Ecuación 3 — paneles de control: 10 por día de x, 18 por día de y y 6 por día de z, sumando 114."
+    },
+    sys:{a1:8,b1:10,c1:14,d1:110, a2:16,b2:12,c2:10,d2:150, a3:10,b3:18,c3:6,d3:114}, sol:{x:6,y:2,z:3},
+    interpQuestion:"Si las tres líneas trabajan en paralelo (al mismo tiempo), ¿en cuántos días mínimo queda listo el pedido completo?",
+    options:[
+      {label:"En 6 días: la línea que más tarda (x=6) marca el tiempo total, aunque y y z terminen antes.", correct:true},
+      {label:"En 11 días, sumando los días de las tres líneas (6+2+3).", correct:false},
+      {label:"En 2 días, el mínimo de los tres valores.", correct:false}
+    ]},
+  {key:"c3_cafe", icon:"☕", title:"Mezcla de café",
+    intro:"Una tienda prepara 100 kg de una mezcla combinando tres tipos de café: tipo A (x kg, S/2.20/kg), tipo B (y kg, S/2.30/kg) y tipo C (z kg, S/2.60/kg), con un costo total de S/240. Además, se usa la misma cantidad de café tipo B que de tipo C.",
+    construct:{
+      eq1:"Ecuación 1 — el peso total: x + y + z = 100 kg.",
+      eq2:"Ecuación 2 — el costo total: 2.20x + 2.30y + 2.60z = 240.",
+      eq3:"Ecuación 3 — la relación: y es igual a z, es decir y−z=0."
+    },
+    sys:{a1:1,b1:1,c1:1,d1:100, a2:2.2,b2:2.3,c2:2.6,d2:240, a3:0,b3:1,c3:-1,d3:0}, sol:{x:20,y:40,z:40},
+    interpQuestion:"¿Qué representan x=20, y=40, z=40?",
+    options:[
+      {label:"20 kg de café tipo A, 40 kg de tipo B y 40 kg de tipo C.", correct:true},
+      {label:"40 kg de tipo A y 20 kg de cada uno de los otros dos.", correct:false},
+      {label:"El costo por kilo de cada tipo de café.", correct:false}
+    ]},
+  {key:"c4_cultivos", icon:"🌾", title:"Reparto de hectáreas",
+    intro:"Una cooperativa agrícola destina 1200 hectáreas a tres cultivos: maíz (x), papa (y) y quinua (z). Sembrar cada hectárea cuesta S/45, S/60 y S/50 respectivamente, con un presupuesto total de S/63 750. Además, se decide sembrar el doble de hectáreas de papa que de maíz.",
+    construct:{
+      eq1:"Ecuación 1 — el total de hectáreas: x + y + z = 1200.",
+      eq2:"Ecuación 2 — el presupuesto: 45x + 60y + 50z = 63750.",
+      eq3:"Ecuación 3 — la relación: y es el doble de x, es decir −2x+y=0."
+    },
+    sys:{a1:1,b1:1,c1:1,d1:1200, a2:45,b2:60,c2:50,d2:63750, a3:-2,b3:1,c3:0,d3:0}, sol:{x:250,y:500,z:450},
+    interpQuestion:"¿Qué confirma la solución (250, 500, 450) sobre el plan de siembra?",
+    options:[
+      {label:"Usa exactamente las 1200 hectáreas y los S/63 750 disponibles, sembrando el doble de papa que de maíz (500 = 2×250).", correct:true},
+      {label:"Sobran hectáreas sin usar.", correct:false},
+      {label:"Se siembra más quinua que papa.", correct:false}
+    ]},
+  {key:"c5_jugos", icon:"🧃", title:"Mezcla de jugos base",
+    intro:"Una fábrica de bebidas combina tres jugos base — naranja (x litros), manzana (y litros) y piña (z litros) — en tres tanques de mezcla. El tanque 1 usa 8 litros de x, 6 de y y 2 de z por lote, sumando 820 litros en todos sus lotes. El tanque 2 usa 3, 5 y 8 litros respectivamente, sumando 690. El tanque 3 usa 3, 3 y 4, sumando 450.",
+    construct:{
+      eq1:"Ecuación 1 — tanque 1: 8x + 6y + 2z = 820.",
+      eq2:"Ecuación 2 — tanque 2: 3x + 5y + 8z = 690.",
+      eq3:"Ecuación 3 — tanque 3: 3x + 3y + 4z = 450."
+    },
+    sys:{a1:8,b1:6,c1:2,d1:820, a2:3,b2:5,c2:8,d2:690, a3:3,b3:3,c3:4,d3:450}, sol:{x:50,y:60,z:30},
+    interpQuestion:"¿Cuál de los tres jugos base se usó en mayor cantidad total?",
+    options:[
+      {label:"El jugo de manzana: se usaron 60 litros, más que de naranja (50) o piña (30).", correct:true},
+      {label:"El jugo de naranja, con 50 litros.", correct:false},
+      {label:"El jugo de piña, con 30 litros.", correct:false}
+    ]}
+];
+
+function renderPhase4(app){
+  phaseHeader(app, 4, "Interpreta: construye y da sentido",
+    "Primero plantea tú mismo(a) las tres ecuaciones a partir del enunciado, luego resuelve el sistema y decide qué significa la terna solución en la vida real.");
+
+  var wrap = el("div"); app.appendChild(wrap);
+
+  function caseCard(cs, idx){
+    var solved = isSolved("interpreta", cs.key);
+    var solvedNum = isSolved("interpreta", "_"+cs.key+"_num");
+    var constructDone = isSolved("interpreta", "_"+cs.key+"_construye");
+    var card = el("div","panel"); card.style.marginBottom="18px";
+    card.innerHTML = '<h3 style="color:var(--accent)">'+cs.icon+' '+cs.title+'</h3>'+
+      '<p>'+cs.intro+'</p>';
+
+    if(!constructDone){
+      var b0 = el("div","mission-card active");
+      b0.innerHTML = '<h4>Paso 1 — Plantea las tres ecuaciones</h4>'+
+        '<p>Antes de resolver, construye tú mismo(a) el sistema a partir del enunciado. Completa cada plantilla:</p>'+
+        '<p style="margin-bottom:4px;">'+cs.construct.eq1+'</p>'+
+        eqTemplate3HTML(cs.key+"_eq1", {}) +
+        '<p style="margin:12px 0 4px;">'+cs.construct.eq2+'</p>'+
+        eqTemplate3HTML(cs.key+"_eq2", {}) +
+        '<p style="margin:12px 0 4px;">'+cs.construct.eq3+'</p>'+
+        eqTemplate3HTML(cs.key+"_eq3", {}) +
+        '<div style="margin-top:10px;"><button class="btn primary sm" data-act="checkeq">Comprobar ecuaciones</button></div>';
+      card.appendChild(b0);
+      var fb0 = feedbackBox(b0);
+      b0.querySelector('[data-act="checkeq"]').addEventListener("click", function(){
+        var s = cs.sys;
+        var r1 = readEqTemplate3(cs.key+"_eq1");
+        var r2 = readEqTemplate3(cs.key+"_eq2");
+        var r3 = readEqTemplate3(cs.key+"_eq3");
+        var ok1 = eqTemplate3Matches(r1, {a:s.a1,b:s.b1,c:s.c1,d:s.d1});
+        var ok2 = eqTemplate3Matches(r2, {a:s.a2,b:s.b2,c:s.c2,d:s.d2});
+        var ok3 = eqTemplate3Matches(r3, {a:s.a3,b:s.b3,c:s.c3,d:s.d3});
+        markEqTemplate3(cs.key+"_eq1", ok1);
+        markEqTemplate3(cs.key+"_eq2", ok2);
+        markEqTemplate3(cs.key+"_eq3", ok3);
+        if(ok1 && ok2 && ok3){
+          fb0.ok("✅ Correcto. Así queda planteado el sistema: "+KB(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3)));
+          markSolved("interpreta", "_"+cs.key+"_construye");
+          setTimeout(renderAll, 1100);
+        } else {
+          fb0.bad("Revisa la ecuación marcada en rojo: vuelve a leer el enunciado y ajusta los coeficientes, los signos y el resultado.");
+        }
+      });
+      return card;
+    }
+
+    var s = cs.sys;
+    card.innerHTML += '<div class="tex-block" style="margin-bottom:10px;">'+KB(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+'</div>';
+    var dConstruct = el("div","mission-card solved");
+    dConstruct.innerHTML = '<h4>✓ Paso 1 — Ecuaciones planteadas correctamente</h4>';
+    card.appendChild(dConstruct);
+
+    if(!solvedNum){
+      var b1 = el("div","mission-card active");
+      b1.innerHTML = '<h4>Paso 2 — Resuelve el sistema</h4>'+
+        '<div style="display:flex; gap:10px; align-items:end; flex-wrap:wrap;">'+
+        '<div class="field" style="margin-bottom:0;"><label>x</label><input type="number" step="any" id="'+cs.key+'_x" style="width:90px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<div class="field" style="margin-bottom:0;"><label>y</label><input type="number" step="any" id="'+cs.key+'_y" style="width:90px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<div class="field" style="margin-bottom:0;"><label>z</label><input type="number" step="any" id="'+cs.key+'_z" style="width:90px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<button class="btn primary sm" data-act="check">Comprobar</button></div>';
+      card.appendChild(b1);
+      var fb1 = feedbackBox(b1);
+      b1.querySelector('[data-act="check"]').addEventListener("click", function(){
+        var xv = parseFloat(document.getElementById(cs.key+"_x").value);
+        var yv = parseFloat(document.getElementById(cs.key+"_y").value);
+        var zv = parseFloat(document.getElementById(cs.key+"_z").value);
+        if(Math.abs(xv-cs.sol.x)<0.05 && Math.abs(yv-cs.sol.y)<0.05 && Math.abs(zv-cs.sol.z)<0.05){
+          fb1.ok("✅ Correcto. La solución es "+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+".");
+          markSolved("interpreta", "_"+cs.key+"_num");
+          setTimeout(renderAll, 900);
+        } else {
+          fb1.bad("Todavía no. Resuelve el sistema con el método que prefieras y vuelve a intentarlo.");
+        }
+      });
+    } else {
+      var d1 = el("div","mission-card solved");
+      d1.innerHTML = '<h4>✓ Solución: '+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+'</h4>';
+      card.appendChild(d1);
+
+      if(!solved){
+        var b2 = el("div","mission-card active");
+        b2.innerHTML = '<h4>Paso 3 — '+cs.interpQuestion+'</h4>';
+        var g2 = el("div","choice-grid");
+        cs.options.forEach(function(opt){
+          var btn = el("button","choice"); btn.type="button"; btn.textContent=opt.label;
+          btn.addEventListener("click", function(){
+            Array.from(g2.children).forEach(function(x){x.disabled=true;});
+            if(opt.correct){ btn.classList.add("correct"); markSolved("interpreta", cs.key); setTimeout(renderAll,900); }
+            else { btn.classList.add("incorrect"); setTimeout(function(){ Array.from(g2.children).forEach(function(x){x.disabled=false;x.classList.remove("incorrect");}); },900); }
+          });
+          g2.appendChild(btn);
+        });
+        b2.appendChild(g2);
+        card.appendChild(b2);
+      } else {
+        var d2 = el("div","mission-card solved");
+        d2.innerHTML = '<h4>✓ Interpretación correcta</h4>';
+        card.appendChild(d2);
+      }
+    }
+    return card;
+  }
+
+  function renderAll(){
+    wrap.innerHTML = "";
+    for(var i=0;i<CASES4.length;i++){
+      wrap.appendChild(caseCard(CASES4[i], i));
+      if(!isSolved("interpreta", CASES4[i].key)) break;
+    }
+    if(CASES4.every(function(cs){ return isSolved("interpreta", cs.key); })){
+      var done = el("div","mission-card solved");
+      done.innerHTML = '<h4>'+mascotBadge("correct", 28, "mascot-inline")+'✓ Plantear bien es la mitad del trabajo</h4>'+
+        '<p>Ya sabes traducir un enunciado real a un sistema de tres ecuaciones, resolverlo y decidir qué significa la solución en contexto. En la Fase 5 revisarás el trabajo de otros estudiantes en busca de errores.</p>'+
+        '<button class="btn primary sm" id="p4_next">Ir a Fase 5 →</button>';
+      wrap.appendChild(done);
+      document.getElementById("p4_next").addEventListener("click", function(){ goTo("phase5"); });
+    }
+  }
+  renderAll();
+}
+
+/* ============================================================
+   FASE 5 — INVESTIGA (DETECTIVE MATEMÁTICO)
+============================================================ */
+var CASES = [
+  {key:"c1", funcTex:systemTex3(1,1,-1,10, 4,2,-2,-2, 3,-1,1,11),
+    claim:"Un estudiante afirma haber resuelto este sistema y haber encontrado la solución (2, 3, 5).",
+    type:"boolean", correct:false,
+    explain:"Sustituyendo (2,3,5) en la primera ecuación: "+K("2+3-5=0\\ne 10")+" — ya falla ahí. Pero el problema es más profundo: al calcular los determinantes se obtiene "+K("\\Delta=0")+" mientras que "+K("\\Delta_y")+" y "+K("\\Delta_z")+" no son cero, así que este sistema es <strong>incompatible</strong>: no existe ninguna terna que lo resuelva, sin importar cuál se proponga."},
+  {key:"c2", funcTex:systemTex3(2,3,1,17, 3,1,3,21, 8,5,7,59),
+    claim:"Un estudiante afirma que este sistema tiene una única solución: (2, 3, 4).",
+    type:"boolean", correct:false,
+    explain:"La terna (2,3,4) sí cumple las tres ecuaciones — pero no es la <strong>única</strong> solución. Como "+K("\\Delta=\\Delta_x=\\Delta_y=\\Delta_z=0")+", el sistema es compatible indeterminado: tiene infinitas soluciones (por ejemplo, también (46/7, 9/7, 0)). Encontrar una terna que funcione no basta para afirmar que es la única."},
+  {key:"c3", funcTex:systemTex3(1,1,1,14500, 21.45,19.95,18.88,292705, 1,0,-3,0),
+    claim:"Un estudiante resuelve este sistema (venta de tres tipos de combustible) y obtiene x=3000, y=10500, z=1000 galones.",
+    type:"boolean", correct:true,
+    explain:"Verificado: "+K("3000+10500+1000=14500")+" ✓, "+K("21.45(3000)+19.95(10500)+18.88(1000)=292705")+" ✓ y "+K("3000=3(1000)")+" ✓. Las tres ecuaciones se cumplen: la solución es correcta."},
+  {key:"c4", funcTex:systemTex3(1,-2,1,1, 0,1,1,2, 0,3,-2,1),
+    claim:"Al resolver por reducción, un estudiante multiplica la segunda ecuación por 2 y la suma con la tercera: llega correctamente a y=1, pero luego despeja z de "+K("y+z=2")+" como "+K("z=2+1=3")+" (en vez de "+K("z=2-1")+"), y concluye que la solución es (?, 1, 3).",
+    type:"boolean", correct:false,
+    explain:"El error está al despejar: de "+K("y+z=2")+" con "+K("y=1")+" se obtiene "+K("z=2-1=1")+", no "+K("z=2+1")+". Con "+K("y=1,\\ z=1")+", la primera ecuación da "+K("x-2(1)+1=1\\Rightarrow x=2")+". La solución correcta es "+K(pointTex3(2,1,1))+", no la que propone el estudiante."},
+  {key:"c5", funcTex:systemTex3(1,1,1,200, 16,50,80,7500, 1,-1,-1,0),
+    claim:"Al sustituir x=y+z en la ecuación de ingresos "+K("16x+50y+80z=7500")+", un estudiante simplifica a "+K("76y+86z=7500")+" (en lugar de "+K("66y+96z=7500")+") y con eso concluye que hay 84 habitaciones dobles y 24 triples.",
+    type:"boolean", correct:false,
+    explain:"Al sustituir correctamente: "+K("16(y+z)+50y+80z=16y+16z+50y+80z=66y+96z")+", no "+K("76y+86z")+" — el estudiante sumó mal los coeficientes. Resolviendo bien el sistema 2×2 resultante (junto con "+K("x=y+z")+") se llega a la solución real: "+K(pointTex3(100,70,30))+"."},
+  {key:"c6", funcTex:systemTex3(8,6,2,820, 3,5,8,690, 3,3,4,450),
+    claim:"Al resolver el caso Jugos, un estudiante copia mal un coeficiente (escribe 680 en vez de 690 en la segunda ecuación) y aun así llega exactamente a la respuesta correcta: (50, 60, 30).",
+    type:"boolean", correct:false,
+    explain:"Cambiar un solo término independiente cambia el sistema, y un sistema distinto no tiene por qué dar la misma terna solución (de hecho, en general la cambia). (50,60,30) es solución del sistema <strong>original</strong> (con 690), no del sistema mal copiado. La lección: siempre verifica que copiaste el sistema correctamente antes de resolver."},
+  {key:"c7", funcTex:systemTex3(1,1,1,1200, 45,60,50,63750, -2,1,0,0),
+    claim:"Un estudiante interpreta 'se sembrará el doble de hectáreas de papa que de maíz' como "+K("x=2y")+" (en vez de "+K("y=2x")+") y con esa ecuación obtiene una solución distinta de (250, 500, 450).",
+    type:"boolean", correct:false,
+    explain:"'El doble de papa que de maíz' significa papa (y) = 2 × maíz (x), es decir "+K("y=2x")+", no "+K("x=2y")+". Usar la ecuación invertida no es un error de cálculo sino de <strong>interpretación</strong> del enunciado, y por eso lleva a una solución distinta de la correcta: "+K(pointTex3(250,500,450))+"."},
+  {key:"c8", funcTex:systemTex3(2,0,2,6, 1,5,0,11, 100,120,60,460),
+    claim:"Un compañero afirma que la solución del caso Dieta de Fernanda es (3, 1.5, 0).",
+    type:"boolean", correct:false,
+    explain:"Verificando en la segunda ecuación: "+K("3+5(1.5)=10.5\\ne 11")+" — no se cumple. Esa terna no es solución del sistema. La solución correcta, verificada en las tres ecuaciones, es "+K(pointTex3(1,2,2))+"."}
+];
+
+function renderPhase5(app){
+  phaseHeader(app, 5, "Detective matemático",
+    "Aquí no resuelves el sistema desde cero: alguien más ya lo hizo, y puede haberse equivocado. Tu trabajo es encontrar el error.");
+
+  var idx = 0;
+  for(var i=0;i<CASES.length;i++){
+    if(!isSolved("investiga", CASES[i].key)){ idx = i; break; }
+    idx = CASES.length;
+  }
+  var container = el("div"); app.appendChild(container);
+
+  function renderCase(){
+    container.innerHTML = "";
+    if(idx >= CASES.length){
+      var done = el("div","mission-card solved");
+      done.innerHTML = '<h4>'+mascotBadge("correct", 28, "mascot-inline")+'🏁 Fase 5 completa</h4><p>Cerraste los '+CASES.length+' expedientes. Ya distingues explicaciones correctas de errores comunes al resolver sistemas — no solo calculas, también argumentas.</p>'+
+        '<button class="btn primary sm" id="p5_next">Ir a Fase 6 →</button>';
+      container.appendChild(done);
+      done.querySelector("#p5_next").addEventListener("click", function(){ goTo("phase6"); });
+      return;
+    }
+    var cs = CASES[idx];
+    var dossier = el("div","dossier");
+    var tagText = cs.bonus ? "EXPEDIENTE ESPECIAL · DOS DETECTIVES" : ("EXPEDIENTE Nº "+String(idx+1).padStart(2,"0")+" / "+CASES.length);
+    dossier.appendChild(el("div","case-tag", tagText));
+    dossier.appendChild(el("h3", null, cs.bonus ? "Dos detectives" : "Caso "+(idx+1)));
+    if(cs.funcTex){ var fd=el("div","tex-block"); fd.style.position="relative"; fd.style.zIndex="1"; fd.innerHTML=KB(cs.funcTex); dossier.appendChild(fd); }
+    if(cs.table){
+      var xs=cs.table.xs, ys=cs.table.ys;
+      var trx = xs.map(function(x){return "<td>"+x+"</td>";}).join("");
+      var try_ = ys.map(function(y){return "<td>"+y+"</td>";}).join("");
+      var tdiv = el("div"); tdiv.style.margin="12px 0"; tdiv.style.position="relative"; tdiv.style.zIndex="1";
+      tdiv.innerHTML = '<div style="overflow-x:auto;"><table class="datatable"><tr><th>x</th>'+trx+'</tr><tr><th>y</th>'+try_+'</tr></table></div>';
+      dossier.appendChild(tdiv);
+    }
+    if(cs.claim) dossier.appendChild(el("div","claim-box", cs.claim));
+
+    var qWrap = el("div"); qWrap.style.position="relative"; qWrap.style.zIndex="1";
+    dossier.appendChild(qWrap);
+
+    if(cs.graph){
+      var gp = el("div","canvas-panel"); gp.style.margin="12px 0 0"; gp.style.maxWidth="360px"; gp.style.position="relative"; gp.style.zIndex="1";
+      gp.innerHTML = '<canvas id="p5_case_canvas" aria-label="Gráfica del caso"></canvas>';
+      dossier.appendChild(gp);
+    }
+
+    var stampEl = el("div","stamp"); dossier.style.position="relative"; dossier.appendChild(stampEl);
+    var explainBox = el("div","reveal-box"); explainBox.style.display="none"; explainBox.style.position="relative"; explainBox.style.zIndex="1";
+    var nextBtn = el("button","btn primary sm", (idx===CASES.length-1) ? "Ver resumen →" : "Siguiente expediente →");
+    nextBtn.style.display="none"; nextBtn.style.marginTop="14px"; nextBtn.style.position="relative"; nextBtn.style.zIndex="1";
+    nextBtn.addEventListener("click", function(){ idx++; renderCase(); });
+
+    function resolve(chosenIsCorrect, chosenBtn, group, isCorrectIdxFn){
+      Array.from(group.children).forEach(function(x, i){
+        x.disabled = true;
+        if(isCorrectIdxFn(i)) x.classList.add("correct");
+      });
+      if(!chosenIsCorrect) chosenBtn.classList.add("incorrect");
+      stampEl.textContent = chosenIsCorrect ? "RESUELTO" : "CASO CERRADO";
+      if(!chosenIsCorrect) stampEl.classList.add("wrong");
+      stampEl.classList.add("show");
+      explainBox.style.display = "block";
+      explainBox.innerHTML = (chosenIsCorrect ? "✅ " : "🔍 ") + cs.explain;
+      nextBtn.style.display = "inline-block";
+      markSolved("investiga", cs.key);
+    }
+
+    if(cs.type === "boolean"){
+      qWrap.innerHTML = '<p style="font-weight:600;">¿Es correcta esta afirmación?</p>';
+      var g = el("div","choice-grid");
+      [["Sí, es correcta", true],["No, tiene un error", false]].forEach(function(pair){
+        var btn = el("button","choice"); btn.type="button"; btn.textContent=pair[0];
+        btn._val = pair[1];
+        btn.addEventListener("click", function(){
+          resolve(pair[1]===cs.correct, btn, g, function(i){ return g.children[i]._val === cs.correct; });
+        });
+        g.appendChild(btn);
+      });
+      qWrap.appendChild(g);
+    } else {
+      qWrap.innerHTML = '<p style="font-weight:600;">'+cs.question+'</p>';
+      var g2 = el("div","choice-grid");
+      cs.options.forEach(function(opt, i){
+        var btn = el("button","choice"); btn.type="button";
+        if(cs.optionsAreMath) btn.innerHTML = K(opt); else btn.textContent = opt;
+        btn.addEventListener("click", function(){
+          resolve(i===cs.correctIndex, btn, g2, function(j){ return j===cs.correctIndex; });
+        });
+        g2.appendChild(btn);
+      });
+      qWrap.appendChild(g2);
+    }
+
+    dossier.appendChild(explainBox);
+    dossier.appendChild(nextBtn);
+    container.appendChild(dossier);
+
+    if(cs.graph){
+      var gcanvas = document.getElementById("p5_case_canvas");
+      LinesGraph(gcanvas, {a1:cs.graph.a1,b1:cs.graph.b1,c1:cs.graph.c1, a2:cs.graph.a2,b2:cs.graph.b2,c2:cs.graph.c2, showSolution:true, xMin:-4, xMax:4, yMin:-4, yMax:6});
+    }
+  }
+  renderCase();
+}
+
+/* ============================================================
+   FASE 6 — DESAFÍO (CONSTRUCCIÓN INVERSA)
+============================================================ */
+var CHALLENGES3 = [
+  {key:"d1", x:3, y:2, z:1},
+  {key:"d2", x:0, y:1, z:-1},
+  {key:"d3", x:5, y:0, z:2},
+  {key:"d4", x:2, y:-1, z:3}
+];
+
+function renderPhase6(app){
+  phaseHeader(app, 6, "Construye un sistema con esta solución",
+    "Ya no resuelves un sistema dado: tú inventas tres ecuaciones que tengan exactamente la terna objetivo como única solución.");
+
+  var idx = 0;
+  for(var i=0;i<CHALLENGES3.length;i++){
+    if(!isSolved("desafio", CHALLENGES3[i].key)){ idx = i; break; }
+    idx = CHALLENGES3.length;
+  }
+  var container = el("div"); app.appendChild(container);
+
+  function renderChallenge(){
+    container.innerHTML = "";
+    if(idx >= CHALLENGES3.length){
+      var done = el("div","mission-card solved");
+      done.innerHTML = '<h4>'+mascotBadge("correct", 28, "mascot-inline")+'🏁 Fase 6 completa</h4>'+
+        '<p>Clasificaste, verificaste, resolviste con los tres métodos, interpretaste casos reales, investigaste errores y ahora construiste tus propios sistemas a partir de una terna objetivo. Ya tienes todas las piezas — falta integrarlas en casos reales completos.</p>'+
+        '<button class="btn primary sm" id="p6_next">Ir a Fase 7 →</button>';
+      container.appendChild(done);
+      done.querySelector("#p6_next").addEventListener("click", function(){ goTo("phase7"); });
+      return;
+    }
+    var ch = CHALLENGES3[idx];
+
+    var head = el("div","mission-card active");
+    head.innerHTML = '<h4>🎯 Reto '+(idx+1)+' de '+CHALLENGES3.length+'</h4>'+
+      '<p>Construye <strong>tres ecuaciones</strong> cuyo sistema tenga como <strong>única solución</strong> la terna <strong>'+K(pointTex3(ch.x,ch.y,ch.z))+'</strong>.</p>';
+    container.appendChild(head);
+
+    var form = el("div","panel");
+    form.innerHTML = '<h3>Tus tres ecuaciones</h3>'+
+      '<p style="color:var(--ink-soft); font-size:.9rem; margin-top:-4px;">Completa cada plantilla para escribir tu ecuación en la forma '+K("ax+by+cz=d")+'.</p>'+
+      '<p style="font-weight:700; margin:10px 0 2px;">Ecuación 1</p>'+
+      eqTemplate3HTML("p6_r1", {a:1, bMag:1, sign1:"+", cMag:1, sign2:"+", d:0}) +
+      '<p style="font-weight:700; margin:14px 0 2px;">Ecuación 2</p>'+
+      eqTemplate3HTML("p6_r2", {a:1, bMag:1, sign1:"-", cMag:1, sign2:"+", d:0}) +
+      '<p style="font-weight:700; margin:14px 0 2px;">Ecuación 3</p>'+
+      eqTemplate3HTML("p6_r3", {a:1, bMag:1, sign1:"+", cMag:1, sign2:"-", d:0}) +
+      '<button class="btn primary sm" id="p6_check" style="width:100%;margin-top:14px;">Comprobar construcción</button>';
+    container.appendChild(form);
+
+    var info = el("div","panel");
+    info.innerHTML =
+      '<h3>¿Cumples la condición?</h3>'+
+      '<div class="info-row"><span class="k">Sistema</span><span class="v eq" id="p6_eq"></span></div>'+
+      '<div class="info-row"><span class="k">Tipo</span><span class="v" id="p6_tipo"></span></div>'+
+      '<div class="info-row"><span class="k">Tu solución</span><span class="v" id="p6_sol"></span></div>'+
+      '<div class="info-row"><span class="k">Objetivo</span><span class="v">'+K(pointTex3(ch.x,ch.y,ch.z))+'</span></div>';
+    container.appendChild(info);
+
+    var fbWrap = el("div"); fbWrap.style.marginTop="14px"; container.appendChild(fbWrap);
+    var fb = feedbackBox(fbWrap);
+
+    function tipoLabel(t){
+      if(t==="unica") return '<span class="badge up">compatible determinado</span>';
+      if(t==="ninguna") return '<span class="badge down">incompatible</span>';
+      return '<span class="badge">compatible indeterminado</span>';
+    }
+    function currentState(){
+      var r1 = readEqTemplate3("p6_r1"), r2 = readEqTemplate3("p6_r2"), r3 = readEqTemplate3("p6_r3");
+      return {
+        a1: isNaN(r1.a)?0:r1.a, b1: isNaN(r1.b)?0:r1.b, c1: isNaN(r1.c)?0:r1.c, d1: isNaN(r1.d)?0:r1.d,
+        a2: isNaN(r2.a)?0:r2.a, b2: isNaN(r2.b)?0:r2.b, c2: isNaN(r2.c)?0:r2.c, d2: isNaN(r2.d)?0:r2.d,
+        a3: isNaN(r3.a)?0:r3.a, b3: isNaN(r3.b)?0:r3.b, c3: isNaN(r3.c)?0:r3.c, d3: isNaN(r3.d)?0:r3.d,
+        complete: r1.complete && r2.complete && r3.complete
+      };
+    }
+    function update(){
+      var st = currentState();
+      document.getElementById("p6_eq").innerHTML = K(systemTex3(st.a1,st.b1,st.c1,st.d1, st.a2,st.b2,st.c2,st.d2, st.a3,st.b3,st.c3,st.d3));
+      if(!st.complete){
+        document.getElementById("p6_tipo").innerHTML = "—";
+        document.getElementById("p6_sol").innerHTML = "—";
+        return;
+      }
+      var sol = solveSystem3(st.a1,st.b1,st.c1,st.d1, st.a2,st.b2,st.c2,st.d2, st.a3,st.b3,st.c3,st.d3);
+      document.getElementById("p6_tipo").innerHTML = tipoLabel(sol.type);
+      document.getElementById("p6_sol").innerHTML = sol.type==="unica" ? K(pointTex3(sol.x,sol.y,sol.z)) : (sol.type==="ninguna" ? "∅" : "infinitas ternas");
+    }
+    update();
+    bindEqTemplate3("p6_r1", update);
+    bindEqTemplate3("p6_r2", update);
+    bindEqTemplate3("p6_r3", update);
+
+    document.getElementById("p6_check").addEventListener("click", function(){
+      var st = currentState();
+      if(!st.complete){
+        fb.bad("Completa todos los espacios de las tres ecuaciones antes de comprobar.");
+        return;
+      }
+      if(st.a1===0 && st.b1===0 && st.c1===0){ fb.bad("La ecuación 1 no puede tener a, b y c iguales a cero: no representaría ningún plano."); return; }
+      if(st.a2===0 && st.b2===0 && st.c2===0){ fb.bad("La ecuación 2 no puede tener a, b y c iguales a cero: no representaría ningún plano."); return; }
+      if(st.a3===0 && st.b3===0 && st.c3===0){ fb.bad("La ecuación 3 no puede tener a, b y c iguales a cero: no representaría ningún plano."); return; }
+      var sol = solveSystem3(st.a1,st.b1,st.c1,st.d1, st.a2,st.b2,st.c2,st.d2, st.a3,st.b3,st.c3,st.d3);
+      var ok = sol.type==="unica" && Math.abs(sol.x-ch.x)<0.05 && Math.abs(sol.y-ch.y)<0.05 && Math.abs(sol.z-ch.z)<0.05;
+      markEqTemplate3("p6_r1", ok);
+      markEqTemplate3("p6_r2", ok);
+      markEqTemplate3("p6_r3", ok);
+      if(ok){
+        fb.ok("✅ Correcto. Tu sistema tiene exactamente "+K(pointTex3(ch.x,ch.y,ch.z))+" como única solución. (Hay infinitos sistemas que funcionan — solo debían cruzarse en esa terna.)");
+        markSolved("desafio", ch.key);
+        setTimeout(function(){ idx++; renderChallenge(); }, 1300);
+      } else if(sol.type!=="unica"){
+        fb.bad("Tus tres ecuaciones no se cruzan en un único punto ("+ (sol.type==="ninguna"?"son incompatibles entre sí":"tienen infinitas soluciones en común") +"). Cambia los coeficientes de una de ellas.");
+      } else {
+        fb.bad("Tu sistema tiene como solución "+K(pointTex3(sol.x,sol.y,sol.z))+", pero el objetivo es "+K(pointTex3(ch.x,ch.y,ch.z))+". Ajusta los términos independientes (d₁, d₂, d₃).");
+      }
+    });
+  }
+  renderChallenge();
+}
+
+/* ============================================================
+   FASE 7 — APLICA (CASOS INTEGRALES)
+============================================================ */
+var CASES_P7 = [
+  {
+    key:"cafe", emoji:"☕", context:"Contexto general — Mezcla de café",
+    story:"Una cafetería prepara 100 kg de una mezcla especial combinando café tipo A (x kg), tipo B (y kg) y tipo C (z kg), con costos de S/2.20, S/2.30 y S/2.60 por kilo respectivamente. El costo total debe ser exactamente S/240, y la receta exige usar la misma cantidad de tipo B que de tipo C.",
+    xLabel:"kg de café tipo A", yLabel:"kg de café tipo B", zLabel:"kg de café tipo C",
+    sys:{a1:1,b1:1,c1:1,d1:100, a2:2.2,b2:2.3,c2:2.6,d2:240, a3:0,b3:1,c3:-1,d3:0}, sol:{x:20,y:40,z:40},
+    eq1Label:"Peso total de la mezcla", eq2Label:"Costo total de la mezcla", eq3Label:"Misma cantidad de tipo B que de tipo C",
+    interpQuestion:"¿Qué significa la solución (20, 40, 40) para la cafetería?",
+    interpOptions:[
+      "Debe usar 20 kg de café tipo A, 40 kg de tipo B y 40 kg de tipo C.",
+      "Debe usar 40 kg de tipo A y 20 kg de cada uno de los otros dos.",
+      "El costo por kilo de cada tipo de café.",
+      "La mezcla no puede prepararse con esas condiciones."
+    ], interpCorrect:0
+  },
+  {
+    key:"cultivos", emoji:"🌾", context:"Contexto general — Cooperativa agrícola",
+    story:"Una cooperativa agrícola destina 1200 hectáreas a tres cultivos: maíz (x), papa (y) y quinua (z). Sembrar cada hectárea cuesta S/45, S/60 y S/50 respectivamente, con un presupuesto total de S/63 750. Además, se sembrará el doble de hectáreas de papa que de maíz.",
+    xLabel:"hectáreas de maíz", yLabel:"hectáreas de papa", zLabel:"hectáreas de quinua",
+    sys:{a1:1,b1:1,c1:1,d1:1200, a2:45,b2:60,c2:50,d2:63750, a3:-2,b3:1,c3:0,d3:0}, sol:{x:250,y:500,z:450},
+    eq1Label:"Total de hectáreas disponibles", eq2Label:"Presupuesto total de siembra", eq3Label:"Papa = el doble de maíz",
+    interpQuestion:"¿Qué confirma la solución (250, 500, 450)?",
+    interpOptions:[
+      "Usa las 1200 hectáreas y los S/63 750 completos, sembrando el doble de papa que de maíz.",
+      "Sobran hectáreas sin sembrar.",
+      "Se siembra más quinua que papa.",
+      "El presupuesto no alcanza."
+    ], interpCorrect:0
+  },
+  {
+    key:"jugos", emoji:"🧃", context:"Contexto general — Fábrica de bebidas",
+    story:"Una fábrica de bebidas combina tres jugos base — naranja (x litros), manzana (y litros) y piña (z litros) — en tres tanques de mezcla. El tanque 1 usa 8, 6 y 2 litros de cada uno por lote (820 litros en total); el tanque 2 usa 3, 5 y 8 litros (690 en total); el tanque 3 usa 3, 3 y 4 litros (450 en total).",
+    xLabel:"litros de naranja", yLabel:"litros de manzana", zLabel:"litros de piña",
+    sys:{a1:8,b1:6,c1:2,d1:820, a2:3,b2:5,c2:8,d2:690, a3:3,b3:3,c3:4,d3:450}, sol:{x:50,y:60,z:30},
+    eq1Label:"Litros totales usados en el tanque 1", eq2Label:"Litros totales usados en el tanque 2", eq3Label:"Litros totales usados en el tanque 3",
+    interpQuestion:"¿Qué significa la solución (50, 60, 30)?",
+    interpOptions:[
+      "Se usaron 50 litros de naranja, 60 de manzana y 30 de piña.",
+      "Se usaron 60 litros de naranja, 50 de manzana y 30 de piña.",
+      "El jugo de piña fue el más usado.",
+      "No hay combinación posible que cumpla los tres tanques."
+    ], interpCorrect:0
+  },
+  {
+    key:"electro", emoji:"🏭", context:"Contexto general — Fábrica de electrodomésticos",
+    story:"Una fábrica arma tres modelos de electrodoméstico en tres líneas que trabajan x, y, z días respectivamente. Por día consumen 8, 10 y 14 planchas de metal (110 en total); 16, 12 y 10 motores (150 en total); y 10, 18 y 6 paneles de control (114 en total).",
+    xLabel:"días de la línea 1", yLabel:"días de la línea 2", zLabel:"días de la línea 3",
+    sys:{a1:8,b1:10,c1:14,d1:110, a2:16,b2:12,c2:10,d2:150, a3:10,b3:18,c3:6,d3:114}, sol:{x:6,y:2,z:3},
+    eq1Label:"Total de planchas de metal usadas", eq2Label:"Total de motores usados", eq3Label:"Total de paneles de control usados",
+    interpQuestion:"Si las tres líneas trabajan en paralelo, ¿en cuántos días mínimo se completa el pedido?",
+    interpOptions:[
+      "En 6 días: la línea más lenta (x=6) marca el tiempo total del pedido.",
+      "En 11 días, sumando los tres valores.",
+      "En 2 días, el menor de los tres valores.",
+      "El pedido nunca se completa."
+    ], interpCorrect:0
+  },
+  {
+    key:"dieta", emoji:"🥗", context:"Contexto general — Plan de alimentación",
+    story:"Fernanda arma un refrigerio combinando tres alimentos: avena (x porciones), yogurt (y porciones) y fruta (z porciones). Dos nutrientes deben sumar exactamente 6 y 11 unidades respectivamente según las combinaciones "+K("2x+2z=6")+" y "+K("x+5y=11")+", y el total de calorías debe ser exactamente 460, según "+K("100x+120y+60z=460")+".",
+    xLabel:"porciones de avena", yLabel:"porciones de yogurt", zLabel:"porciones de fruta",
+    sys:{a1:2,b1:0,c1:2,d1:6, a2:1,b2:5,c2:0,d2:11, a3:100,b3:120,c3:60,d3:460}, sol:{x:1,y:2,z:2},
+    eq1Label:"Primer nutriente", eq2Label:"Segundo nutriente", eq3Label:"Calorías totales",
+    interpQuestion:"¿Qué significa la solución (1, 2, 2) para el refrigerio de Fernanda?",
+    interpOptions:[
+      "Usa 1 porción de avena, 2 de yogurt y 2 de fruta.",
+      "Usa 2 porciones de avena, 2 de yogurt y 1 de fruta.",
+      "El refrigerio no cumple con las 460 calorías.",
+      "Se necesitan 6 porciones de avena."
+    ], interpCorrect:0
+  },
+  {
+    key:"estadio", boss:true, emoji:"🏟️", context:"CASO FINAL — Inauguración del estadio",
+    story:"En la inauguración de un estadio se vendieron boletos populares (x), de preferencia (y) y de palco (z), sumando 72 000 espectadores en total. El triple de la suma de populares y preferencia equivale a 13 veces la cantidad de boletos de palco. Además, se vendieron 6500 boletos de preferencia más que de populares.",
+    xLabel:"boletos populares", yLabel:"boletos de preferencia", zLabel:"boletos de palco",
+    sys:{a1:1,b1:1,c1:1,d1:72000, a2:3,b2:3,c2:-13,d2:0, a3:-1,b3:1,c3:0,d3:6500}, sol:{x:26000,y:32500,z:13500},
+    eq1Label:"Total de espectadores", eq2Label:"El triple de (populares + preferencia) = 13 veces palco", eq3Label:"Preferencia = populares + 6500",
+    interpQuestion:"¿Qué significa la solución final (26 000, 32 500, 13 500)?",
+    interpOptions:[
+      "Se vendieron 26 000 boletos populares, 32 500 de preferencia y 13 500 de palco.",
+      "Se vendieron 32 500 boletos populares y 26 000 de preferencia.",
+      "El estadio no logró vender todas las entradas.",
+      "Los boletos de palco fueron los más vendidos."
+    ], interpCorrect:0
+  }
+];
+
+function renderPhase7(app){
+  phaseHeader(app, 7, "Aplica: de la casuística al sistema",
+    "Aquí integras todo lo que aprendiste: a partir de un caso real planteas el sistema de tres ecuaciones, lo resuelves, interpretas el resultado y lo verificas. El último caso es especial: tu prueba final.");
+
+  var idx = 0;
+  for(var i=0;i<CASES_P7.length;i++){
+    if(!isSolved("aplica", CASES_P7[i].key)){ idx = i; break; }
+    idx = CASES_P7.length;
+  }
+  var step = 0;
+  var maxStep = 0;
+  var STEP_LABELS = ["1. Plantea","2. Resuelve","3. Interpreta","4. Verifica","5. Resumen"];
+  var container = el("div"); app.appendChild(container);
+
+  function goStep(n){ step = n; renderCase(); }
+
+  function eqRow(prefix, labelA,labelB,labelC,labelD){
+    return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">'+
+      '<div><label style="display:block;font-size:.82rem;font-weight:600;">'+labelA+'</label><input type="number" step="any" id="'+prefix+'_a" style="width:72px;padding:7px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+      '<div><label style="display:block;font-size:.82rem;font-weight:600;">'+labelB+'</label><input type="number" step="any" id="'+prefix+'_b" style="width:72px;padding:7px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+      '<div><label style="display:block;font-size:.82rem;font-weight:600;">'+labelC+'</label><input type="number" step="any" id="'+prefix+'_c" style="width:72px;padding:7px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+      '<div><label style="display:block;font-size:.82rem;font-weight:600;">'+labelD+'</label><input type="number" step="any" id="'+prefix+'_d" style="width:72px;padding:7px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div></div>';
+  }
+  function readEqRow(prefix){
+    return {
+      a: parseFloat(document.getElementById(prefix+"_a").value),
+      b: parseFloat(document.getElementById(prefix+"_b").value),
+      c: parseFloat(document.getElementById(prefix+"_c").value),
+      d: parseFloat(document.getElementById(prefix+"_d").value)
+    };
+  }
+
+  function renderCase(){
+    container.innerHTML = "";
+    if(idx >= CASES_P7.length){
+      var done = el("div","mission-card solved");
+      done.innerHTML = '<h4>'+mascotBadge("correct", 28, "mascot-inline")+'🏁 Misión completa</h4>'+
+        '<p>Clasificaste sistemas, verificaste ternas, dominaste los tres métodos, interpretaste casos reales, investigaste errores, construiste tus propios sistemas y aplicaste todo eso a casos integrales — incluido el caso final. Eso es pensamiento matemático en tres dimensiones.</p>'+
+        '<button class="btn primary sm" id="p7_summary">Ver tu resumen y constancia →</button>';
+      container.appendChild(done);
+      done.querySelector("#p7_summary").addEventListener("click", function(){ goTo("summary"); });
+      return;
+    }
+    var cs = CASES_P7[idx];
+    var s = cs.sys;
+    var isReview = step < maxStep;
+
+    var card = el("div","panel"+(cs.boss?" boss-panel":""));
+    card.innerHTML = (cs.boss ? '<h3 style="color:var(--gold);">'+cs.emoji+' '+cs.context+' 🏆</h3>' : '<h3 style="color:var(--accent)">'+cs.emoji+' '+cs.context+'</h3>')+
+      '<p style="color:var(--ink-soft);">Caso '+(idx+1)+' de '+CASES_P7.length+(cs.boss?' · ¡tu prueba final!':'')+'</p>'+
+      '<p>'+cs.story+'</p>';
+    container.appendChild(card);
+
+    var stepper = el("div","stepper"); card.appendChild(stepper);
+    STEP_LABELS.forEach(function(t,i){
+      var pill = document.createElement("button");
+      pill.type = "button";
+      pill.className = "step-pill" + (i===step?" on":"") + (i<maxStep?" done":"");
+      pill.textContent = t;
+      pill.disabled = i > maxStep;
+      pill.addEventListener("click", function(){ goStep(i); });
+      stepper.appendChild(pill);
+    });
+
+    var body = el("div"); card.appendChild(body);
+
+    if(step===0 && !isReview){
+      body.innerHTML =
+        '<p>Aquí, '+K("x")+' = '+cs.xLabel+', '+K("y")+' = '+cs.yLabel+' y '+K("z")+' = '+cs.zLabel+'. Traduce las tres condiciones del enunciado a ecuaciones de la forma '+K("ax+by+cz=d")+':</p>'+
+        '<div class="reveal-box" style="font-size:.95rem;">💡 Pista: suele haber una condición de total o suma, y una o dos relaciones entre variables (“el doble de”, “más que”, un costo o presupuesto total, etc.).</div>'+
+        '<p style="margin-top:12px;font-weight:600;">Ecuación 1 — '+cs.eq1Label+'</p>'+
+        eqRow("p7_1","a₁","b₁","c₁","d₁")+
+        '<p style="margin-top:14px;font-weight:600;">Ecuación 2 — '+cs.eq2Label+'</p>'+
+        eqRow("p7_2","a₂","b₂","c₂","d₂")+
+        '<p style="margin-top:14px;font-weight:600;">Ecuación 3 — '+cs.eq3Label+'</p>'+
+        eqRow("p7_3","a₃","b₃","c₃","d₃")+
+        '<button class="btn primary sm" style="margin-top:14px;" id="p7_checkEq">Comprobar</button>';
+      var fb0 = feedbackBox(body);
+      document.getElementById("p7_checkEq").addEventListener("click", function(){
+        var r1=readEqRow("p7_1"), r2=readEqRow("p7_2"), r3=readEqRow("p7_3");
+        var ok = Math.abs(r1.a-s.a1)<0.01 && Math.abs(r1.b-s.b1)<0.01 && Math.abs(r1.c-s.c1)<0.01 && Math.abs(r1.d-s.d1)<0.01 &&
+                 Math.abs(r2.a-s.a2)<0.01 && Math.abs(r2.b-s.b2)<0.01 && Math.abs(r2.c-s.c2)<0.01 && Math.abs(r2.d-s.d2)<0.01 &&
+                 Math.abs(r3.a-s.a3)<0.01 && Math.abs(r3.b-s.b3)<0.01 && Math.abs(r3.c-s.c3)<0.01 && Math.abs(r3.d-s.d3)<0.01;
+        if(ok){
+          fb0.ok("✅ El sistema es "+K(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+".");
+          setTimeout(function(){ maxStep=1; step=1; renderCase(); }, 900);
+        } else {
+          fb0.bad("Todavía no coincide. Relee cada condición por separado y tradúcela término por término a la forma "+K("ax+by+cz=d")+".");
+        }
+      });
+    } else if(step===0){
+      body.innerHTML =
+        '<p>Aquí, '+K("x")+' = '+cs.xLabel+', '+K("y")+' = '+cs.yLabel+' y '+K("z")+' = '+cs.zLabel+'.</p>'+
+        '<div class="mission-card solved"><h4>✓ Sistema planteado</h4><p>'+K(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+'</p></div>';
+    } else if(step===1 && !isReview){
+      body.innerHTML =
+        '<p>Ya tienes el sistema '+K(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+'. Resuélvelo con el método que prefieras:</p>'+
+        '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">'+
+        '<div><label style="display:block;font-size:.85rem;font-weight:600;">x</label><input type="number" step="any" id="p7_x" style="width:90px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<div><label style="display:block;font-size:.85rem;font-weight:600;">y</label><input type="number" step="any" id="p7_y" style="width:90px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<div><label style="display:block;font-size:.85rem;font-weight:600;">z</label><input type="number" step="any" id="p7_z" style="width:90px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<button class="btn primary sm" id="p7_checkSol">Comprobar</button></div>';
+      var fb1 = feedbackBox(body);
+      document.getElementById("p7_checkSol").addEventListener("click", function(){
+        var xv=parseFloat(document.getElementById("p7_x").value);
+        var yv=parseFloat(document.getElementById("p7_y").value);
+        var zv=parseFloat(document.getElementById("p7_z").value);
+        if(Math.abs(xv-cs.sol.x)<0.05 && Math.abs(yv-cs.sol.y)<0.05 && Math.abs(zv-cs.sol.z)<0.05){
+          fb1.ok("✅ La solución es "+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+".");
+          setTimeout(function(){ maxStep=2; step=2; renderCase(); }, 900);
+        } else {
+          fb1.bad("Todavía no. Aplica sustitución, reducción o la regla de Cramer con cuidado y vuelve a intentarlo.");
+        }
+      });
+    } else if(step===1){
+      body.innerHTML =
+        '<p>Sistema del caso: '+K(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+'</p>'+
+        '<div class="mission-card solved"><h4>✓ Solución calculada</h4><p>'+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+'</p></div>';
+    } else if(step===2 && !isReview){
+      body.innerHTML = '<p style="font-weight:600;">'+cs.interpQuestion+'</p>';
+      var grid = el("div","choice-grid");
+      cs.interpOptions.forEach(function(txt,i){
+        var btn = el("button","choice"); btn.type="button"; btn.textContent=txt;
+        btn.addEventListener("click", function(){
+          Array.from(grid.children).forEach(function(x){ x.disabled=true; });
+          if(i===cs.interpCorrect){
+            btn.classList.add("correct");
+            setTimeout(function(){ maxStep=3; step=3; renderCase(); }, 900);
+          } else {
+            btn.classList.add("incorrect");
+            setTimeout(function(){ Array.from(grid.children).forEach(function(x){ x.disabled=false; x.classList.remove("incorrect"); }); }, 900);
+          }
+        });
+        grid.appendChild(btn);
+      });
+      body.appendChild(grid);
+    } else if(step===2){
+      body.innerHTML = '<p style="font-weight:600;">'+cs.interpQuestion+'</p>';
+      var grid2 = el("div","choice-grid");
+      cs.interpOptions.forEach(function(txt,i){
+        var btn2 = el("button","choice"+(i===cs.interpCorrect?" correct":"")); btn2.type="button"; btn2.textContent=txt; btn2.disabled=true;
+        grid2.appendChild(btn2);
+      });
+      body.appendChild(grid2);
+    } else if(step===3 && !isReview){
+      body.innerHTML =
+        '<p>Comprueba tu solución sustituyendo '+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+' en cada ecuación. ¿Qué valor da el lado izquierdo de cada una?</p>'+
+        '<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:end;">'+
+        '<div><label style="display:block;font-size:.85rem;font-weight:600;">'+K(lineTex3(s.a1,s.b1,s.c1,s.d1).split("=")[0])+' =</label><input type="number" step="any" id="p7_v1" style="width:100px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<div><label style="display:block;font-size:.85rem;font-weight:600;">'+K(lineTex3(s.a2,s.b2,s.c2,s.d2).split("=")[0])+' =</label><input type="number" step="any" id="p7_v2" style="width:100px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<div><label style="display:block;font-size:.85rem;font-weight:600;">'+K(lineTex3(s.a3,s.b3,s.c3,s.d3).split("=")[0])+' =</label><input type="number" step="any" id="p7_v3" style="width:100px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);"></div>'+
+        '<button class="btn primary sm" id="p7_checkVer">Comprobar</button></div>';
+      var fb3 = feedbackBox(body);
+      document.getElementById("p7_checkVer").addEventListener("click", function(){
+        var v1 = parseFloat(document.getElementById("p7_v1").value);
+        var v2 = parseFloat(document.getElementById("p7_v2").value);
+        var v3 = parseFloat(document.getElementById("p7_v3").value);
+        if(Math.abs(v1-s.d1)<0.05 && Math.abs(v2-s.d2)<0.05 && Math.abs(v3-s.d3)<0.05){
+          fb3.ok("✅ Las tres ecuaciones se cumplen: la solución "+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+" queda verificada.");
+          markSolved("aplica", cs.key);
+          setTimeout(function(){ maxStep=4; step=4; renderCase(); }, 900);
+        } else {
+          fb3.bad("Alguno de los tres valores no coincide con el término independiente de su ecuación. Sustituye con cuidado "+K("x="+fmt(cs.sol.x))+", "+K("y="+fmt(cs.sol.y))+" y "+K("z="+fmt(cs.sol.z))+".");
+        }
+      });
+    } else if(step===3){
+      body.innerHTML =
+        '<p>Sustituyendo '+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+' en el sistema:</p>'+
+        '<div class="mission-card solved"><h4>✓ Las tres ecuaciones se cumplen</h4></div>';
+    } else {
+      if(cs.boss){
+        body.innerHTML =
+          '<div class="mission-card solved boss-panel" style="margin-bottom:14px;">'+
+          '<h4 style="display:flex;align-items:center;gap:10px;">'+mascotBadge("certificate", 32, "mascot-inline")+'🏆 ¡Jefe final derrotado!</h4>'+
+          '<p>Resolviste el caso del estadio de principio a fin: planteaste el sistema, lo resolviste, interpretaste el resultado y lo verificaste. Desbloqueaste la insignia de <strong>Jefe final</strong>.</p>'+
+          '<p>Sistema: '+K(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+' · Solución: '+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+'</p>'+
+          '</div>'+
+          '<button class="btn primary sm" style="margin-top:6px;" id="p7_nextCase">Ver resumen final →</button>';
+      } else {
+        body.innerHTML =
+          '<div class="mission-card solved" style="margin-bottom:14px;"><h4>✓ Caso resuelto</h4>'+
+          '<p>Sistema: '+K(systemTex3(s.a1,s.b1,s.c1,s.d1, s.a2,s.b2,s.c2,s.d2, s.a3,s.b3,s.c3,s.d3))+' · Solución: '+K(pointTex3(cs.sol.x,cs.sol.y,cs.sol.z))+'</p></div>'+
+          '<button class="btn primary sm" style="margin-top:6px;" id="p7_nextCase">'+(idx===CASES_P7.length-1 ? "Ver resumen final →" : "Siguiente caso →")+'</button>';
+      }
+      document.getElementById("p7_nextCase").addEventListener("click", function(){ idx++; step=0; maxStep=0; renderCase(); });
+    }
+
+    var nav = el("div","step-nav");
+    var prevBtn = el("button","btn ghost sm", "← Anterior");
+    if(step===0) prevBtn.disabled = true;
+    prevBtn.addEventListener("click", function(){ if(step>0) goStep(step-1); });
+    nav.appendChild(prevBtn);
+    if(isReview){
+      var nextNavBtn = el("button","btn primary sm", "Siguiente →");
+      nextNavBtn.addEventListener("click", function(){ goStep(step+1); });
+      nav.appendChild(nextNavBtn);
+    } else {
+      nav.appendChild(el("span"));
+    }
+    card.appendChild(nav);
+  }
+  renderCase();
+}
+
+/* ============================================================
+   RESUMEN FINAL Y CONSTANCIA
+============================================================ */
+function renderSummary(app){
+  var allDone = allPhasesDone();
+
+  var hero = el("div","hero");
+  hero.innerHTML = '<div class="hero-text"><span class="eyebrow">'+(allDone?"Misión completa":"Resumen de progreso")+'</span>'+
+    '<h1>'+(allDone ? "🎓 ¡Lo lograste, "+escapeHtml(student.name)+"!" : "Todavía te faltan fases por completar")+'</h1>'+
+    '<p class="lead">'+(allDone
+      ? "Completaste las siete fases de “Sistemas 3D: Domina las Tres Incógnitas”, incluido el caso final. Aquí tienes tu resumen, tus insignias y tu constancia de finalización."
+      : "Vuelve al mapa de misión para terminar las fases pendientes; cuando completes las siete (incluido el caso final), tu constancia aparecerá aquí.")+'</p></div>'+
+    '<div class="hero-art">'+(allDone ? mascotBadge("certificate", 120) : '<svg viewBox="0 0 32 32"><path d="M9 5h14v6a7 7 0 0 1-14 0z"/><path d="M9 7H5a4.5 4.5 0 0 0 4.5 6.5"/><path d="M23 7h4a4.5 4.5 0 0 1-4.5 6.5"/><line x1="16" y1="18.5" x2="16" y2="24"/><line x1="10.5" y1="28" x2="21.5" y2="28"/><line x1="16" y1="24" x2="16" y2="28"/></svg>')+'</div>';
+  app.appendChild(hero);
+
+  renderXPPanel(app);
+
+  var total = totalMissions();
+  var solved = PHASES.reduce(function(sum,ph){ return sum + phaseCompleteCount(ph.key, MISSION_TOTALS[ph.key]); }, 0);
+
+  var statGrid = el("div","stat-grid");
+  PHASES.forEach(function(ph){
+    var d = phaseCompleteCount(ph.key, MISSION_TOTALS[ph.key]);
+    var t = MISSION_TOTALS[ph.key];
+    var tile = el("div","stat-tile");
+    tile.innerHTML = '<div class="num">'+(d>=t?"✓":d+"/"+t)+'</div><div class="lbl">'+ph.label+'</div>';
+    statGrid.appendChild(tile);
+  });
+  var totalTile = el("div","stat-tile");
+  totalTile.style.borderColor = "var(--accent)";
+  totalTile.innerHTML = '<div class="num">'+solved+'/'+total+'</div><div class="lbl">Retos totales</div>';
+  statGrid.appendChild(totalTile);
+  app.appendChild(statGrid);
+
+  if(!allDone){
+    var back = el("div","center-actions");
+    back.innerHTML = '<button class="btn primary" id="sum_map">Volver al mapa de misión</button>';
+    app.appendChild(back);
+    back.querySelector("#sum_map").addEventListener("click", function(){ goTo("map"); });
+    return;
+  }
+
+  var completedAt = getCompletedAt();
+  var dateStr = "";
+  try{
+    dateStr = new Date(completedAt || Date.now()).toLocaleDateString("es-PE", {day:"numeric", month:"long", year:"numeric"});
+  }catch(e){ dateStr = ""; }
+
+  var printBar = el("div","center-actions no-print");
+  printBar.innerHTML = '<button class="btn primary" id="sum_print">🖨️ Guardar como PDF / imprimir</button>'+
+    '<button class="btn ghost" id="sum_map2">Volver al mapa de misión</button>';
+  app.appendChild(printBar);
+  printBar.querySelector("#sum_print").addEventListener("click", function(){ window.print(); });
+  printBar.querySelector("#sum_map2").addEventListener("click", function(){ goTo("map"); });
+
+  var cert = el("div","cert-card");
+  cert.id = "certCard";
+  var carreraTxt = student.carrera === "Otra" ? "Pensamiento Matemático" : student.carrera;
+  cert.innerHTML =
+    '<div class="cert-inner">'+
+      '<div class="cert-seal">'+mascotBadge("certificate", 60)+'</div>'+
+      '<div class="cert-eyebrow">Constancia de finalización</div>'+
+      '<div class="cert-title">Misión: Sistemas 3D — Tres Incógnitas</div>'+
+      '<div class="cert-role">Se certifica que</div>'+
+      '<div class="cert-name">'+escapeHtml(student.name)+'</div>'+
+      '<div class="cert-role">estudiante de '+escapeHtml(carreraTxt)+'</div>'+
+      '<p class="cert-body">completó exitosamente las siete fases del curso de Pensamiento Matemático — Clasifica, Verifica, Resuelve, Interpreta, Investiga, Desafío y Aplica — resolviendo '+total+' retos sobre clasificación, verificación, métodos de resolución (sustitución, reducción y regla de Cramer), interpretación y aplicación integral de sistemas de ecuaciones lineales con tres incógnitas, incluido el caso final. Nivel alcanzado: '+currentLevelInfo(totalXP()).name+'.</p>'+
+      '<div class="cert-sig">Curso de Pensamiento Matemático</div>'+
+      '<div class="cert-date">'+(dateStr||"")+'</div>'+
+    '</div>';
+  app.appendChild(cert);
+
+  var badgesPanel = el("div","panel no-print"); badgesPanel.style.marginTop="18px";
+  badgesPanel.innerHTML = '<h3>Tu vitrina de insignias</h3>';
+  var badgeRow = el("div","badge-row");
+  PHASES.forEach(function(ph){
+    var chip = el("div","badge-chip unlocked");
+    chip.innerHTML = '<span class="badge-circle">'+PHASE_ICONS[ph.id]+'</span><span class="badge-label">'+ph.label+'</span>';
+    badgeRow.appendChild(chip);
+  });
+  var bossChip = el("div","badge-chip boss unlocked");
+  bossChip.innerHTML = '<span class="badge-circle">'+ICON_BOSS+'</span><span class="badge-label">Jefe final</span>';
+  badgeRow.appendChild(bossChip);
+  var masterChip = el("div","badge-chip boss unlocked");
+  masterChip.innerHTML = '<span class="badge-circle">'+ICON_MASTER+'</span><span class="badge-label">Maestro</span>';
+  badgeRow.appendChild(masterChip);
+  badgesPanel.appendChild(badgeRow);
+  app.appendChild(badgesPanel);
+}
+
+var PHASE_RENDERERS = {1:renderPhase1, 2:renderPhase2, 3:renderPhase3, 4:renderPhase4, 5:renderPhase5, 6:renderPhase6, 7:renderPhase7};
+
+goTo(student ? "map" : "register");
+})();
+</script>

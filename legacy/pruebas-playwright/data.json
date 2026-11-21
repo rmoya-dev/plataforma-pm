@@ -1,0 +1,1604 @@
+{
+ "DESPEJA": [
+  {
+   "key": "d1",
+   "tag": "Reto 1 de 6",
+   "title": "El tiempo atrapado en el exponente",
+   "story": "Don Aurelio tiene <strong>S/ 10 000</strong> y quiere llegar a <strong>S/ 15 000</strong>. Con una tasa anual de $5\\,\\%$ la ecuación es $10000\\,(1.05)^{t}=15000$, es decir $(1.05)^{t}=1.5$.",
+   "q": "¿Por qué no se puede despejar $t$ con una resta o una división?",
+   "opts": [
+    "Porque $t$ está en el exponente: hace falta el logaritmo, que lo «baja»",
+    "Porque falta el capital en la ecuación",
+    "Porque la tasa es muy pequeña",
+    "Sí se puede: basta dividir $1.5$ entre $1.05$"
+   ],
+   "correct": 0,
+   "explain": "Si divides $1.5$ entre $1.05$ no obtienes $t$: el exponente no se «suelta» con operaciones comunes. El <strong>logaritmo</strong> es la operación inversa de la exponenciación y permite bajar $t$."
+  },
+  {
+   "key": "d2",
+   "tag": "Reto 2 de 6",
+   "title": "La propiedad que baja el exponente",
+   "story": "En la Semana 13 viste las propiedades de los logaritmos. Una de ellas es la herramienta clave para hoy.",
+   "q": "¿Cuál es la propiedad que permite despejar un exponente?",
+   "opts": [
+    "$\\ln\\left(a^{x}\\right)=x\\cdot\\ln(a)$",
+    "$\\ln(a+b)=\\ln(a)+\\ln(b)$",
+    "$\\ln\\left(a^{x}\\right)=\\ln(a)^{x}$",
+    "$\\ln(a\\cdot x)=a^{x}$"
+   ],
+   "correct": 0,
+   "explain": "$\\ln\\left(a^{x}\\right)=x\\cdot\\ln(a)$: el exponente $x$ pasa a multiplicar. Así, $\\ln\\left[(1.05)^{t}\\right]=t\\cdot\\ln(1.05)$ y ya se puede despejar."
+  },
+  {
+   "key": "d3",
+   "tag": "Reto 3 de 6",
+   "title": "Tu primer logaritmo natural",
+   "story": "Abre la calculadora y busca la tecla <span class=\"mono\">ln</span>. Escribe <span class=\"mono\">ln(2)</span> y cierra el paréntesis.",
+   "prompt": "Calcula $\\ln(2)$ (4 decimales).",
+   "ans": 0.6931471805599453,
+   "dec": 4,
+   "hint": "Pulsa <span class=\"mono\">ln</span>, escribe $2$, cierra con $)$ y $=$. Debe dar menos que $1$.",
+   "explain": "$\\ln(2)\\approx$ <strong>0.6931</strong>. Es el número al que hay que elevar $e$ para obtener $2$. Lo volveremos a usar al <em>duplicar</em> un capital."
+  },
+  {
+   "key": "d4",
+   "tag": "Reto 4 de 6",
+   "title": "Despeja el exponente",
+   "story": "Resuelve $(1.1)^{t}=1.331$. Aplica $\\ln$ a ambos lados: $t\\cdot\\ln(1.1)=\\ln(1.331)$, así que $t=\\dfrac{\\ln(1.331)}{\\ln(1.1)}$.",
+   "prompt": "Calcula $t$ (2 decimales).",
+   "ans": 3,
+   "dec": 2,
+   "hint": "$\\ln(1.331)\\approx0.286$ y $\\ln(1.1)\\approx0.0953$. Divide el primero entre el segundo.",
+   "explain": "$t=\\dfrac{\\ln(1.331)}{\\ln(1.1)}=\\dfrac{0.286179}{0.095310}=$ <strong>3</strong>. ¡Comprobación: $1.1^{3}=1.331$!"
+  },
+  {
+   "key": "d5",
+   "tag": "Reto 5 de 6",
+   "title": "¿Cuándo se duplica? (primer vistazo)",
+   "story": "Un estudio jurídico deposita <strong>S/ 1 000</strong> al $4\\,\\%$ anual con capitalización anual. Quiere saber cuándo tendrá <strong>S/ 2 000</strong>: $(1.04)^{t}=2$.",
+   "prompt": "Calcula $t$ en años (2 decimales).",
+   "ans": 17.672987685129698,
+   "dec": 2,
+   "hint": "$t=\\dfrac{\\ln 2}{\\ln 1.04}=\\dfrac{0.693147}{0.039221}$.",
+   "explain": "$t=\\dfrac{\\ln 2}{\\ln 1.04}\\approx$ <strong>17.67 años</strong>. Más adelante verás que esto no depende de cuánto inviertas."
+  },
+  {
+   "key": "d6",
+   "tag": "Reto 6 de 6",
+   "title": "Detective: ¿qué error cometió el asistente? (Derecho)",
+   "story": "El estudio debe hallar $\\ln\\left(\\dfrac{30000}{25000}\\right)$. Su asistente escribe: «$\\dfrac{\\ln(30000)}{\\ln(25000)}\\approx\\dfrac{10.3090}{10.1266}\\approx1.0180$».",
+   "q": "¿Cuál es el error?",
+   "opts": [
+    "Aplicó mal la propiedad: $\\ln(M/C)=\\ln M-\\ln C\\approx0.1823$ (o se calcula el cociente $1.2$ y luego $\\ln(1.2)$)",
+    "No hay error: el logaritmo de un cociente es el cociente de logaritmos",
+    "Debió usar $\\log$ y no $\\ln$",
+    "Debió multiplicar los dos logaritmos"
+   ],
+   "correct": 0,
+   "explain": "El logaritmo de un cociente es una <strong>resta</strong> de logaritmos: $\\ln(30000)-\\ln(25000)=0.1823=\\ln(1.2)$. El asistente obtuvo $1.0180$, que no tiene nada que ver. Truco: calcula primero $\\dfrac{M}{C}$ y aplica $\\ln$ una sola vez."
+  }
+ ],
+ "FORMULA": [
+  {
+   "key": "f1",
+   "tag": "Reto 1 de 6",
+   "title": "Elige el despeje correcto",
+   "story": "Parte de $A=P(1+r)^{t}$ y despeja $t$ siguiendo los pasos de la Fase 1.",
+   "q": "¿Cuál es la fórmula del tiempo?",
+   "opts": [
+    "$t=\\dfrac{\\ln\\left(A/P\\right)}{\\ln(1+r)}$",
+    "$t=\\dfrac{A/P}{1+r}$",
+    "$t=\\ln\\left(A/P\\right)\\cdot\\ln(1+r)$",
+    "$t=\\dfrac{\\ln(A)}{\\ln(P)\\cdot(1+r)}$"
+   ],
+   "correct": 0,
+   "explain": "Se divide $A$ entre $P$, se aplica $\\ln$ y se baja el exponente: $t\\cdot\\ln(1+r)=\\ln(A/P)$. Por eso $t$ es el <strong>cociente de dos logaritmos</strong>."
+  },
+  {
+   "key": "f2",
+   "tag": "Reto 2 de 6",
+   "title": "La unidad manda (regla de oro)",
+   "story": "Una cooperativa paga <strong>5 % trimestral</strong>. Calculas $t=\\dfrac{\\ln(A/P)}{\\ln(1.05)}$ y obtienes $4$.",
+   "q": "¿En qué unidad queda ese resultado?",
+   "opts": [
+    "4 trimestres (1 año)",
+    "4 años",
+    "4 meses",
+    "4 días"
+   ],
+   "correct": 0,
+   "explain": "<strong>Regla de oro:</strong> la unidad de $t$ es la misma que la de la tasa. Como la tasa es trimestral, $t=4$ son <strong>4 trimestres</strong>, o sea 1 año."
+  },
+  {
+   "key": "f3",
+   "tag": "Reto 3 de 6",
+   "title": "Ejemplo 1: arma el cociente",
+   "story": "Un estudio invierte <strong>S/ 25 000</strong> y obtiene <strong>S/ 30 387.66</strong>. Arma el cociente $\\dfrac{A}{P}$ que va dentro del logaritmo.",
+   "prompt": "Calcula $\\dfrac{A}{P}$ (4 decimales).",
+   "ans": 1.2155064,
+   "dec": 4,
+   "hint": "Divide $30387.66$ entre $25000$ con la calculadora.",
+   "explain": "$\\dfrac{30387.66}{25000}=$ <strong>1.2155</strong>. Es el factor por el que se multiplicó el capital (un 21.55 % más)."
+  },
+  {
+   "key": "f4",
+   "tag": "Reto 4 de 6",
+   "title": "Tasa por periodo (préstamo quincenal)",
+   "story": "Un préstamo cobra <strong>24.96 % anual capitalizable quincenalmente</strong> ($n=24$). La fórmula necesita la tasa <em>por quincena</em>, no la anual.",
+   "prompt": "Calcula la tasa por periodo $i=\\dfrac{r}{n}$ en decimal (4 decimales).",
+   "ans": 0.0104,
+   "dec": 4,
+   "hint": "Divide $0.2496$ entre $24$.",
+   "explain": "$i=\\dfrac{0.2496}{24}=$ <strong>0.0104</strong> por quincena. Es el valor que va en $\\ln(1+i)=\\ln(1.0104)$."
+  },
+  {
+   "key": "f5",
+   "tag": "Reto 5 de 6",
+   "title": "«El interés es el triple del capital»",
+   "story": "Un fondo de becas dice: «los intereses ganados serán el <strong>triple</strong> del capital». Entonces $I=3P$.",
+   "prompt": "¿Cuántas veces el capital es el monto final? Es decir, ¿cuánto vale $\\dfrac{A}{P}$?",
+   "ans": 4,
+   "dec": 0,
+   "hint": "El monto es capital más interés: $A=P+I=P+3P$.",
+   "explain": "$A=P+3P=4P$, así que $\\dfrac{A}{P}=$ <strong>4</strong> y se usa $\\ln 4$, <em>no</em> $\\ln 3$. Es el error más común del Ejemplo 3."
+  },
+  {
+   "key": "f6",
+   "tag": "Reto 6 de 6",
+   "title": "Detective: ¿qué olvidó Luis? (Psicología)",
+   "story": "La clínica quiere pasar de <strong>S/ 8 000 a S/ 12 000</strong> con <strong>6.35 % anual capitalizable trimestralmente</strong>. Luis calcula $\\dfrac{\\ln(1.5)}{\\ln(1.0635)}\\approx6.59$ y escribe «6.59 trimestres».",
+   "q": "¿Cuál es el error?",
+   "opts": [
+    "No dividió la tasa anual entre $4$: debió usar $\\ln\\left(1+\\dfrac{0.0635}{4}\\right)$ y obtener $25.74$ trimestres",
+    "Debió usar la tasa en porcentaje, $6.35$",
+    "Debió multiplicar por el capital",
+    "No hay error"
+   ],
+   "correct": 0,
+   "explain": "Con capitalización trimestral la tasa por periodo es $i=\\dfrac{0.0635}{4}=0.015875$. El resultado correcto es $\\dfrac{\\ln 1.5}{\\ln 1.015875}\\approx25.74$ <strong>trimestres</strong> ($\\approx6.44$ años)."
+  }
+ ],
+ "CALCULA": [
+  {
+   "key": "k1",
+   "tag": "Reto 1 de 6",
+   "title": "Ejemplo 1: la tasa trimestral directa",
+   "story": "Un estudio jurídico invierte <strong>S/ 25 000</strong> y recibe <strong>S/ 30 387.66</strong> con una tasa de <strong>5 % trimestral</strong>. ¿Cuántos trimestres pasaron?",
+   "chips": [
+    "Capital <strong>S/ 25 000</strong>",
+    "Meta <strong>S/ 30 387.66</strong>",
+    "Tasa <strong>5 % trimestral</strong>"
+   ],
+   "ans": 4.000002529308222,
+   "dec": 2,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> ya viene por periodo: $i=0.05$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=\\dfrac{30 387.66}{25 000}=1.215506$.",
+    "<strong>Logaritmos:</strong> $\\ln(1.215506)\\approx0.195161$ y $\\ln(1.05)\\approx0.04879$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.195161}{0.04879}\\approx4.00$ trimestres."
+   ],
+   "label": "Tiempo (trimestres, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>trimestres</strong>.",
+   "explain": "$t=\\dfrac{\\ln(1.2155)}{\\ln(1.05)}\\approx$ <strong>4.00 trimestres</strong> (unos 1.00 años). Eso equivale a <strong>1 año</strong> (4 trimestres)."
+  },
+  {
+   "key": "k2",
+   "tag": "Reto 2 de 6",
+   "title": "Ejemplo 2: capitalización anual",
+   "story": "Una clínica quiere pasar de <strong>S/ 30 000</strong> a <strong>S/ 40 000</strong> con una tasa de <strong>4 % anual</strong> (capitalización anual). ¿En cuántos años?",
+   "chips": [
+    "Capital <strong>S/ 30 000</strong>",
+    "Meta <strong>S/ 40 000.00</strong>",
+    "Tasa <strong>4 % anual</strong>"
+   ],
+   "ans": 7.334952613622031,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> ya viene por periodo: $i=0.04$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=\\dfrac{40 000.00}{30 000}=1.333333$.",
+    "<strong>Logaritmos:</strong> $\\ln(1.333333)\\approx0.287682$ y $\\ln(1.04)\\approx0.039221$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.287682}{0.039221}\\approx7.33$ años."
+   ],
+   "label": "Tiempo (años, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>años</strong>.",
+   "explain": "$t=\\dfrac{\\ln(1.3333)}{\\ln(1.04)}\\approx$ <strong>7.33 años</strong>."
+  },
+  {
+   "key": "k3",
+   "tag": "Reto 3 de 6",
+   "title": "Ejemplo 3: cuando el interés es el triple del capital",
+   "story": "Un fondo de becas promete que el <strong>interés será el triple del capital</strong> ($I=3P$) con una tasa de <strong>6 % anual</strong>. ¿Cuántos años necesita?",
+   "chips": [
+    "Meta <strong>$A=4P$</strong>",
+    "Tasa <strong>6 % anual</strong>"
+   ],
+   "ans": 23.79132209188375,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> ya viene por periodo: $i=0.06$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=4$.",
+    "<strong>Logaritmos:</strong> $\\ln(4)\\approx1.386294$ y $\\ln(1.06)\\approx0.058269$.",
+    "<strong>Divide:</strong> $t=\\dfrac{1.386294}{0.058269}\\approx23.79$ años."
+   ],
+   "label": "Tiempo (años, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>años</strong>.",
+   "explain": "$t=\\dfrac{\\ln(4)}{\\ln(1.06)}\\approx$ <strong>23.79 años</strong>. Recuerda: $I=3P\\Rightarrow A=P+3P=4P$, por eso se usa $\\ln 4$ y no $\\ln 3$."
+  },
+  {
+   "key": "k4",
+   "tag": "Reto 4 de 6",
+   "title": "Ejemplo 4: de tasa anual a mensual",
+   "story": "Se invierten <strong>S/ 25 000</strong> y se desea llegar a <strong>S/ 25 700</strong> con una tasa de <strong>2 % anual capitalizable mensualmente</strong>. ¿En cuántos <strong>meses</strong>?",
+   "chips": [
+    "Capital <strong>S/ 25 000</strong>",
+    "Meta <strong>S/ 25 700.00</strong>",
+    "Tasa <strong>2 % anual cap. mensual</strong>"
+   ],
+   "ans": 16.565,
+   "dec": 2,
+   "tol": 0.04,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> $i=\\dfrac{r}{n}=\\dfrac{0.02}{12}=0.001667$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=\\dfrac{25 700.00}{25 000}=1.028$.",
+    "<strong>Logaritmos:</strong> $\\ln(1.028)\\approx0.027615$ y $\\ln(1.001667)\\approx0.001665$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.027615}{0.001665}\\approx16.58$ meses."
+   ],
+   "label": "Tiempo (meses, 2 decimales)",
+   "hint": "$i=\\dfrac{0.02}{12}\\approx0.001667$. Calcula $\\ln(25700/25000)$ y $\\ln(1+i)$ y divide. Puedes usar $\\log$ o $\\ln$.",
+   "explain": "$t=\\dfrac{\\ln(1.028)}{\\ln(1.001667)}\\approx$ <strong>16.58 meses</strong> (unos 1.38 años). Tu PPT usa $\\log$ decimal y redondea $i\\approx0.00167$, y obtiene <strong>16.55</strong>; sin redondear $i$ sale <strong>16.58</strong> (≈ 1.38 años). Aquí aceptamos ambas."
+  },
+  {
+   "key": "k5",
+   "tag": "Reto 5 de 6",
+   "title": "Ejemplo 5: liquidación de un préstamo quincenal",
+   "story": "Un préstamo de <strong>S/ 170 000</strong> se liquida con un pago único de <strong>S/ 246 722.68</strong>. La tasa es <strong>24.96 % anual capitalizable quincenalmente</strong>. ¿Cuántas <strong>quincenas</strong> duró?",
+   "chips": [
+    "Capital <strong>S/ 170 000</strong>",
+    "Meta <strong>S/ 246 722.68</strong>",
+    "Tasa <strong>24.96 % anual cap. quincenal</strong>"
+   ],
+   "ans": 36.00000017713836,
+   "dec": 2,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> $i=\\dfrac{r}{n}=\\dfrac{0.2496}{24}=0.0104$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=\\dfrac{246 722.68}{170 000}=1.45131$.",
+    "<strong>Logaritmos:</strong> $\\ln(1.45131)\\approx0.372467$ y $\\ln(1.0104)\\approx0.010346$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.372467}{0.010346}\\approx36.00$ quincenas."
+   ],
+   "label": "Tiempo (quincenas, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>quincenas</strong>.",
+   "explain": "$t=\\dfrac{\\ln(1.4513)}{\\ln(1.0104)}\\approx$ <strong>36.00 quincenas</strong> (unos 1.50 años). En años: $36/24=1.5$ años."
+  },
+  {
+   "key": "k6",
+   "tag": "Reto 6 de 6",
+   "title": "¿$\\ln$ o $\\log$? (Nota pedagógica del PPT)",
+   "story": "En el Ejemplo 4 tu PPT usa $\\log$ (decimal) en lugar de $\\ln$. Un compañero dice: «entonces mi resultado con $\\ln$ saldrá distinto».",
+   "q": "¿Qué le respondes?",
+   "opts": [
+    "Sale lo mismo: el cociente $\\dfrac{\\log(A/P)}{\\log(1+i)}$ no depende de la base, mientras uses la misma arriba y abajo",
+    "Sale distinto: $\\ln$ siempre da más",
+    "Con $\\log$ hay que multiplicar por $10$",
+    "Solo $\\ln$ está permitido"
+   ],
+   "correct": 0,
+   "explain": "El cambio de base multiplica numerador y denominador por el mismo factor, y se cancela. Usa <strong>la misma tecla arriba y abajo</strong> y el resultado es idéntico."
+  }
+ ],
+ "DUPLICA": [
+  {
+   "key": "u1",
+   "tag": "Reto 1 de 6",
+   "title": "¿Importa cuánto inviertes? (el capital se cancela)",
+   "story": "Dos amigas de la facultad quieren duplicar su dinero con la misma tasa y la misma capitalización. Una invierte <strong>S/ 100</strong> y la otra <strong>S/ 1 000 000</strong>.",
+   "q": "¿Cuál tarda menos en duplicar su dinero?",
+   "opts": [
+    "Tardan lo mismo: al dividir $\\dfrac{2P}{P}=2$, el capital se cancela",
+    "La que invierte más, porque tiene más dinero trabajando",
+    "La que invierte menos, porque necesita menos",
+    "No se puede saber sin conocer el capital"
+   ],
+   "correct": 0,
+   "explain": "El tiempo para duplicar depende <strong>solo de la tasa y de la frecuencia</strong>: $t=\\dfrac{\\ln 2}{\\ln(1+i)}$. El capital desaparece al dividir $\\dfrac{2P}{P}$. Es el mensaje clave de la sesión."
+  },
+  {
+   "key": "u2",
+   "tag": "Reto 2 de 6",
+   "title": "Caso 1: Manuel duplica su inversión",
+   "story": "<strong>Manuel</strong> invierte <strong>S/ 40 000</strong> al <strong>3.25 % anual</strong> con capitalización anual. ¿En cuántos años <strong>se duplica</strong> su inversión?",
+   "chips": [
+    "Meta <strong>$A=2P$</strong>",
+    "Tasa <strong>3.25 % anual</strong>"
+   ],
+   "ans": 21.672331764294068,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> ya viene por periodo: $i=0.0325$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=2$.",
+    "<strong>Logaritmos:</strong> $\\ln(2)\\approx0.693147$ y $\\ln(1.0325)\\approx0.031983$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.693147}{0.031983}\\approx21.67$ años."
+   ],
+   "label": "Tiempo (años, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>años</strong>.",
+   "explain": "$t=\\dfrac{\\ln(2)}{\\ln(1.0325)}\\approx$ <strong>21.67 años</strong>. Observa que ni siquiera usamos los S/ 40 000."
+  },
+  {
+   "key": "u3",
+   "tag": "Reto 3 de 6",
+   "title": "Caso 1: Manuel triplica su inversión",
+   "story": "Con los mismos datos de Manuel (<strong>3.25 % anual</strong>, capitalización anual), ¿en cuántos años <strong>se triplica</strong> su dinero?",
+   "chips": [
+    "Meta <strong>$A=3P$</strong>",
+    "Tasa <strong>3.25 % anual</strong>"
+   ],
+   "ans": 34.349833149594076,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> ya viene por periodo: $i=0.0325$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=3$.",
+    "<strong>Logaritmos:</strong> $\\ln(3)\\approx1.098612$ y $\\ln(1.0325)\\approx0.031983$.",
+    "<strong>Divide:</strong> $t=\\dfrac{1.098612}{0.031983}\\approx34.35$ años."
+   ],
+   "label": "Tiempo (años, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>años</strong>.",
+   "explain": "$t=\\dfrac{\\ln(3)}{\\ln(1.0325)}\\approx$ <strong>34.35 años</strong>. Triplicar tarda más que duplicar, pero <em>no el triple</em>: la curva se acelera con el tiempo."
+  },
+  {
+   "key": "u4",
+   "tag": "Reto 4 de 6",
+   "title": "Caso 2: Fernando y los semestres",
+   "story": "<strong>Fernando</strong> invierte <strong>S/ 80 000</strong> al <strong>4.08 % anual capitalizable semestralmente</strong>. ¿En cuántos <strong>semestres</strong> se duplica su dinero?",
+   "chips": [
+    "Meta <strong>$A=2P$</strong>",
+    "Tasa <strong>4.08 % anual cap. semestral</strong>"
+   ],
+   "ans": 34.32321007479871,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> $i=\\dfrac{r}{n}=\\dfrac{0.0408}{2}=0.0204$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=2$.",
+    "<strong>Logaritmos:</strong> $\\ln(2)\\approx0.693147$ y $\\ln(1.0204)\\approx0.020195$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.693147}{0.020195}\\approx34.32$ semestres."
+   ],
+   "label": "Tiempo (semestres, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>semestres</strong>.",
+   "explain": "$t=\\dfrac{\\ln(2)}{\\ln(1.0204)}\\approx$ <strong>34.32 semestres</strong> (unos 17.16 años). En años: $34.32/2\\approx17.16$."
+  },
+  {
+   "key": "u5",
+   "tag": "Reto 5 de 6",
+   "title": "Casos 4 y 5: ¿quién duplica primero?",
+   "story": "<strong>Mario</strong> invierte <strong>S/ 150 000</strong> al <strong>3.02 %</strong> capitalizable <em>bimestralmente</em>. <strong>Julián</strong> invierte <strong>S/ 90 000</strong> al <strong>4.02 %</strong> capitalizable <em>mensualmente</em>.",
+   "q": "¿Quién duplica primero su dinero?",
+   "opts": [
+    "Julián (unos 17.27 años), aunque invierte menos",
+    "Mario (unos 23.01 años), porque invierte más",
+    "Los dos al mismo tiempo",
+    "No se puede comparar"
+   ],
+   "correct": 0,
+   "explain": "Mario: $\\dfrac{\\ln 2}{6\\ln(1+0.0302/6)}\\approx23.01$ años (138.06 bimestres). Julián: $\\dfrac{\\ln 2}{12\\ln(1+0.0402/12)}\\approx17.27$ años (207.26 meses). La <strong>tasa</strong> manda, no el capital."
+  },
+  {
+   "key": "u6",
+   "tag": "Reto 6 de 6",
+   "title": "Caso 6: Marcos y la capitalización diaria",
+   "story": "<strong>Marcos</strong> invierte <strong>S/ 50 000</strong> al <strong>2.08 % anual capitalizable diariamente</strong> ($n=365$). ¿En cuántos <strong>años</strong> se duplica su dinero?",
+   "chips": [
+    "Meta <strong>$A=2P$</strong>",
+    "Tasa <strong>2.08 % anual cap. diaria</strong>"
+   ],
+   "ans": 33.3253331883743,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> $i=\\dfrac{r}{n}=\\dfrac{0.0208}{365}=0.000057$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=2$.",
+    "<strong>Logaritmos:</strong> $\\ln(2)\\approx0.693147$ y $\\ln(1.000057)\\approx0.000057$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.693147}{0.000057}\\approx12163.75$ días. Para pasar a años divide entre $n=365$: $12163.75/365\\approx33.33$."
+   ],
+   "label": "Tiempo (años, 2 decimales)",
+   "hint": "$i=\\dfrac{0.0208}{365}$. Calcula primero los <strong>días</strong> ($\\approx12\\,163.75$) y luego divide entre $365$.",
+   "explain": "$t=\\dfrac{\\ln(2)}{\\ln(1.000057)}\\approx$ <strong>33.33 años</strong>. Si usas año comercial ($n=360$) salen 11 997.12 días, que también equivalen a 33.33 años: la convención no cambia el resultado en años."
+  }
+ ],
+ "META": [
+  {
+   "key": "m1",
+   "tag": "Reto 1 de 5",
+   "title": "Caso 7: la meta de María",
+   "story": "<strong>María</strong> tiene <strong>S/ 8 000</strong> y quiere llegar a <strong>S/ 12 000</strong>. Su tasa es <strong>6.35 % anual capitalizable trimestralmente</strong>. ¿Cuántos <strong>trimestres</strong> necesita?",
+   "chips": [
+    "Capital <strong>S/ 8 000</strong>",
+    "Meta <strong>S/ 12 000.00</strong>",
+    "Tasa <strong>6.35 % anual cap. trimestral</strong>"
+   ],
+   "ans": 25.743309544990115,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> $i=\\dfrac{r}{n}=\\dfrac{0.0635}{4}=0.015875$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=\\dfrac{12 000.00}{8 000}=1.5$.",
+    "<strong>Logaritmos:</strong> $\\ln(1.5)\\approx0.405465$ y $\\ln(1.015875)\\approx0.01575$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.405465}{0.01575}\\approx25.74$ trimestres."
+   ],
+   "label": "Tiempo (trimestres, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>trimestres</strong>.",
+   "explain": "$t=\\dfrac{\\ln(1.5)}{\\ln(1.015875)}\\approx$ <strong>25.74 trimestres</strong> (unos 6.44 años)."
+  },
+  {
+   "key": "m2",
+   "tag": "Reto 2 de 5",
+   "title": "Caso 7: pásalo a años",
+   "story": "María obtuvo <strong>25.74 trimestres</strong>. Su tutor le recuerda: «No escribas 25.74 años; eso sería un error de unidad».",
+   "prompt": "Convierte $25.74$ trimestres a años (2 decimales).",
+   "ans": 6.435,
+   "dec": 2,
+   "tol": 0.012,
+   "label": "Tiempo (años)",
+   "hint": "Un año tiene $4$ trimestres: divide entre $4$.",
+   "explain": "$\\dfrac{25.74}{4}=$ <strong>6.44 años</strong>. Siempre: periodos $\\div\\,n$ = años."
+  },
+  {
+   "key": "m3",
+   "tag": "Reto 3 de 5",
+   "title": "Caso 8: los certificados de Maricielo",
+   "story": "<strong>Maricielo</strong> tiene <strong>S/ 9 000</strong> en certificados de ahorro y quiere llegar a <strong>S/ 11 000</strong>. Tasa: <strong>8.025 % anual capitalizable semestralmente</strong>. ¿Cuántos <strong>semestres</strong>?",
+   "chips": [
+    "Capital <strong>S/ 9 000</strong>",
+    "Meta <strong>S/ 11 000.00</strong>",
+    "Tasa <strong>8.025 % anual cap. semestral</strong>"
+   ],
+   "ans": 5.100816311966913,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> $i=\\dfrac{r}{n}=\\dfrac{0.08025}{2}=0.040125$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=\\dfrac{11 000.00}{9 000}=1.222222$.",
+    "<strong>Logaritmos:</strong> $\\ln(1.222222)\\approx0.200671$ y $\\ln(1.040125)\\approx0.039341$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.200671}{0.039341}\\approx5.10$ semestres."
+   ],
+   "label": "Tiempo (semestres, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. La respuesta queda en <strong>semestres</strong>.",
+   "explain": "$t=\\dfrac{\\ln(1.2222)}{\\ln(1.040125)}\\approx$ <strong>5.10 semestres</strong> (unos 2.55 años). En años: $5.10/2\\approx2.55$."
+  },
+  {
+   "key": "m4",
+   "tag": "Reto 4 de 5",
+   "title": "La beca de la clínica (Psicología)",
+   "story": "La clínica <strong>Brújula</strong> tiene <strong>S/ 20 000</strong> para becas y quiere llegar a <strong>S/ 30 000</strong>. Tasa: <strong>4.5 % anual capitalizable trimestralmente</strong>. ¿En cuántos <strong>años</strong> alcanzará la meta?",
+   "chips": [
+    "Capital <strong>S/ 20 000</strong>",
+    "Meta <strong>S/ 30 000.00</strong>",
+    "Tasa <strong>4.5 % anual cap. trimestral</strong>"
+   ],
+   "ans": 9.06092437413606,
+   "dec": 2,
+   "tol": 0.012,
+   "steps": [
+    "<strong>Tasa por periodo:</strong> $i=\\dfrac{r}{n}=\\dfrac{0.045}{4}=0.01125$.",
+    "<strong>Cociente:</strong> $\\dfrac{A}{P}=\\dfrac{30 000.00}{20 000}=1.5$.",
+    "<strong>Logaritmos:</strong> $\\ln(1.5)\\approx0.405465$ y $\\ln(1.01125)\\approx0.011187$.",
+    "<strong>Divide:</strong> $t=\\dfrac{0.405465}{0.011187}\\approx36.24$ trimestres. Para pasar a años divide entre $n=4$: $36.24/4\\approx9.06$."
+   ],
+   "label": "Tiempo (años, 2 decimales)",
+   "hint": "Calcula por separado $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+i)$ y divide. Al final convierte los periodos a años dividiendo entre $n$.",
+   "explain": "$t=\\dfrac{\\ln(1.5)}{\\ln(1.01125)}\\approx$ <strong>9.06 años</strong>."
+  },
+  {
+   "key": "m5",
+   "tag": "Reto 5 de 5",
+   "title": "La edad de Sofía (Derecho)",
+   "story": "<strong>Sofía</strong>, estudiante de Derecho de <strong>22 años</strong>, invierte <strong>S/ 4 000</strong> al <strong>6.5 % anual</strong> con capitalización anual. Quiere llegar a <strong>S/ 20 000</strong> para abrir su estudio.",
+   "prompt": "¿Qué <strong>edad</strong> tendrá Sofía cuando alcance su meta? (2 decimales)",
+   "ans": 47.55685661354029,
+   "dec": 2,
+   "tol": 0.02,
+   "label": "Edad (años)",
+   "hint": "Primero halla $t=\\dfrac{\\ln(20000/4000)}{\\ln(1.065)}=\\dfrac{\\ln 5}{\\ln 1.065}$ y súmale los $22$ años que ya tiene.",
+   "explain": "$t=\\dfrac{\\ln 5}{\\ln 1.065}\\approx25.56$ años, así que Sofía tendrá $22+25.56\\approx$ <strong>47.56 años</strong>. Si hubiera empezado a los 32, llegaría a los 57.56: <em>empezar antes</em> adelanta la meta."
+  }
+ ],
+ "DICTAMEN": [
+  {
+   "key": "j1",
+   "emoji": "⚖️",
+   "context": "Consignación judicial: ¿cuál llega antes a S/ 90 000?",
+   "story": "Una abogada debe consignar <strong>S/ 60 000</strong> y necesita llegar a <strong>S/ 90 000</strong> lo antes posible para pagar una reparación civil. Tres entidades responden. Cuidado: la tasa más alta <em>no siempre</em> gana.",
+   "offers": [
+    {
+     "tag": "A",
+     "name": "Caja Andina",
+     "desc": "5.4 % anual · capitaliza <strong>anualmente</strong>"
+    },
+    {
+     "tag": "B",
+     "name": "Cooperativa Sol",
+     "desc": "5.35 % anual · capitaliza <strong>mensualmente</strong>"
+    },
+    {
+     "tag": "C",
+     "name": "Banco Nuevo",
+     "desc": "5.3 % anual · capitaliza <strong>semestralmente</strong>"
+    }
+   ],
+   "steps": [
+    {
+     "label": "1. Predice",
+     "kind": "mcq",
+     "q": "En la oferta B (mensual), ¿qué tasa por periodo usas y en qué unidad sale el resultado?",
+     "opts": [
+      "$i=\\dfrac{0.0535}{12}\\approx0.004458$ por mes: el resultado sale en <strong>meses</strong>",
+      "$i=0.0535$: el resultado sale en años",
+      "$i=0.0535\\cdot12$: el resultado sale en meses",
+      "$i=\\dfrac{0.0535}{4}$: el resultado sale en trimestres"
+     ],
+     "correct": 0,
+     "explain": "Mensual: $n=12$, así que $i=\\dfrac{r}{12}$ y el resultado queda en <strong>meses</strong>. Luego se divide entre $12$ para tener años y comparar."
+    },
+    {
+     "label": "2. Oferta A",
+     "kind": "num",
+     "prompt": "Calcula el tiempo con la <strong>Caja Andina</strong>, en años.",
+     "ans": 7.709568715460303,
+     "dec": 2,
+     "hint": "$t=\\dfrac{\\ln(1.5)}{\\ln(1.054)}$.",
+     "explain": "$t_A=\\dfrac{\\ln 1.5}{\\ln 1.054}\\approx$ <strong>7.71 años</strong>.",
+     "label2": "Tiempo (años) =",
+     "tol": 0.012
+    },
+    {
+     "label": "3. Oferta B",
+     "kind": "num",
+     "prompt": "Calcula el tiempo con la <strong>Cooperativa Sol</strong>, en años (primero meses, luego $\\div12$).",
+     "ans": 7.595668921389453,
+     "dec": 2,
+     "hint": "Meses: $\\dfrac{\\ln 1.5}{\\ln(1+0.0535/12)}\\approx91.15$; divide entre $12$.",
+     "explain": "$t_B\\approx91.15$ meses $=$ <strong>7.60 años</strong>.",
+     "label2": "Tiempo (años) =",
+     "tol": 0.012
+    },
+    {
+     "label": "4. Oferta C",
+     "kind": "num",
+     "prompt": "Calcula el tiempo con el <strong>Banco Nuevo</strong>, en años (semestres $\\div2$).",
+     "ans": 7.7512094689319815,
+     "dec": 2,
+     "hint": "Semestres: $\\dfrac{\\ln 1.5}{\\ln(1+0.053/2)}$; divide entre $2$.",
+     "explain": "$t_C\\approx15.50$ semestres $=$ <strong>7.75 años</strong>.",
+     "label2": "Tiempo (años) =",
+     "tol": 0.012
+    },
+    {
+     "label": "5. Dictamina",
+     "kind": "mcq",
+     "q": "¿Qué entidad recomiendas?",
+     "opts": [
+      "La Cooperativa Sol (B): llega antes (7.60 años) aunque su tasa anunciada es menor que la de A",
+      "La Caja Andina (A): tiene la tasa más alta",
+      "El Banco Nuevo (C): capitaliza semestralmente",
+      "Las tres tardan lo mismo"
+     ],
+     "correct": 0,
+     "explain": "A tarda 7.71 años, B 7.60 y C 7.75. La capitalización mensual de B compensa su tasa algo menor. <strong>Compara siempre los tiempos reales.</strong>"
+    }
+   ],
+   "verdict": "Dictamen: se recomienda la <strong>Cooperativa Sol</strong>. Alcanza los S/ 90 000 en 7.60 años, frente a 7.71 (Caja Andina) y 7.75 (Banco Nuevo). <em>Una capitalización más frecuente puede compensar una tasa anunciada ligeramente menor.</em>"
+  },
+  {
+   "key": "j2",
+   "emoji": "🚩",
+   "context": "Detector de promesas imposibles",
+   "story": "La clínica <strong>Brújula</strong> recibe volantes que prometen duplicar o triplicar el dinero en plazos muy cortos. La directora te pide separar lo <strong>posible</strong> de lo <strong>exagerado</strong>. Pista: calcula el tiempo real con la fórmula y compáralo con lo prometido.",
+   "steps": [
+    {
+     "label": "1. Lee",
+     "kind": "mcq",
+     "q": "¿Cómo sabes si una promesa de plazo es posible?",
+     "opts": [
+      "Calculo el <strong>tiempo real</strong> con $\\dfrac{\\ln k}{\\ln(1+i)}$: si lo prometido es <u>menor</u> que el real, es exagerada",
+      "Si el volante es de una cooperativa conocida",
+      "Si el plazo prometido es un número redondo",
+      "Si el contrato es largo"
+     ],
+     "correct": 0,
+     "explain": "El tiempo real es el <strong>mínimo</strong> que permite esa tasa. Una promesa más corta que ese mínimo es imposible sin cobros ocultos o un engaño."
+    },
+    {
+     "label": "2. Calcula",
+     "kind": "num",
+     "prompt": "¿Cuántos años tarda realmente en <strong>duplicarse</strong> el dinero al <strong>6 % anual</strong> (capitalización anual)?",
+     "ans": 11.895661045941875,
+     "dec": 2,
+     "hint": "$t=\\dfrac{\\ln 2}{\\ln 1.06}=\\dfrac{0.693147}{0.058269}$.",
+     "explain": "$t=\\dfrac{\\ln 2}{\\ln 1.06}\\approx$ <strong>11.90 años</strong>: una promesa de «duplicar en 12 años» es honesta; «en 5 años», no.",
+     "label2": "Tiempo (años) =",
+     "tol": 0.012
+    },
+    {
+     "label": "3. Detecta",
+     "kind": "detect",
+     "q": "Marca cada promesa del volante como posible o exagerada.",
+     "items": [
+      {
+       "k": 2,
+       "r": 6,
+       "n": 1,
+       "years": 12,
+       "text": "«Con <strong>6 % anual</strong> (capitalización anual), tu dinero se <strong>duplica en 12 años</strong>.»"
+      },
+      {
+       "k": 3,
+       "r": 8,
+       "n": 1,
+       "years": 10,
+       "text": "«Con <strong>8 % anual</strong> (capitalización anual), tu dinero se <strong>triplica en 10 años</strong>.»"
+      },
+      {
+       "k": 2,
+       "r": 24,
+       "n": 12,
+       "years": 3,
+       "text": "«Con <strong>24 % anual capitalizable mensualmente</strong> (2 % mensual), tu dinero se <strong>duplica en 3 años</strong>.»"
+      },
+      {
+       "k": 2,
+       "r": 5,
+       "n": 365,
+       "years": 1,
+       "text": "«Con nuestra «capitalización especial» a <strong>5 % anual diario</strong>, tu dinero se <strong>duplica en 1 año</strong>.»"
+      },
+      {
+       "k": 2,
+       "r": 12,
+       "n": 12,
+       "years": 5,
+       "text": "«Con <strong>12 % anual capitalizable mensualmente</strong>, tu dinero se <strong>duplica en 5 años</strong>.»"
+      }
+     ],
+     "explain": "Las promesas 1 y 3 son <strong>posibles</strong> (tiempo real $11.90$ y $2.92$ años). La 2 (real $14.27$ años), la 4 (real $13.86$ años) y la 5 (real $5.81$ años) <strong>prometen menos tiempo del que permite la tasa</strong>."
+    },
+    {
+     "label": "4. Decide",
+     "kind": "mcq",
+     "q": "Un paciente quiere invertir sus ahorros en la promesa 4 («duplicar en 1 año al 5 % anual diario»). ¿Qué le dices?",
+     "opts": [
+      "Que es exagerada: con esa tasa duplicar tarda unos 13.9 años; que pida el contrato y consulte con un asesor",
+      "Que invierta: «capitalización especial» suena avanzado",
+      "Que invierta una parte pequeña por si acaso",
+      "Que no importa el plazo prometido, solo la tasa"
+     ],
+     "correct": 0,
+     "explain": "Para duplicar en 1 año se necesitaría una tasa de casi <strong>100 % anual</strong>. Quien asesora a otras personas verifica el <em>tiempo real</em> antes de creer una promesa."
+    }
+   ],
+   "verdict": "Dictamen: las promesas 2, 4 y 5 son <strong>exageradas</strong> porque piden menos tiempo del que permite su tasa. Un buen profesional del Derecho o de la Psicología calcula el tiempo real antes de recomendar o aceptar una oferta."
+  },
+  {
+   "key": "j3",
+   "emoji": "⚖️",
+   "context": "Ejecución de sentencia: ¿alcanza el plazo de 8 años?",
+   "story": "Una indemnización de <strong>S/ 30 000</strong> se consigna al <strong>4.8 % anual capitalizable mensualmente</strong>. La parte necesita que llegue a <strong>S/ 45 000</strong> antes de que venza el plazo de ejecución de <strong>8 años</strong>.",
+   "offers": [
+    {
+     "tag": "Datos",
+     "name": "Consignación",
+     "desc": "S/ 30 000 → S/ 45 000 · 4.8 % mensual · plazo 8 años"
+    }
+   ],
+   "steps": [
+    {
+     "label": "1. Plantea",
+     "kind": "mcq",
+     "q": "¿Qué tasa por periodo y qué unidad usas?",
+     "opts": [
+      "$i=\\dfrac{0.048}{12}=0.004$ por mes; el resultado sale en <strong>meses</strong>",
+      "$i=0.048$; el resultado sale en años",
+      "$i=\\dfrac{0.048}{4}$; sale en trimestres",
+      "$i=0.048\\cdot12$; sale en meses"
+     ],
+     "correct": 0,
+     "explain": "Capitaliza mensualmente: $n=12$ y $i=\\dfrac{0.048}{12}=0.004$."
+    },
+    {
+     "label": "2. Meses",
+     "kind": "num",
+     "prompt": "Calcula cuántos <strong>meses</strong> tarda en llegar a S/ 45 000.",
+     "ans": 101.56887469568628,
+     "dec": 2,
+     "hint": "$\\dfrac{\\ln(1.5)}{\\ln(1.004)}$.",
+     "explain": "$\\dfrac{\\ln 1.5}{\\ln 1.004}\\approx$ <strong>101.57 meses</strong>.",
+     "label2": "Meses =",
+     "tol": 0.03
+    },
+    {
+     "label": "3. Años",
+     "kind": "num",
+     "prompt": "Convierte a años.",
+     "ans": 8.46407289130719,
+     "dec": 2,
+     "hint": "Divide los meses entre $12$.",
+     "explain": "$\\dfrac{101.57}{12}\\approx$ <strong>8.46 años</strong>.",
+     "label2": "Tiempo (años) =",
+     "tol": 0.012
+    },
+    {
+     "label": "4. Decide",
+     "kind": "mcq",
+     "q": "¿Llega a tiempo la consignación?",
+     "opts": [
+      "No: tarda 8.46 años, unos 5.6 meses más que el plazo de 8 años",
+      "Sí: llega antes de los 8 años",
+      "Justo en los 8 años",
+      "No se puede saber sin el nombre del banco"
+     ],
+     "correct": 0,
+     "explain": "$8.46 > 8$ años. Faltan unos 5.6 meses: conviene negociar una tasa algo mayor o completar con un aporte."
+    }
+   ],
+   "verdict": "Dictamen: la consignación <strong>no alcanza</strong> los S/ 45 000 dentro del plazo de 8 años (necesita 8.46 años). Se recomienda buscar una tasa mayor o un aporte adicional antes de que venza el plazo."
+  },
+  {
+   "key": "j4",
+   "emoji": "🏆",
+   "boss": true,
+   "context": "Jefe final: el Fondo de la Defensoría",
+   "story": "La Defensoría tiene <strong>S/ 150 000</strong> y necesita llegar a <strong>S/ 250 000</strong> para comprar una sede de asistencia legal y psicológica. Te piden un dictamen sobre tres ofertas. <strong>Tu informe decide.</strong>",
+   "offers": [
+    {
+     "tag": "A",
+     "name": "Banco Diario",
+     "desc": "4.5 % anual · capitaliza <strong>diariamente</strong> ($n=365$)"
+    },
+    {
+     "tag": "B",
+     "name": "Banco Trimestral",
+     "desc": "4.62 % anual · capitaliza <strong>trimestralmente</strong>"
+    },
+    {
+     "tag": "C",
+     "name": "Banco Anual",
+     "desc": "4.65 % anual · capitaliza <strong>anualmente</strong>"
+    }
+   ],
+   "steps": [
+    {
+     "label": "1. Lee",
+     "kind": "num",
+     "prompt": "Calcula el cociente $\\dfrac{A}{P}$ de la meta (4 decimales).",
+     "ans": 1.6666666666666667,
+     "dec": 4,
+     "hint": "$250000/150000$.",
+     "explain": "$\\dfrac{250000}{150000}=1.6667$: el fondo debe multiplicarse por $1.6667$.",
+     "label2": "$A/P$ ="
+    },
+    {
+     "label": "2. Oferta A",
+     "kind": "num",
+     "prompt": "Calcula el tiempo con el <strong>Banco Diario</strong>, en años.",
+     "ans": 11.352380274878897,
+     "dec": 2,
+     "hint": "Días: $\\dfrac{\\ln(1.6667)}{\\ln(1+0.045/365)}$; divide entre $365$.",
+     "explain": "$t_A\\approx4143.6$ días $=$ <strong>11.35 años</strong>.",
+     "label2": "Tiempo (años) =",
+     "tol": 0.012
+    },
+    {
+     "label": "3. Oferta B",
+     "kind": "num",
+     "prompt": "Calcula el tiempo con el <strong>Banco Trimestral</strong>, en años.",
+     "ans": 11.12056267349941,
+     "dec": 2,
+     "hint": "Trimestres: $\\dfrac{\\ln(1.6667)}{\\ln(1+0.0462/4)}$; divide entre $4$.",
+     "explain": "$t_B\\approx44.48$ trimestres $=$ <strong>11.12 años</strong>.",
+     "label2": "Tiempo (años) =",
+     "tol": 0.012
+    },
+    {
+     "label": "4. Oferta C",
+     "kind": "num",
+     "prompt": "Calcula el tiempo con el <strong>Banco Anual</strong>, en años.",
+     "ans": 11.238975357975447,
+     "dec": 2,
+     "hint": "$\\dfrac{\\ln(1.6667)}{\\ln(1.0465)}$.",
+     "explain": "$t_C\\approx$ <strong>11.24 años</strong>.",
+     "label2": "Tiempo (años) =",
+     "tol": 0.012
+    },
+    {
+     "label": "5. Dictamina",
+     "kind": "mcq",
+     "q": "¿Qué oferta recomiendas?",
+     "opts": [
+      "El Banco Trimestral (B): alcanza la meta primero, en 11.12 años",
+      "El Banco Anual (C): tiene la tasa nominal más alta",
+      "El Banco Diario (A): capitaliza todos los días",
+      "Las tres son equivalentes"
+     ],
+     "correct": 0,
+     "explain": "B: 11.12 años · C: 11.24 · A: 11.35. La tasa de C es mayor que la de B, pero B capitaliza más seguido y llega antes. La capitalización diaria de A no compensa una tasa de 4.5 %."
+    },
+    {
+     "label": "6. Redacta",
+     "kind": "mcq",
+     "q": "Elige la conclusión mejor redactada para el informe.",
+     "opts": [
+      "Se recomienda el Banco Trimestral: alcanza los S/ 250 000 en 11.12 años, 1.4 meses antes que el Banco Anual y 2.8 meses antes que el Banco Diario; la decisión se basa en el tiempo real hasta la meta.",
+      "Se recomienda el Banco Anual porque tiene la tasa más alta.",
+      "Se recomienda el Banco Diario porque capitaliza todos los días.",
+      "Se recomienda cualquiera; el tiempo no importa."
+     ],
+     "correct": 0,
+     "explain": "Un buen dictamen indica <strong>qué se recomienda, con qué cifras y por qué</strong>."
+    }
+   ],
+   "verdict": "Dictamen del jefe final: <strong>Banco Trimestral</strong>. Llega a los S/ 250 000 en 11.12 años, frente a 11.24 (Banco Anual) y 11.35 (Banco Diario). Ni la tasa nominal más alta ni la capitalización más frecuente ganan por sí solas: gana la combinación que alcanza la meta en <strong>menos tiempo</strong>.",
+   "decision": "Se recomienda invertir los S/ 150 000 en el Banco Trimestral (4.62 % anual, capitalización trimestral): alcanza la meta de S/ 250 000 en 11.12 años, 1.4 meses antes que el Banco Anual y 2.8 meses antes que el Banco Diario."
+  }
+ ],
+ "FLASH": [
+  {
+   "id": 1,
+   "short": "Despeja",
+   "title": "Fase 1 · Despeja el exponente",
+   "qs": [
+    {
+     "q": "Para despejar $t$ de $(1.05)^{t}=1.5$ necesitas…",
+     "o": [
+      "Aplicar logaritmo a ambos lados",
+      "Dividir $1.5$ entre $1.05$",
+      "Restar $1.05$ a $1.5$"
+     ],
+     "c": 0,
+     "why": "El tiempo está en el exponente: solo el logaritmo lo «baja»."
+    },
+    {
+     "q": "$\\ln\\left(a^{x}\\right)$ es igual a…",
+     "o": [
+      "$x\\cdot\\ln(a)$",
+      "$\\ln(a)^{x}$",
+      "$x+\\ln(a)$"
+     ],
+     "c": 0,
+     "why": "La propiedad del exponente: pasa a multiplicar."
+    },
+    {
+     "q": "Aproximadamente, $\\ln(2)$ vale…",
+     "o": [
+      "$0.6931$",
+      "$2.0000$",
+      "$1.3863$"
+     ],
+     "c": 0,
+     "why": "$\\ln 2\\approx0.6931$. El valor $1.3863$ es $\\ln 4$."
+    },
+    {
+     "q": "$\\ln\\left(\\dfrac{M}{C}\\right)$ es igual a…",
+     "o": [
+      "$\\ln(M)-\\ln(C)$",
+      "$\\dfrac{\\ln(M)}{\\ln(C)}$",
+      "$\\ln(M)+\\ln(C)$"
+     ],
+     "c": 0,
+     "why": "El logaritmo de un cociente es una resta de logaritmos."
+    },
+    {
+     "q": "Para duplicar con $(1.04)^{t}=2$, el tiempo es…",
+     "o": [
+      "$t=\\dfrac{\\ln 2}{\\ln 1.04}\\approx17.67$ años",
+      "$t=\\dfrac{2}{1.04}\\approx1.92$",
+      "$t=2-1.04=0.96$"
+     ],
+     "c": 0,
+     "why": "$t=\\dfrac{\\ln 2}{\\ln 1.04}=\\dfrac{0.6931}{0.0392}\\approx17.67$ años."
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "short": "Fórmula",
+   "title": "Fase 2 · La fórmula del tiempo",
+   "qs": [
+    {
+     "q": "La fórmula del tiempo es…",
+     "o": [
+      "$t=\\dfrac{\\ln(A/P)}{\\ln(1+r)}$",
+      "$t=\\dfrac{A/P}{1+r}$",
+      "$t=\\ln(A/P)\\cdot\\ln(1+r)$"
+     ],
+     "c": 0,
+     "why": "Cociente de dos logaritmos: el de la razón $A/P$ entre el de $1+r$."
+    },
+    {
+     "q": "Con una tasa de $5\\,\\%$ <em>trimestral</em>, el resultado de $t$ queda en…",
+     "o": [
+      "Trimestres",
+      "Años",
+      "Meses"
+     ],
+     "c": 0,
+     "why": "Regla de oro: la unidad de $t$ es la de la tasa."
+    },
+    {
+     "q": "Una tasa de $24\\,\\%$ anual capitalizable mensualmente da una tasa por periodo de…",
+     "o": [
+      "$0.02$",
+      "$0.24$",
+      "$0.20$"
+     ],
+     "c": 0,
+     "why": "$i=\\dfrac{0.24}{12}=0.02$ por mes."
+    },
+    {
+     "q": "Si el interés ganado es el <strong>triple</strong> del capital, el monto final es…",
+     "o": [
+      "$4P$",
+      "$3P$",
+      "$2P$"
+     ],
+     "c": 0,
+     "why": "$A=P+I=P+3P=4P$: se usa $\\ln 4$."
+    },
+    {
+     "q": "Si el dinero «se duplica», el cociente $\\dfrac{A}{P}$ vale…",
+     "o": [
+      "$2$",
+      "$1$",
+      "$P$"
+     ],
+     "c": 0,
+     "why": "$A=2P$, así que $\\dfrac{A}{P}=2$."
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "short": "Calcula",
+   "title": "Fase 3 · Calcula el tiempo",
+   "qs": [
+    {
+     "q": "S/ 1 000 pasan a S/ 1 500 con $5\\,\\%$ anual (capitalización anual). ¿Cuántos años?",
+     "o": [
+      "8.31 años",
+      "7.50 años",
+      "30.00 años"
+     ],
+     "c": 0,
+     "why": "$\\dfrac{\\ln 1.5}{\\ln 1.05}\\approx8.31$ años."
+    },
+    {
+     "q": "S/ 1 000 pasan a S/ 1 200 con $2\\,\\%$ <em>mensual</em>. ¿Cuántos meses?",
+     "o": [
+      "9.21 meses",
+      "10.00 meses",
+      "20.00 meses"
+     ],
+     "c": 0,
+     "why": "$\\dfrac{\\ln 1.2}{\\ln 1.02}\\approx9.21$ meses."
+    },
+    {
+     "q": "Un resultado de $18$ trimestres equivale a…",
+     "o": [
+      "$4.5$ años",
+      "$18$ años",
+      "$72$ años"
+     ],
+     "c": 0,
+     "why": "$18\\div4=4.5$ años."
+    },
+    {
+     "q": "S/ 25 000 pasan a S/ 30 387.66 con $5\\,\\%$ trimestral. ¿Cuántos trimestres?",
+     "o": [
+      "$4$",
+      "$5$",
+      "$1.2155$"
+     ],
+     "c": 0,
+     "why": "$\\dfrac{\\ln 1.2155}{\\ln 1.05}=4$ trimestres (1 año)."
+    },
+    {
+     "q": "En $\\dfrac{\\ln(A/P)}{\\ln(1+i)}$, usar $\\ln$ o $\\log$ (la misma tecla arriba y abajo) da…",
+     "o": [
+      "El mismo resultado",
+      "Resultados distintos",
+      "Solo sirve $\\ln$"
+     ],
+     "c": 0,
+     "why": "El cambio de base se cancela en el cociente."
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "short": "Duplica",
+   "title": "Fase 4 · Duplica y triplica",
+   "qs": [
+    {
+     "q": "Para <strong>duplicar</strong> el capital, el cociente $\\dfrac{A}{P}$ es…",
+     "o": [
+      "$2$",
+      "$1$",
+      "$2P$"
+     ],
+     "c": 0,
+     "why": "$\\dfrac{2P}{P}=2$: el capital se cancela."
+    },
+    {
+     "q": "Misma tasa y capitalización: invertir S/ 100 o S/ 100 000 para duplicar tarda…",
+     "o": [
+      "Lo mismo: el capital se cancela",
+      "Menos con S/ 100 000",
+      "Menos con S/ 100"
+     ],
+     "c": 0,
+     "why": "El tiempo depende solo de la tasa y de la frecuencia."
+    },
+    {
+     "q": "Duplicar con $3.25\\,\\%$ anual (capitalización anual) tarda unos…",
+     "o": [
+      "21.67 años",
+      "30.77 años",
+      "34.35 años"
+     ],
+     "c": 0,
+     "why": "$\\dfrac{\\ln 2}{\\ln 1.0325}\\approx21.67$ años. Los $34.35$ años son para triplicar."
+    },
+    {
+     "q": "Triplicar tarda… que duplicar (misma tasa).",
+     "o": [
+      "Más, pero no el triple",
+      "Menos",
+      "Lo mismo"
+     ],
+     "c": 0,
+     "why": "$\\ln 3\\approx1.10$ y $\\ln 2\\approx0.69$: aproximadamente $1.58$ veces."
+    },
+    {
+     "q": "$34.32$ semestres equivalen a…",
+     "o": [
+      "$17.16$ años",
+      "$34.32$ años",
+      "$68.64$ años"
+     ],
+     "c": 0,
+     "why": "Semestres $\\div2$ = años."
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "short": "Meta",
+   "title": "Fase 5 · Alcanza tu meta",
+   "qs": [
+    {
+     "q": "S/ 8 000 → S/ 12 000 con $6.35\\,\\%$ anual capitalizable trimestralmente. ¿Cuántos trimestres?",
+     "o": [
+      "$25.74$",
+      "$6.44$",
+      "$37.50$"
+     ],
+     "c": 0,
+     "why": "$\\dfrac{\\ln 1.5}{\\ln 1.015875}\\approx25.74$ trimestres."
+    },
+    {
+     "q": "$25.74$ trimestres son aproximadamente…",
+     "o": [
+      "$6.44$ años",
+      "$25.74$ años",
+      "$103$ años"
+     ],
+     "c": 0,
+     "why": "$25.74\\div4=6.44$ años."
+    },
+    {
+     "q": "Con $8.025\\,\\%$ anual capitalizable semestralmente, la tasa por periodo es…",
+     "o": [
+      "$0.040125$",
+      "$0.08025$",
+      "$0.0201$"
+     ],
+     "c": 0,
+     "why": "$i=\\dfrac{0.08025}{2}=0.040125$ por semestre."
+    },
+    {
+     "q": "Misma tasa y mismo capital, pero una meta más lejana: el tiempo…",
+     "o": [
+      "Aumenta",
+      "Disminuye",
+      "No cambia"
+     ],
+     "c": 0,
+     "why": "Hay que crecer más, así que se necesita más tiempo."
+    },
+    {
+     "q": "A los $60$ años tendrás más dinero si empiezas a invertir…",
+     "o": [
+      "Más joven: el tiempo trabaja a tu favor",
+      "Más tarde, para arriesgar menos",
+      "Da igual cuándo empieces"
+     ],
+     "c": 0,
+     "why": "El dinero crece lento al inicio y rápido al final: cada año extra al comienzo vale mucho."
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "short": "Dictamen",
+   "title": "Fase 6 · Dictamen: el informe final",
+   "qs": [
+    {
+     "q": "Un volante promete duplicar en $2$ años con $6\\,\\%$ anual (capitalización anual). Es…",
+     "o": [
+      "Exagerada: el tiempo real es unos 11.9 años",
+      "Posible: es una financiera",
+      "Posible: $6\\,\\%$ es una tasa alta"
+     ],
+     "c": 0,
+     "why": "$\\dfrac{\\ln 2}{\\ln 1.06}\\approx11.9$ años. Prometer menos tiempo del que permite la tasa es exagerado."
+    },
+    {
+     "q": "Para duplicar: A) $6\\,\\%$ anual (capitaliza una vez al año) o B) $5.9\\,\\%$ capitalizable mensualmente. ¿Quién llega primero?",
+     "o": [
+      "B, con unos 11.78 años",
+      "A, con unos 11.90 años",
+      "Empatan"
+     ],
+     "c": 0,
+     "why": "B tarda 11.78 años y A 11.90: la capitalización mensual compensa su tasa algo menor."
+    },
+    {
+     "q": "Para comparar ofertas con capitalizaciones distintas conviene…",
+     "o": [
+      "Calcular el tiempo real (o el monto final) de cada una",
+      "Mirar solo el porcentaje del cartel",
+      "Elegir la que capitaliza más veces"
+     ],
+     "c": 0,
+     "why": "Hay que ponerlas en la misma vara: años hasta la meta."
+    },
+    {
+     "q": "Un dictamen responsable debe…",
+     "o": [
+      "Mostrar el cálculo, comparar alternativas y justificar la recomendación",
+      "Dar solo el resultado final",
+      "Esconder los supuestos"
+     ],
+     "c": 0,
+     "why": "Quien lee tu dictamen debe poder verificarlo: cálculo + comparación + razón."
+    },
+    {
+     "q": "La Semana 15 trabajará…",
+     "o": [
+      "Crecimiento poblacional (el mismo despeje, con personas en lugar de soles)",
+      "Interés simple",
+      "Funciones cuadráticas"
+     ],
+     "c": 0,
+     "why": "Mismo despeje logarítmico aplicado a demografía, biología y la Prueba de Desarrollo 4."
+    }
+   ]
+  }
+ ],
+ "QDAY": [
+  {
+   "q": "¿Cuánto tiempo crees que tarda tu dinero en duplicarse si lo dejas en el banco al $6\\,\\%$ anual (capitalización anual)?",
+   "o": {
+    "a": "Unos 6 años",
+    "b": "Unos 12 años",
+    "c": "Unos 20 años"
+   },
+   "r": "Son unos 11.90 años: $\\dfrac{\\ln 2}{\\ln 1.06}$. Y recuerda: ¡da lo mismo si inviertes S/ 100 o S/ 1 000 000!"
+  },
+  {
+   "q": "S/ 1 000 al $6\\,\\%$ anual. ¿El dinero crece rápido o lento al principio?",
+   "o": {
+    "a": "Rápido al principio",
+    "b": "Lento al principio y rápido al final",
+    "c": "Igual todos los años"
+   },
+   "r": "El primer año gana S/ 60.00; el año 10, S/ 101.37; el año 30, S/ 325.10. Crece lento al inicio y acelerado al final."
+  },
+  {
+   "q": "¿Qué termina con más al cabo de 30 años: S/ 5 000 hoy, o S/ 8 000 que invertirás dentro de 10 años (20 años de plazo)? Supón $6\\,\\%$ anual.",
+   "o": {
+    "a": "Los S/ 5 000 de hoy",
+    "b": "Los S/ 8 000 de dentro de 10 años",
+    "c": "Terminan igual"
+   },
+   "r": "S/ 5 000 durante 30 años llegan a S/ 28 717.46; S/ 8 000 durante 20 años, a S/ 25 657.08. Empezar antes, aunque sea con menos, gana."
+  },
+  {
+   "q": "Tienes S/ 10 000 y quieres comprar algo de S/ 15 000. Con $5\\,\\%$ anual, ¿cuántos años esperas?",
+   "o": {
+    "a": "Unos 3 años",
+    "b": "Unos 8 años",
+    "c": "Unos 15 años"
+   },
+   "r": "$\\dfrac{\\ln 1.5}{\\ln 1.05}\\approx8.31$ años: unos 8 años y 4 meses."
+  },
+  {
+   "q": "Alguien te promete duplicar tu dinero en <strong>1 año</strong> con una «capitalización especial» al $5\\,\\%$ anual. ¿Le crees?",
+   "o": {
+    "a": "No: suena exagerado",
+    "b": "Sí: dice «especial»",
+    "c": "Calculo el tiempo real"
+   },
+   "r": "Con $5\\,\\%$ anual capitalizado diariamente tardaría 13.86 años; para duplicar en 1 año haría falta cerca de $100\\,\\%$ anual. El detector de promesas imposibles sirve en la vida real."
+  },
+  {
+   "q": "Una deuda crece al $2\\,\\%$ mensual y no se paga. ¿En cuánto tiempo se duplica?",
+   "o": {
+    "a": "Unos 12 meses",
+    "b": "Unos 35 meses",
+    "c": "Unos 50 meses"
+   },
+   "r": "$\\dfrac{\\ln 2}{\\ln 1.02}\\approx35.00$ meses: casi tres años. Entender este cálculo ayuda a opinar con argumentos sobre usura y tasas máximas."
+  },
+  {
+   "q": "Mejoras $1\\,\\%$ cada semana en tu rendimiento de estudio (como analogía). ¿Cuándo lo duplicas?",
+   "o": {
+    "a": "En unas 20 semanas",
+    "b": "En unas 70 semanas",
+    "c": "Nunca"
+   },
+   "r": "$\\dfrac{\\ln 2}{\\ln 1.01}\\approx69.66$ semanas, más de un año. Es solo una analogía: las personas no crecen siempre al mismo ritmo, y está bien."
+  },
+  {
+   "q": "¿A qué edad empezarías a ahorrar S/ 3 000 (una sola vez) al $6\\,\\%$ anual, pensando en tener dinero a los 65 años?",
+   "o": {
+    "a": "A los 20",
+    "b": "A los 30",
+    "c": "Cuando gane más"
+   },
+   "r": "A los 65 tendrías S/ 41 294 si empiezas a los 20; S/ 23 058 a los 30 y S/ 12 876 a los 40. El tiempo es el ingrediente más caro del interés."
+  }
+ ],
+ "THEORY": {
+  "1": {
+   "title": "📘 Teoría: ¿cómo se «baja» un exponente?",
+   "html": "<p>En la <strong>Semana 11</strong> conocías el tiempo $t$ y calculabas el monto: $A=P(1+r)^{t}$. Hoy la pregunta es la contraria: <strong>¿cuánto tiempo tarda?</strong> El problema es que $t$ quedó atrapado en el exponente.</p><div class=\"reveal-box\">🔑 En la <strong>Semana 13</strong> aprendiste la herramienta justa: el logaritmo es la operación inversa de la exponenciación. La propiedad clave es $\\ln\\left(a^{x}\\right)=x\\cdot\\ln(a)$: <strong>baja el exponente</strong> para que puedas despejarlo.</div><ol class=\"th-list\"><li><strong>Aísla la potencia:</strong> divide entre $P$ para tener $(1+r)^{t}=\\dfrac{A}{P}$.</li><li><strong>Aplica $\\ln$</strong> a ambos lados: $\\ln\\left[(1+r)^{t}\\right]=\\ln\\left(\\dfrac{A}{P}\\right)$.</li><li><strong>Baja el exponente:</strong> $t\\cdot\\ln(1+r)=\\ln\\left(\\dfrac{A}{P}\\right)$.</li><li><strong>Despeja:</strong> $t=\\dfrac{\\ln(A/P)}{\\ln(1+r)}$.</li></ol><p>¿Por qué no basta una división o una resta? Porque $t$ no está «pegado» al número: está <em>arriba</em>, como exponente. Solo el logaritmo puede bajarlo.</p><div class=\"reveal-box\">💡 <strong>Mensaje clave:</strong> en el interés compuesto el dinero crece <strong>lento al inicio y acelerado al final</strong>. Por eso el tiempo es tan poderoso.</div>"
+  },
+  "2": {
+   "title": "📘 Teoría: la fórmula del tiempo",
+   "html": "<p>Se parte del monto compuesto y se despeja $t$ con logaritmos:</p><div class=\"tex-block\">$$t=\\frac{\\ln\\left(\\dfrac{A}{P}\\right)}{\\ln(1+r)}\\qquad\\text{o con }n\\text{ capitalizaciones al año:}\\qquad n\\cdot t=\\frac{\\ln\\left(\\dfrac{M}{C}\\right)}{\\ln\\left(1+\\dfrac{r}{n}\\right)}$$</div><div class=\"th-table\"><table class=\"datatable\"><tr><th>Símbolo</th><th>Significado</th><th>Observación clave</th></tr><tr><td>$A$ o $M$</td><td style=\"text-align:left\">Monto final</td><td style=\"text-align:left\">Debe cumplirse $A>P$ en crecimiento</td></tr><tr><td>$P$ o $C$</td><td style=\"text-align:left\">Capital inicial</td><td style=\"text-align:left\">«Se duplica» $\\Rightarrow A=2P$; «se triplica» $\\Rightarrow A=3P$</td></tr><tr><td>$r$</td><td style=\"text-align:left\">Tasa <strong>por periodo</strong>, en decimal</td><td style=\"text-align:left\"><strong>Regla de oro:</strong> la unidad de $t$ es la unidad de la tasa</td></tr><tr><td>$n$</td><td style=\"text-align:left\">Capitalizaciones por año</td><td style=\"text-align:left\">Anual 1 · semestral 2 · trimestral 4 · bimestral 6 · mensual 12 · quincenal 24 · diaria 365</td></tr></table></div><ul class=\"th-list\"><li>Si la tasa es <strong>5 % trimestral</strong>, el resultado sale en <strong>trimestres</strong>.</li><li>Si te dan una tasa anual con $n$ capitalizaciones, el resultado sale en <strong>periodos</strong> y luego pasas a años: $t_{\\text{años}}=\\dfrac{\\text{periodos}}{n}$.</li></ul>"
+  },
+  "3": {
+   "title": "📘 Método: calcula el tiempo sin errores",
+   "html": "<ol class=\"th-list\"><li><strong>Ordena los datos:</strong> $P$, $A$ (o el factor $k$) y la tasa por periodo.</li><li><strong>Tasa por periodo:</strong> $r$ en decimal; si es nominal anual, divide entre $n$.</li><li><strong>Cociente:</strong> $\\dfrac{A}{P}$ (con todos los decimales).</li><li><strong>Calcula</strong> $\\ln\\left(\\dfrac{A}{P}\\right)$ y $\\ln(1+r)$ y <strong>divide</strong>.</li><li><strong>Unidad:</strong> el resultado está en los periodos de la tasa; si piden años, divide entre $n$.</li><li><strong>Revisa:</strong> numerador y denominador positivos si $A>P$.</li></ol><div class=\"th-table\"><table class=\"datatable\"><tr><th>Error frecuente</th><th>Cómo evitarlo</th></tr><tr><td style=\"text-align:left\">Escribir «25.74 años» cuando son 25.74 <strong>trimestres</strong></td><td style=\"text-align:left\">Anota siempre la unidad y conviértela al final</td></tr><tr><td style=\"text-align:left\">Usar $0.0635$ en el denominador cuando capitaliza trimestralmente</td><td style=\"text-align:left\">Divide la tasa anual entre $n$: $0.0635/4$</td></tr><tr><td style=\"text-align:left\">«Interés triple» y usar $\\ln 3$</td><td style=\"text-align:left\">Si $I=3P$ entonces $A=4P$: usa $\\ln 4$</td></tr><tr><td style=\"text-align:left\">Escribir $\\ln(M/C)=\\dfrac{\\ln M}{\\ln C}$</td><td style=\"text-align:left\">Es $\\ln M-\\ln C$, o calcula el cociente primero</td></tr></table></div>"
+  },
+  "4": {
+   "title": "📘 Método: duplicar y triplicar",
+   "html": "<p>Cuando el enunciado dice «se duplica» o «se triplica», <strong>no necesitas el capital en soles</strong>: $A=kP$ y al dividir queda $\\dfrac{kP}{P}=k$.</p><div class=\"tex-block\">$$n\\cdot t=\\frac{\\ln(k)}{\\ln\\left(1+\\dfrac{r}{n}\\right)}\\qquad k=2\\ (\\text{duplicar}),\\ k=3\\ (\\text{triplicar}),\\ k=4\\ (\\text{interés triple})$$</div><div class=\"reveal-box\">💬 No importa si inviertes S/ 100 o S/ 1 000 000: <strong>el tiempo depende solo de la tasa y de la frecuencia</strong>. El capital se cancela.</div><div class=\"th-table\"><table class=\"datatable\"><tr><th>Caso</th><th>Capital</th><th>Tasa anual</th><th>Capitaliza</th><th>Duplicar</th><th>Triplicar</th></tr><tr><td>1</td><td>40 000</td><td>3.25 %</td><td>anual</td><td>21.67 años</td><td>34.35 años</td></tr><tr><td>2</td><td>80 000</td><td>4.08 %</td><td>semestral</td><td>34.32 sem.</td><td>54.40 sem.</td></tr><tr><td>3</td><td>120 000</td><td>5.02 %</td><td>trimestral</td><td>55.58 trim.</td><td>88.09 trim.</td></tr><tr><td>4</td><td>150 000</td><td>3.02 %</td><td>bimestral</td><td>138.06 bim.</td><td>218.82 bim.</td></tr><tr><td>5</td><td>90 000</td><td>4.02 %</td><td>mensual</td><td>207.26 meses</td><td>328.49 meses</td></tr><tr><td>6</td><td>50 000</td><td>2.08 %</td><td>diaria</td><td>12 163.75 días</td><td>19 279.08 días</td></tr></table></div><p class=\"progress-note\">Estos son los Casos 1 al 6 de tu guía (montos en soles). Las unidades cambian, pero el patrón es el mismo: $\\ln(k)$ entre $\\ln(1+r/n)$.</p>"
+  },
+  "5": {
+   "title": "📘 Método: ¿cuánto falta para mi meta?",
+   "html": "<p>Aquí sí conoces los montos: tienes $P$ hoy y quieres llegar a $A$. Es el caso general de la fórmula del tiempo.</p><ol class=\"th-list\"><li><strong>Identifica</strong> capital, meta, tasa y cómo capitaliza.</li><li><strong>Tasa por periodo:</strong> $i=r/n$.</li><li><strong>Periodos:</strong> $\\dfrac{\\ln(A/P)}{\\ln(1+i)}$.</li><li><strong>Años:</strong> periodos entre $n$.</li><li><strong>Interpreta:</strong> ¿es un plazo realista para tu meta?</li></ol><div class=\"reveal-box\">🧠 <strong>Pregunta para pensar:</strong> si el dinero crece lento al inicio y rápido al final, ¿a qué edad conviene empezar a ahorrar? En el laboratorio de esta fase tienes una <strong>línea de vida</strong> para comprobarlo.</div>"
+  },
+  "6": {
+   "title": "📘 Método: tu dictamen en 5 pasos",
+   "html": "<ol class=\"th-list\"><li><strong>Lee</strong> las ofertas y la meta.</li><li><strong>Calcula</strong> el tiempo de cada una con la tasa por periodo correcta.</li><li><strong>Convierte</strong> todo a la misma unidad (años) para poder comparar.</li><li><strong>Decide:</strong> gana la oferta que llega antes (o la promesa se revela exagerada).</li><li><strong>Redacta</strong> recomendación + cifras + motivo.</li></ol><div class=\"reveal-box\">🚩 <strong>Detector de promesas imposibles:</strong> si una oferta dice «duplica tu dinero en 2 años» con 6 % anual, calcula el tiempo real: $\\dfrac{\\ln 2}{\\ln 1.06}\\approx11.9$ años. Cuando lo prometido es mucho menor, es exagerado.</div><p><strong>Próximo paso (Semana 15):</strong> el mismo despeje, ahora con personas en lugar de soles: crecimiento poblacional y Prueba de Desarrollo 4.</p>"
+  }
+ },
+ "SERIES": {
+  "d": {
+   "title": "T3 · Valeria y el reloj del dinero",
+   "chars": "Valeria Rojas, abogada · Don Aurelio, su cliente · Mateo, su asistente",
+   "ch": [
+    [
+     "La pregunta al revés",
+     "Don Aurelio entra al estudio con una duda: «Valeria, ya sé cuánto tendré en 5 años. Pero ¿cuántos años necesito para llegar a 50 000?». Mateo busca la fórmula… y descubre que el tiempo está atrapado en un exponente. «Hoy usamos logaritmos», sonríe Valeria.",
+     "Pista: ¿qué operación baja un exponente?"
+    ],
+    [
+     "La unidad manda",
+     "Mateo calcula 25.74 y escribe «años». Valeria arquea una ceja: «¿Años o trimestres?». El error cuesta una tarde de correcciones y una lección que nunca olvidará: la unidad del resultado es la de la tasa.",
+     "Pista: la tasa por periodo decide la unidad."
+    ],
+    [
+     "Calculadora en mano",
+     "Con el cociente, dos logaritmos y una división, Mateo resuelve cinco casos seguidos. Valeria le recuerda dos trampas: la tasa anual se divide entre $n$ y el redondeo va solo al final.",
+     "Pista: $\\ln(M/C)$ no es $\\ln M/\\ln C$."
+    ],
+    [
+     "Duplicar, triplicar",
+     "Un cliente pregunta: «¿Cuánto tarda en duplicarse mi dinero?». Valeria le dice que no necesita saber cuánto invierte. «¿Por qué?», pregunta él. «Porque el capital se cancela».",
+     "Pista: $\\dfrac{2P}{P}=2$."
+    ],
+    [
+     "La meta de Don Aurelio",
+     "Don Aurelio quiere comprar un terreno pequeño. Valeria calcula años, convierte trimestres a años y le muestra en la línea de vida qué pasa si empieza hoy o dentro de diez años.",
+     "Pista: el tiempo trabaja a tu favor."
+    ],
+    [
+     "El dictamen del fondo",
+     "La Defensoría quiere saber cuál de tres ofertas alcanza antes la meta del programa. Valeria entrega el caso a su equipo: «Hoy firmas tú». Y el equipo eres tú.",
+     "¡Último capítulo!"
+    ]
+   ]
+  },
+  "p": {
+   "title": "T3 · La Clínica y el reloj del dinero",
+   "chars": "Dra. Camila Torres, directora · Luis, practicante",
+   "ch": [
+    [
+     "¿Cuánto tiempo falta?",
+     "Luis llega con una planilla: «Sé cuánto tendrá el fondo en 4 años, pero la dirección pregunta cuándo llegará a 60 000». Camila sonríe: «Es la misma pregunta de un paciente: ¿cuánto falta para mejorar? Primero hay que despejar el tiempo».",
+     "Pista: el logaritmo baja el exponente."
+    ],
+    [
+     "Ponerle unidad al resultado",
+     "Luis obtiene 36 y escribe «años». Camila le recuerda que la tasa era quincenal. «Una terapia de 36 sesiones semanales no son 36 años», bromea. Luis corrige: 36 quincenas son 1.5 años.",
+     "Pista: periodos entre $n$ da años."
+    ],
+    [
+     "Cifras para la dirección",
+     "Es lunes y la dirección pide plazos exactos. Luis arma el cociente, usa $\\ln$ dos veces y divide. Camila lo observa: «Calcula primero, redondea después».",
+     "Pista: sin redondear antes de tiempo."
+    ],
+    [
+     "Duplicar el fondo de becas",
+     "La clínica quiere duplicar su fondo de becas. «¿Cuánto debemos invertir?», pregunta Luis. «No importa: el tiempo para duplicar no depende de la cantidad», responde Camila.",
+     "Pista: el capital se cancela."
+    ],
+    [
+     "La meta de la beca",
+     "Una estudiante de psicología necesita reunir su beca. Camila le muestra la línea de vida: empezar a ahorrar a los 20 o a los 30 cambia mucho el número de años. «El tiempo es el aliado más grande», dice.",
+     "Pista: lento al inicio, rápido al final."
+    ],
+    [
+     "El dictamen del fondo familiar",
+     "La Defensoría invita de nuevo a la clínica a asesorar sobre tres ofertas de ahorro. Camila se lo cede a Luis: «Tú firmas». Y tú lo acompañas con tus cálculos.",
+     "¡Último capítulo!"
+    ]
+   ]
+  }
+ },
+ "REFLECT": {
+  "despeja": "¿Por qué una simple multiplicación o división no sirve para despejar el tiempo cuando está en el exponente? Explícalo con tus palabras y un ejemplo de tu carrera.",
+  "formula": "Al armar $t=\\dfrac{\\ln(A/P)}{\\ln(1+i)}$, ¿qué error es el más fácil de cometer (la tasa por periodo, la unidad, el «interés triple»…)? ¿Cómo lo evitarás?",
+  "calcula": "Al calcular los cinco ejemplos, ¿qué paso te costó más (el cociente, las teclas $\\ln$, convertir a años)? ¿Qué hiciste para resolverlo?",
+  "duplica": "¿Por qué el tiempo es el factor más poderoso en el interés compuesto? ¿Por qué los primeros años el dinero crece lento y al final se dispara?",
+  "meta": "Según lo que analizaste en la línea de vida, ¿a qué edad deberías empezar a invertir? Justifícalo con tus números.",
+  "dictamen": "En una o dos frases, redacta tu dictamen final: ¿qué oferta recomiendas, cuánto tiempo ahorra y qué advertirías? Cierra con una pregunta para la Semana 15 (crecimiento poblacional)."
+ },
+ "GLOSS": [
+  {
+   "t": "Capital ($P$ o $C$)",
+   "d": "El dinero con el que empiezas: lo que depositas o debes al inicio.",
+   "ph": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "t": "Monto ($A$ o $M$)",
+   "d": "Todo lo que hay al final: capital más intereses. Siempre $A>P$ cuando el dinero crece.",
+   "ph": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "t": "Tasa por periodo ($i$)",
+   "d": "La tasa que realmente se aplica en cada capitalización. Si la tasa anual es nominal: $i=\\dfrac{r}{n}$.",
+   "ph": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "t": "Frecuencia de capitalización ($n$)",
+   "d": "Cuántas veces al año se suman los intereses: anual $1$, semestral $2$, trimestral $4$, bimestral $6$, mensual $12$, quincenal $24$, diaria $365$.",
+   "ph": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "t": "Logaritmo natural ($\\ln$)",
+   "d": "La operación inversa de $e^{x}$. En esta sesión sirve para «bajar» el exponente $t$. Tu calculadora tiene la tecla <span class=\"mono\">ln</span>.",
+   "ph": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "t": "Propiedad del exponente",
+   "d": "$\\ln\\left(a^{x}\\right)=x\\cdot\\ln(a)$: permite pasar el exponente a multiplicar y despejarlo.",
+   "ph": [
+    1,
+    2
+   ]
+  },
+  {
+   "t": "Cociente $A/P$",
+   "d": "Cuántas veces el capital es el monto final. Si «se duplica», $A/P=2$; si «se triplica», $3$; si el interés es el triple, $4$.",
+   "ph": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "t": "Regla de oro de las unidades",
+   "d": "La unidad de $t$ es la misma que la de la tasa: tasa trimestral $\\Rightarrow$ trimestres; mensual $\\Rightarrow$ meses.",
+   "ph": [
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "t": "Periodos y años",
+   "d": "Para pasar de periodos a años divide entre $n$: $t_{\\text{años}}=\\dfrac{\\text{periodos}}{n}$.",
+   "ph": [
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "t": "Factor $k$",
+   "d": "El número de veces que se multiplica el capital ($k=2$ duplicar, $k=3$ triplicar). El capital en soles se cancela.",
+   "ph": [
+    4
+   ]
+  },
+  {
+   "t": "Interés triple del capital",
+   "d": "Significa $I=3P$, así que el monto es $A=P+3P=4P$ y se usa $\\ln 4$.",
+   "ph": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "t": "Tiempo real",
+   "d": "El mínimo tiempo que permite una tasa para llegar a una meta. Una promesa más corta que ese tiempo es imposible.",
+   "ph": [
+    6
+   ]
+  },
+  {
+   "t": "Promesa exagerada",
+   "d": "Una oferta que asegura llegar a la meta en menos tiempo del que permite su tasa.",
+   "ph": [
+    6
+   ]
+  },
+  {
+   "t": "Redondeo",
+   "d": "Calcula con todos los decimales y redondea solo al final. Redondear $\\ln$ o $i$ antes cambia el resultado.",
+   "ph": [
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "t": "Dictamen",
+   "d": "Tu conclusión razonada: qué opción conviene, con qué cifras, por qué y qué advertencias harías.",
+   "ph": [
+    6
+   ]
+  }
+ ],
+ "DUELS": [
+  {
+   "id": "d1",
+   "title": "La tasa menor que llega antes",
+   "ctx": "Una pareja de abogados quiere duplicar los honorarios de su primer caso para comprar su oficina.",
+   "k": 2,
+   "a": {
+    "name": "Banco Andino",
+    "r": 0.06,
+    "n": 1
+   },
+   "b": {
+    "name": "Banco del Sol",
+    "r": 0.059,
+    "n": 12
+   }
+  },
+  {
+   "id": "d2",
+   "title": "Diaria contra anual",
+   "ctx": "Una psicóloga ahorra para equipar su consultorio y quiere duplicar su fondo. Una caja capitaliza todos los días; la otra solo una vez al año.",
+   "k": 2,
+   "a": {
+    "name": "Caja Diaria",
+    "r": 0.04,
+    "n": 365
+   },
+   "b": {
+    "name": "Caja Anual",
+    "r": 0.041,
+    "n": 1
+   }
+  },
+  {
+   "id": "d3",
+   "title": "Triplicar: ¿frecuencia o tasa?",
+   "ctx": "Un estudio jurídico guarda un fondo de capacitación y quiere triplicarlo.",
+   "k": 3,
+   "a": {
+    "name": "Banco Trimestral",
+    "r": 0.05,
+    "n": 4
+   },
+   "b": {
+    "name": "Banco Anual",
+    "r": 0.0505,
+    "n": 1
+   }
+  },
+  {
+   "id": "d4",
+   "title": "¿Importa cuánto inviertes?",
+   "ctx": "Dos amigas de Psicología quieren duplicar su dinero con exactamente la misma tasa y capitalización. Una invierte poco y la otra mucho.",
+   "k": 2,
+   "a": {
+    "name": "Lucía",
+    "r": 0.06,
+    "n": 1,
+    "C": 5000
+   },
+   "b": {
+    "name": "Marta",
+    "r": 0.06,
+    "n": 1,
+    "C": 500000
+   }
+  },
+  {
+   "id": "d5",
+   "title": "Misma tasa, distinta capitalización",
+   "ctx": "Una ONG de apoyo psicológico quiere duplicar su fondo de becas. Ambos bancos ofrecen la misma tasa anunciada.",
+   "k": 2,
+   "a": {
+    "name": "Banco Anual",
+    "r": 0.03,
+    "n": 1
+   },
+   "b": {
+    "name": "Banco Mensual",
+    "r": 0.03,
+    "n": 12
+   }
+  },
+  {
+   "id": "d6",
+   "title": "Fernando contra Julián (casos de tu guía)",
+   "ctx": "Dos inversionistas de tu guía de trabajo quieren duplicar su dinero.",
+   "k": 2,
+   "a": {
+    "name": "Fernando",
+    "r": 0.0408,
+    "n": 2
+   },
+   "b": {
+    "name": "Julián",
+    "r": 0.0402,
+    "n": 12
+   }
+  }
+ ]
+}
