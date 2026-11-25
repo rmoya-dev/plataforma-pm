@@ -40,7 +40,17 @@ Un docente es también una cuenta `@continental.edu.pe` (sin formato DNI). Un co
 | `secciones` | Grupo de clase de **un** docente | `id`, `periodo_id`, `docente_id`, `nombre` (p. ej. NRC o «Derecho A»), `creado_en` |
 | `matriculas` | Quién está en qué sección (una sola por periodo) | `seccion_id`, `periodo_id`, `correo`, `estudiante_id` (vacío hasta que la persona inicie sesión), `nombres_moodle`, `grupo_moodle`, `origen` (`moodle` o `manual`), `creado_en` |
 
-Además, una **vista** `ranking_nombres` que expone solo `estudiante_id` y `nombre_ranking` («María Q.») para estudiantes de la misma sección. El ranking nunca lee `perfiles` directamente.
+Además, la **función** `ranking_nombres(seccion)` devuelve solo `estudiante_id` y `nombre_ranking` («María Q.») a quien está matriculado en esa sección, la dicta o es administradora. El ranking nunca lee `perfiles` directamente. *(Se implementó como función y no como vista porque una vista no puede saltarse la seguridad por fila de `perfiles` de forma controlada.)*
+
+### Cómo se nombra a la administradora en cada ambiente
+
+El rol `administrador` no se puede asignar desde la interfaz. Después de que la responsable inicie sesión por primera vez en un ambiente (staging o producción), se ejecuta una vez en el editor SQL de ese proyecto de Supabase:
+
+```sql
+update public.perfiles set rol = 'administrador' where correo = '<correo institucional de la responsable>';
+```
+
+Desde entonces, la administradora da de alta a los docentes con `asignar_rol(correo, 'docente')`. En local, la semilla ya crea `admin@ejemplo.test`.
 
 `unidades`, `semanas`, `recursos`, `intentos_reto`, `progreso_fase`, `rondas` y demás se agregan en sus hitos (H2, H3, H4b).
 

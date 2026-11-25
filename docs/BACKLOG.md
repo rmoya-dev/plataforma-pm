@@ -27,8 +27,18 @@ Estado vivo del proyecto. Se actualiza en cada iteración (ver `docs/PLATAFORMA_
 - [x] Cuentas de Supabase y Cloudflare creadas por la responsable (21/11/2026)
 - [ ] Lista de verificación de transferencia de cuentas (ADR-0006) — issue #1
 
+## En curso — H1 Modelo de datos, roles y seguridad (issue #2)
+- [x] Modelo de datos aprobado → `docs/MODELO_DATOS.md`
+- [x] Migración: perfiles, dominios permitidos, periodos, secciones y matrículas (una por periodo); reversión probada
+- [x] Seguridad por fila: estudiante / docente / administradora; carrera elegible una vez; consentimiento solo propio
+- [x] Filtro de dominio en Auth (hook, 403) y respaldo en base de datos
+- [x] Semilla ficticia (`@ejemplo.test`) y 36 pruebas pgTAP de aislamiento
+- [ ] Interfaz: inicio de sesión (Google + enlace por correo), aviso de privacidad y consentimiento, elección de carrera, «pide a tu docente que te agregue»
+- [ ] Interfaz docente: crear secciones e importar el CSV de Moodle
+- [ ] Configurar Google OAuth (proyecto de Google Cloud de la responsable) y el proyecto de staging en Supabase
+- [ ] Texto del aviso de privacidad (lo aporta la responsable con la Universidad)
+
 ## Siguiente
-- [ ] H1 — Modelo de datos, roles, multidocencia, autenticación y pruebas de aislamiento
 - [ ] H2 — Motor único con «Periodo de Tiempo» (criterio: 33/33 y 480/480); PWA
 - [ ] H3 — Sala en vivo en tiempo real y calificación en servidor
 - [ ] H4 — Migrar las otras 7 certificaciones, una por una
