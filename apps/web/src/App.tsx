@@ -1,7 +1,15 @@
-import { VERSION_ESQUEMA_REQUERIDA, XP_BONO_FASE, XP_POR_RETO } from '@pm/engine';
+import { VERSION_ESQUEMA_REQUERIDA } from '@pm/engine';
+import type { Session, SupabaseClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
-import { Formula } from './Formula.tsx';
-import { consultarServidor, type EstadoServidor } from './supabase.ts';
+import { cargarPerfil, darConsentimiento, elegirCarrera, misSecciones, type Perfil, type Seccion } from './datos.ts';
+import { AvisoPrivacidad } from './pantallas/AvisoPrivacidad.tsx';
+import { ElegirCarrera } from './pantallas/ElegirCarrera.tsx';
+import { InicioDocente } from './pantallas/InicioDocente.tsx';
+import { InicioEstudiante } from './pantallas/InicioEstudiante.tsx';
+import { Ingreso } from './pantallas/Ingreso.tsx';
+import { SinMatricula } from './pantallas/SinMatricula.tsx';
+import { useSesion } from './sesion.ts';
+import { consultarServidor, supabase, type EstadoServidor } from './supabase.ts';
 
 const TAMANOS = ['normal', 'grande', 'muy-grande'] as const;
 type Tamano = (typeof TAMANOS)[number];
@@ -23,7 +31,7 @@ function TextoEstado({ estado }: { estado: EstadoServidor | null }) {
     case 'sin-configurar':
       return <>Servidor sin configurar: copia `.env.example` como `.env`.</>;
     case 'sin-conexion':
-      return <>Sin conexión con el servidor. Puedes seguir en modo práctica.</>;
+      return <>Sin conexión con el servidor.</>;
     case 'conectado':
       return estado.version === VERSION_ESQUEMA_REQUERIDA ? (
         <>Conectado · esquema v{estado.version}</>
@@ -38,6 +46,7 @@ function TextoEstado({ estado }: { estado: EstadoServidor | null }) {
 export function App() {
   const [estado, setEstado] = useState<EstadoServidor | null>(null);
   const [tamano, setTamano] = useState<Tamano>(leerTamano);
+  const sesion = useSesion();
 
   useEffect(() => {
     void consultarServidor().then(setEstado);
@@ -54,34 +63,114 @@ export function App() {
 
   const siguiente = () => setTamano(TAMANOS[(TAMANOS.indexOf(tamano) + 1) % TAMANOS.length] ?? 'normal');
   const ok = estado?.tipo === 'conectado' && estado.version === VERSION_ESQUEMA_REQUERIDA;
+  const salir = () => void supabase?.auth.signOut();
 
   return (
     <div className="pagina">
       <header className="cabecera">
         <h1>Plataforma PM</h1>
-        <button type="button" className="boton" onClick={siguiente} aria-label="Cambiar tamaño de letra">
-          {ETIQUETA_TAMANO[tamano]}
-        </button>
+        <div className="acciones">
+          <button type="button" className="boton" onClick={siguiente} aria-label="Cambiar tamaño de letra">
+            {ETIQUETA_TAMANO[tamano]}
+          </button>
+          {sesion && (
+            <button type="button" className="boton" onClick={salir}>
+              Salir
+            </button>
+          )}
+        </div>
       </header>
 
       <main>
-        <section className="tarjeta">
-          <h2>Hola, mundo</h2>
-          <p>
-            Este es el punto de partida de la plataforma del curso de Pensamiento Matemático. Aquí vivirán las
-            certificaciones, la sala en vivo y los demás recursos, organizados por unidad y semana.
-          </p>
-          <p>Regla de XP del motor, migrada desde la versión actual:</p>
-          <Formula
-            bloque
-            tex={`\\text{XP} = ${XP_POR_RETO}\\cdot\\text{retos} + ${XP_BONO_FASE}\\cdot\\text{fases completas}`}
-          />
-        </section>
+        {!supabase ? null : sesion === undefined ? (
+          <p className="tarjeta">Cargando…</p>
+        ) : sesion === null ? (
+          <Ingreso sb={supabase} />
+        ) : (
+          <ConSesion sb={supabase} sesion={sesion} onSalir={salir} />
+        )}
+      </main>
 
+      <footer>
         <p className={`estado ${ok ? 'estado-ok' : ''}`} role="status" data-testid="estado-servidor">
           <TextoEstado estado={estado} />
         </p>
-      </main>
+      </footer>
     </div>
   );
+}
+
+type Carga =
+  { tipo: 'cargando' } | { tipo: 'error'; mensaje: string } | { tipo: 'listo'; perfil: Perfil; secciones: Seccion[] };
+
+function ConSesion({ sb, sesion, onSalir }: { sb: SupabaseClient; sesion: Session; onSalir: () => void }) {
+  const [carga, setCarga] = useState<Carga>({ tipo: 'cargando' });
+  const id = sesion.user.id;
+
+  const [version, setVersion] = useState(0);
+  const recargar = () => setVersion((v) => v + 1);
+
+  useEffect(() => {
+    let vivo = true;
+    Promise.all([cargarPerfil(sb, id), misSecciones(sb)]).then(
+      ([perfil, secciones]) => {
+        if (!vivo) return;
+        setCarga(
+          perfil
+            ? { tipo: 'listo', perfil, secciones }
+            : { tipo: 'error', mensaje: 'No encontramos tu perfil. Cierra sesión e inténtalo de nuevo.' },
+        );
+      },
+      (e: unknown) => {
+        if (vivo)
+          setCarga({ tipo: 'error', mensaje: e instanceof Error ? e.message : 'No se pudo cargar tu información.' });
+      },
+    );
+    return () => {
+      vivo = false;
+    };
+  }, [sb, id, version]);
+
+  if (carga.tipo === 'cargando') return <p className="tarjeta">Cargando…</p>;
+  if (carga.tipo === 'error')
+    return (
+      <p className="tarjeta error" role="alert">
+        {carga.mensaje}
+      </p>
+    );
+
+  const { perfil, secciones } = carga;
+
+  if (!perfil.consentimiento_en) {
+    return (
+      <AvisoPrivacidad
+        onAceptar={async () => {
+          await darConsentimiento(sb, id);
+          recargar();
+        }}
+        onSalir={onSalir}
+      />
+    );
+  }
+
+  if (perfil.rol === 'docente' || perfil.rol === 'administrador') {
+    return <InicioDocente sb={sb} perfil={perfil} />;
+  }
+
+  if (!perfil.carrera) {
+    return (
+      <ElegirCarrera
+        onElegir={async (c) => {
+          await elegirCarrera(sb, id, c);
+          recargar();
+        }}
+      />
+    );
+  }
+
+  if (secciones.length === 0) {
+    return <SinMatricula onReintentar={recargar} />;
+  }
+
+  return <InicioEstudiante perfil={perfil} secciones={secciones} />;
 }
