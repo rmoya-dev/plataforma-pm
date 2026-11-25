@@ -33,8 +33,11 @@ Estado vivo del proyecto. Se actualiza en cada iteración (ver `docs/PLATAFORMA_
 - [x] Seguridad por fila: estudiante / docente / administradora; carrera elegible una vez; consentimiento solo propio
 - [x] Filtro de dominio en Auth (hook, 403) y respaldo en base de datos
 - [x] Semilla ficticia (`@ejemplo.test`) y 36 pruebas pgTAP de aislamiento
-- [ ] Interfaz: inicio de sesión (Google + enlace por correo), aviso de privacidad y consentimiento, elección de carrera, «pide a tu docente que te agregue»
-- [ ] Interfaz docente: crear secciones e importar el CSV de Moodle
+- [x] Interfaz: ingreso por enlace al correo (botón de Google listo, se activa con `VITE_GOOGLE_HABILITADO`), aviso de privacidad (borrador) y consentimiento, elección de carrera, «pide a tu docente que te agregue»
+- [x] Interfaz docente: ver solo sus secciones (con número de estudiantes) y crear secciones
+- [x] e2e del flujo con Supabase local y Mailpit (también en la CI)
+- [ ] Interfaz docente: importar el CSV de Moodle y corregir la carrera de un estudiante
+- [ ] Interfaz de administración: periodos y alta de docentes
 - [ ] Configurar Google OAuth (proyecto de Google Cloud de la responsable) y el proyecto de staging en Supabase
 - [ ] Texto del aviso de privacidad (lo aporta la responsable con la Universidad)
 

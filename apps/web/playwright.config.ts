@@ -1,5 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Las pruebas leen el mismo .env que Vite (valores de Supabase LOCAL).
+try {
+  process.loadEnvFile(new URL('../../.env', import.meta.url));
+} catch {
+  /* sin .env: las pruebas de acceso se saltan */
+}
+
 const PUERTO = 5173;
 
 // Anchos que exige la definición de «terminado»: 320, 390 y 1200 px, en claro y oscuro.

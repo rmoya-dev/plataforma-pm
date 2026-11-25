@@ -5,7 +5,22 @@ const clavePublica = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | u
 
 /** Cliente de Supabase, o `null` si faltan las variables de entorno (ver `.env.example`). */
 export const supabase: SupabaseClient | null =
-  url && clavePublica ? createClient(url, clavePublica, { auth: { persistSession: false } }) : null;
+  url && clavePublica
+    ? createClient(url, clavePublica, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'pkce' },
+      })
+    : null;
+
+/** Dominios con los que se puede ingresar (la verificación real la hace el servidor). */
+export const DOMINIOS_PERMITIDOS: readonly string[] = (
+  (import.meta.env.VITE_DOMINIOS_PERMITIDOS as string | undefined) ?? 'continental.edu.pe'
+)
+  .split(',')
+  .map((d) => d.trim().toLowerCase())
+  .filter(Boolean);
+
+/** El inicio con Google se muestra solo cuando el proveedor está configurado en Supabase. */
+export const GOOGLE_HABILITADO = import.meta.env.VITE_GOOGLE_HABILITADO === 'true';
 
 export type EstadoServidor =
   { tipo: 'sin-configurar' } | { tipo: 'sin-conexion'; detalle: string } | { tipo: 'conectado'; version: number };
