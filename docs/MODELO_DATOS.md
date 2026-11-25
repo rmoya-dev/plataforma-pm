@@ -50,7 +50,13 @@ El rol `administrador` no se puede asignar desde la interfaz. Después de que la
 update public.perfiles set rol = 'administrador' where correo = '<correo institucional de la responsable>';
 ```
 
-Desde entonces, la administradora da de alta a los docentes con `asignar_rol(correo, 'docente')`. En local, la semilla ya crea `admin@ejemplo.test`.
+Desde entonces, la administradora gestiona todo desde la pestaña **Docentes** de su panel (esquema v4):
+
+- `autorizar_docente(correo)`: si la persona ya tiene cuenta, pasa a docente; si no, queda en `docentes_autorizados` y recibe el rol en su primer ingreso. Si el correo tiene forma de DNI, la pantalla pide confirmación.
+- `quitar_docente(correo)`: le devuelve el rol de estudiante (o borra la invitación). No se permite mientras tenga secciones.
+- `listar_docentes()`: docentes activos y pendientes, con su número de secciones.
+
+En la pestaña **Periodos** crea periodos y marca cuál está activo (`activar_periodo`; la base de datos admite uno solo). En local, la semilla ya crea `admin@ejemplo.test`.
 
 `unidades`, `semanas`, `recursos`, `intentos_reto`, `progreso_fase`, `rondas` y demás se agregan en sus hitos (H2, H3, H4b).
 

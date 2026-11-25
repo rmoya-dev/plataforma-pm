@@ -159,6 +159,71 @@ export async function quitarMatricula(sb: SupabaseClient, matriculaId: string): 
   falla(error);
 }
 
+// ---------------------------------------------------------------- Administración
+
+export interface PeriodoCompleto extends Periodo {
+  inicio: string;
+  fin: string;
+}
+
+export async function periodosCompletos(sb: SupabaseClient): Promise<PeriodoCompleto[]> {
+  const { data, error } = await sb
+    .from('periodos')
+    .select('id, nombre, inicio, fin, activo')
+    .order('inicio', { ascending: false });
+  falla(error);
+  return (data ?? []) as PeriodoCompleto[];
+}
+
+export async function crearPeriodo(
+  sb: SupabaseClient,
+  p: { nombre: string; inicio: string; fin: string },
+): Promise<void> {
+  const { error } = await sb.from('periodos').insert({ ...p, nombre: p.nombre.trim() });
+  if (error?.code === '23505') throw new Error('Ya existe un periodo con ese nombre.');
+  if (error?.code === '23514') throw new Error('La fecha de fin debe ser posterior a la de inicio.');
+  falla(error);
+}
+
+export async function activarPeriodo(sb: SupabaseClient, id: string): Promise<void> {
+  const { error } = await sb.rpc('activar_periodo', { p_periodo: id });
+  falla(error);
+}
+
+export interface DocenteListado {
+  correo: string;
+  nombre: string;
+  estado: 'activo' | 'pendiente';
+  secciones: number;
+}
+
+export async function listarDocentes(sb: SupabaseClient): Promise<DocenteListado[]> {
+  const { data, error } = await sb.rpc('listar_docentes');
+  falla(error);
+  return (data ?? []) as DocenteListado[];
+}
+
+export type ResultadoAutorizacion = 'asignado' | 'invitado' | 'ya_era_docente';
+
+export async function autorizarDocente(sb: SupabaseClient, correo: string): Promise<ResultadoAutorizacion> {
+  const { data, error } = await sb.rpc('autorizar_docente', { p_correo: correo });
+  if (error?.message === 'dominio_no_permitido') throw new Error('Solo se pueden autorizar correos institucionales.');
+  falla(error);
+  return data as ResultadoAutorizacion;
+}
+
+export async function quitarDocente(sb: SupabaseClient, correo: string): Promise<void> {
+  const { error } = await sb.rpc('quitar_docente', { p_correo: correo });
+  if (error?.message === 'tiene_secciones')
+    throw new Error('No se puede quitar: todavía tiene secciones. Reasígnalas o bórralas primero.');
+  falla(error);
+}
+
+/** Un correo de estudiante tiene la forma DNI@dominio (8 dígitos). Sirve para advertir antes de hacerlo docente. */
+export function pareceCorreoDeEstudiante(correo: string): boolean {
+  return /^\d{8}@/.test(correo.trim());
+}
+
 /** «María Q.»: primer nombre e inicial del primer apellido (D18). */
 export function nombreCorto(p: Pick<Perfil, 'nombres' | 'apellidos'>): string {
   const nombre = p.nombres.trim().split(/\s+/)[0] ?? '';

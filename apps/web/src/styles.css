@@ -297,6 +297,37 @@ h3 {
   border-radius: 8px;
 }
 
+.pestanas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pestana-activa {
+  border-color: var(--acento);
+  box-shadow: inset 0 0 0 1px var(--acento);
+  font-weight: 600;
+}
+
+.insignia {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ok);
+  border: 1px solid var(--ok);
+  border-radius: 999px;
+  padding: 0 0.5rem;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+}
+
+.fila-campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0 0.75rem;
+}
+
 .lista-boton {
   width: 100%;
   text-align: left;
