@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { cargarPerfil, darConsentimiento, elegirCarrera, misSecciones, type Perfil, type Seccion } from './datos.ts';
 import { AvisoPrivacidad } from './pantallas/AvisoPrivacidad.tsx';
 import { ElegirCarrera } from './pantallas/ElegirCarrera.tsx';
+import { InicioAdmin } from './pantallas/InicioAdmin.tsx';
 import { InicioDocente } from './pantallas/InicioDocente.tsx';
 import { InicioEstudiante } from './pantallas/InicioEstudiante.tsx';
 import { Ingreso } from './pantallas/Ingreso.tsx';
@@ -153,7 +154,11 @@ function ConSesion({ sb, sesion, onSalir }: { sb: SupabaseClient; sesion: Sessio
     );
   }
 
-  if (perfil.rol === 'docente' || perfil.rol === 'administrador') {
+  if (perfil.rol === 'administrador') {
+    return <InicioAdmin sb={sb} perfil={perfil} />;
+  }
+
+  if (perfil.rol === 'docente') {
     return <InicioDocente sb={sb} perfil={perfil} />;
   }
 

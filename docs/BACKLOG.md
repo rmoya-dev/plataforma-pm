@@ -37,7 +37,7 @@ Estado vivo del proyecto. Se actualiza en cada iteración (ver `docs/PLATAFORMA_
 - [x] Interfaz docente: ver solo sus secciones (con número de estudiantes) y crear secciones
 - [x] e2e del flujo con Supabase local y Mailpit (también en la CI)
 - [x] Interfaz docente: importar el CSV de Moodle (español o inglés; coma, punto y coma o tabulación), ver la lista, corregir la carrera y quitar estudiantes; función `importar_matriculas` (esquema v3)
-- [ ] Interfaz de administración: periodos y alta de docentes
+- [x] Interfaz de administración: periodos (un solo activo) y alta de docentes por correo, también antes de su primer ingreso (esquema v4)
 - [ ] Configurar Google OAuth (proyecto de Google Cloud de la responsable) y el proyecto de staging en Supabase
 - [ ] Texto del aviso de privacidad (lo aporta la responsable con la Universidad)
 

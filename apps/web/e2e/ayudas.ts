@@ -55,19 +55,19 @@ export interface DocentePrueba {
  * Crea una docente ficticia propia de la prueba, con una sección suya.
  * (Cada prueba usa su cuenta: si varias pidieran enlace para la misma cuenta a la vez, se invalidarían entre sí.)
  */
-export async function crearDocente(): Promise<DocentePrueba> {
-  const correo = correoNuevo('e2e-doc');
+export async function crearDocente(rol: 'docente' | 'administrador' = 'docente'): Promise<DocentePrueba> {
+  const correo = correoNuevo(rol === 'docente' ? 'e2e-doc' : 'e2e-adm');
   const usuario = (await servidor('/auth/v1/admin/users', {
     method: 'POST',
     body: JSON.stringify({
       email: correo,
       email_confirm: true,
-      user_metadata: { given_name: 'Docente', family_name: 'Prueba' },
+      user_metadata: { given_name: rol === 'docente' ? 'Docente' : 'Admin', family_name: 'Prueba' },
     }),
   })) as { id: string };
   await servidor(`/rest/v1/perfiles?id=eq.${usuario.id}`, {
     method: 'PATCH',
-    body: JSON.stringify({ rol: 'docente' }),
+    body: JSON.stringify({ rol }),
   });
   const seccion = `Propia ${correo.slice(8, 20)}`;
   await servidor('/rest/v1/secciones', {
