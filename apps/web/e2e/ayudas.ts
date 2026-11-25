@@ -45,6 +45,43 @@ export async function matricular(correo: string, seccionId: string = SEMILLA.sec
   });
 }
 
+export interface DocentePrueba {
+  id: string;
+  correo: string;
+  seccion: string;
+}
+
+/**
+ * Crea una docente ficticia propia de la prueba, con una sección suya.
+ * (Cada prueba usa su cuenta: si varias pidieran enlace para la misma cuenta a la vez, se invalidarían entre sí.)
+ */
+export async function crearDocente(): Promise<DocentePrueba> {
+  const correo = correoNuevo('e2e-doc');
+  const usuario = (await servidor('/auth/v1/admin/users', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: correo,
+      email_confirm: true,
+      user_metadata: { given_name: 'Docente', family_name: 'Prueba' },
+    }),
+  })) as { id: string };
+  await servidor(`/rest/v1/perfiles?id=eq.${usuario.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ rol: 'docente' }),
+  });
+  const seccion = `Propia ${correo.slice(8, 20)}`;
+  await servidor('/rest/v1/secciones', {
+    method: 'POST',
+    body: JSON.stringify({ periodo_id: SEMILLA.periodo, docente_id: usuario.id, nombre: seccion }),
+  });
+  return { id: usuario.id, correo, seccion };
+}
+
+export async function borrarDocente(d: DocentePrueba): Promise<void> {
+  await servidor(`/rest/v1/secciones?docente_id=eq.${d.id}`, { method: 'DELETE' });
+  await servidor(`/auth/v1/admin/users/${d.id}`, { method: 'DELETE' });
+}
+
 /** Espera el correo con el enlace de ingreso en Mailpit y devuelve el enlace. */
 async function enlaceDeIngreso(correo: string): Promise<string> {
   let enlace = '';
@@ -69,7 +106,7 @@ async function enlaceDeIngreso(correo: string): Promise<string> {
 /** Ingresa con el enlace por correo, como lo haría una persona. */
 export async function ingresar(page: Page, correo: string): Promise<void> {
   await page.goto('/');
-  await page.getByLabel('Correo institucional').fill(correo);
+  await page.getByRole('textbox', { name: 'Correo institucional', exact: true }).fill(correo);
   await page.getByRole('button', { name: 'Enviarme un enlace' }).click();
   await expect(page.getByText('Revisa tu correo.')).toBeVisible();
   await page.goto(await enlaceDeIngreso(correo));

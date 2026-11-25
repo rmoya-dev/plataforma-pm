@@ -1,13 +1,14 @@
 import { expect, test } from '@playwright/test';
 import {
   aceptarAvisoSiAparece,
+  borrarDocente,
+  crearDocente,
   correoNuevo,
   HAY_SERVIDOR,
   ingresar,
   matricular,
   revisarPagina,
   SEMILLA,
-  servidor,
   vigilarErrores,
 } from './ayudas.ts';
 
@@ -17,7 +18,7 @@ test.describe('acceso (H1)', () => {
 
   test('rechaza un correo que no es institucional', async ({ page }) => {
     await page.goto('/');
-    await page.getByLabel('Correo institucional').fill('alguien@gmail.com');
+    await page.getByRole('textbox', { name: 'Correo institucional', exact: true }).fill('alguien@gmail.com');
     await page.getByRole('button', { name: 'Enviarme un enlace' }).click();
     await expect(page.getByRole('alert')).toContainText('Usa tu correo institucional');
   });
@@ -70,24 +71,26 @@ test.describe('acceso (H1)', () => {
 
   test('docente: ve solo sus secciones y crea una nueva', async ({ page }) => {
     const errores = vigilarErrores(page);
-    const nombre = `E2E ${Date.now().toString(36)}`;
+    const docente = await crearDocente();
+    const nombre = `Nueva ${docente.correo.slice(8, 20)}`;
     try {
-      await ingresar(page, SEMILLA.docenteUno);
+      await ingresar(page, docente.correo);
       await aceptarAvisoSiAparece(page);
 
       const lista = page.getByRole('list', { name: 'Mis secciones' });
-      await expect(lista).toContainText('Sección A (prueba)');
-      await expect(lista).toContainText('Sección B (prueba)');
-      await expect(lista).not.toContainText('Sección C (prueba)'); // es de otro docente
+      await expect(lista).toContainText(docente.seccion);
+      // Las secciones de otros docentes (semilla) no aparecen.
+      await expect(lista).not.toContainText('Sección A (prueba)');
+      await expect(lista).not.toContainText('Sección C (prueba)');
       await revisarPagina(page);
 
-      await page.getByLabel('Nombre de la sección').fill(nombre);
+      await page.getByRole('textbox', { name: 'Nombre de la sección' }).fill(nombre);
       await page.getByRole('button', { name: 'Crear sección' }).click();
       await expect(page.getByRole('status').filter({ hasText: 'creada' })).toBeVisible();
       await expect(lista).toContainText(nombre);
       expect(errores).toEqual([]);
     } finally {
-      await servidor(`/rest/v1/secciones?nombre=eq.${encodeURIComponent(nombre)}`, { method: 'DELETE' });
+      await borrarDocente(docente);
     }
   });
 });
