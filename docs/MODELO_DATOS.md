@@ -61,6 +61,19 @@ La docente importa el CSV de Moodle **antes** de que los estudiantes entren. Por
 - Nadie se registra «a mano» con un nombre libre (lección aprendida P4).
 - Un estudiante que entra sin estar en ninguna lista ve un aviso («Pide a tu docente que te agregue») y no entra a ninguna sección.
 
+### Importación de la lista de Moodle (esquema v3)
+
+La docente sube el CSV en su panel; el archivo se lee **en el navegador** (`apps/web/src/moodle.ts`) y al servidor solo viajan correo, nombre y grupo. La función `importar_matriculas(seccion, filas)` (máximo 500 filas) devuelve el resultado de cada correo:
+
+| Resultado | Significado |
+|---|---|
+| `agregado` | Se matriculó en la sección |
+| `ya_estaba` | Ya estaba en la sección; se actualizan nombre y grupo de Moodle |
+| `en_otra_seccion` | Ya está en otra sección del mismo periodo: **no se mueve** (una sección por periodo) |
+| `dominio_no_permitido` | No es un correo institucional |
+
+Solo la docente de la sección o la administradora pueden importar.
+
 ### Nombre para el ranking
 
 Google entrega el nombre y el apellido por separado (`given_name`, `family_name`). Se guardan en `nombres` y `apellidos`; `nombre_ranking` = primer nombre + inicial del primer apellido. Si el nombre de Moodle y el de Google difieren, gana el de Google (es el de la cuenta).
