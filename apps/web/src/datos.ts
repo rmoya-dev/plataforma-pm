@@ -102,6 +102,63 @@ export async function crearSeccion(
   falla(error);
 }
 
+/** Estudiante de una sección tal como lo ve su docente (la docente sí ve nombre completo y correo). */
+export interface EstudianteSeccion {
+  matriculaId: string;
+  correo: string;
+  nombre: string;
+  grupo: string | null;
+  estudianteId: string | null;
+  carrera: Carrera | null;
+}
+
+export async function estudiantesDeSeccion(sb: SupabaseClient, seccionId: string): Promise<EstudianteSeccion[]> {
+  const { data, error } = await sb
+    .from('matriculas')
+    .select('id, correo, nombres_moodle, grupo_moodle, estudiante_id, perfiles(nombres, apellidos, carrera)')
+    .eq('seccion_id', seccionId);
+  falla(error);
+  type Fila = {
+    id: string;
+    correo: string;
+    nombres_moodle: string | null;
+    grupo_moodle: string | null;
+    estudiante_id: string | null;
+    perfiles: { nombres: string; apellidos: string; carrera: Carrera | null } | null;
+  };
+  return ((data ?? []) as unknown as Fila[])
+    .map((f) => ({
+      matriculaId: f.id,
+      correo: f.correo,
+      nombre:
+        (f.perfiles ? `${f.perfiles.nombres} ${f.perfiles.apellidos}`.trim() : '') || f.nombres_moodle || f.correo,
+      grupo: f.grupo_moodle,
+      estudianteId: f.estudiante_id,
+      carrera: f.perfiles?.carrera ?? null,
+    }))
+    .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+}
+
+export type ResultadoImportacion = 'agregado' | 'ya_estaba' | 'en_otra_seccion' | 'dominio_no_permitido';
+
+export async function importarMatriculas(
+  sb: SupabaseClient,
+  seccionId: string,
+  filas: { correo: string; nombres: string; grupo: string | null }[],
+): Promise<{ correo: string; resultado: ResultadoImportacion }[]> {
+  const { data, error } = await sb.rpc('importar_matriculas', { p_seccion: seccionId, p_filas: filas });
+  falla(error);
+  return ((data ?? []) as { correo_fila: string; resultado: ResultadoImportacion }[]).map((r) => ({
+    correo: r.correo_fila,
+    resultado: r.resultado,
+  }));
+}
+
+export async function quitarMatricula(sb: SupabaseClient, matriculaId: string): Promise<void> {
+  const { error } = await sb.from('matriculas').delete().eq('id', matriculaId);
+  falla(error);
+}
+
 /** «María Q.»: primer nombre e inicial del primer apellido (D18). */
 export function nombreCorto(p: Pick<Perfil, 'nombres' | 'apellidos'>): string {
   const nombre = p.nombres.trim().split(/\s+/)[0] ?? '';

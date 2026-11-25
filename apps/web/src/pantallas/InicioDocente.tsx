@@ -9,6 +9,7 @@ import {
   type Periodo,
   type SeccionConConteo,
 } from '../datos.ts';
+import { SeccionDetalle } from './SeccionDetalle.tsx';
 
 export function InicioDocente({ sb, perfil }: { sb: SupabaseClient; perfil: Perfil }) {
   const [secciones, setSecciones] = useState<SeccionConConteo[] | null>(null);
@@ -35,7 +36,21 @@ export function InicioDocente({ sb, perfil }: { sb: SupabaseClient; perfil: Perf
     };
   }, [sb, perfil.id, version]);
 
+  const [abierta, setAbierta] = useState<SeccionConConteo | null>(null);
   const nombrePeriodo = (id: string) => periodos.find((p) => p.id === id)?.nombre ?? '';
+
+  if (abierta) {
+    return (
+      <SeccionDetalle
+        sb={sb}
+        seccion={abierta}
+        onVolver={() => {
+          setAbierta(null);
+          recargar();
+        }}
+      />
+    );
+  }
 
   return (
     <>
@@ -55,11 +70,13 @@ export function InicioDocente({ sb, perfil }: { sb: SupabaseClient; perfil: Perf
         ) : (
           <ul className="lista" aria-label="Mis secciones">
             {secciones.map((s) => (
-              <li key={s.id} className="lista-item">
-                <span className="lista-titulo">{s.nombre}</span>
-                <span className="nota">
-                  {nombrePeriodo(s.periodo_id)} · {s.estudiantes} {s.estudiantes === 1 ? 'estudiante' : 'estudiantes'}
-                </span>
+              <li key={s.id}>
+                <button type="button" className="lista-item lista-boton" onClick={() => setAbierta(s)}>
+                  <span className="lista-titulo">{s.nombre}</span>
+                  <span className="nota">
+                    {nombrePeriodo(s.periodo_id)} · {s.estudiantes} {s.estudiantes === 1 ? 'estudiante' : 'estudiantes'}
+                  </span>
+                </button>
               </li>
             ))}
           </ul>
